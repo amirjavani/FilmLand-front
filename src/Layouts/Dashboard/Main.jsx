@@ -1,20 +1,25 @@
 import React, { useState } from 'react'
 import SideNavbar from './SideNavbar'
 import Header from './Header'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import List from '../Components/List'
+import { Outlet, Route, Routes } from 'react-router-dom'
+import List from '../../Components/DashboardCom/List'
+import MenuManagement from '../../Components/DashboardCom/MenuManagement'
 
 function MainDashboard() {
-    
+    const [isOpen, setIsOpen] = useState(false);
+
+    function toggel(){
+        setIsOpen(!isOpen)
+    }
     return (
     <>
-        <SideNavbar></SideNavbar>
+        
         <Header></Header>
+        <SideNavbar toggel={toggel}></SideNavbar>
+        <Outlet></Outlet>
         <Routes >
-            
-            <Route path='/List1' element={<List text={"List 1"}></List>}></Route>
-            <Route path='/List2' element={<List text={"List 2"}></List>}></Route>
-                        
+            <Route path='/menuManagement' element={<MenuManagement isOpen={isOpen}></MenuManagement>}></Route>
+            <Route path='/List2' element={<List text={"List 2"}></List>}></Route>                        
         </Routes>
     </>
   )

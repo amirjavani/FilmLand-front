@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css'
 import {  RouterProvider, createBrowserRouter } from 'react-router-dom';
-import MainDashboard from './Layouts/Main';
-import List from './Components/List';
+import MainDashboard from './Layouts/Dashboard/Main';
+import List from './Components/DashboardCom/List';
+import MenuManagement from './Components/DashboardCom/MenuManagement';
 
 
 const router = createBrowserRouter([
@@ -17,12 +18,12 @@ const router = createBrowserRouter([
     element: <MainDashboard/>,
     children: [
       {
-        path: "List1",
-        element: <List text={'list1'}></List>,
+        path: "menuManagement",
+        element: <></>,
       },
       {
         path: "List2",
-        element: <List text={'list2'}></List>,
+        element: <List></List>,
       },
     ],
   },
