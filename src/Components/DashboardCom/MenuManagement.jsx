@@ -15,6 +15,23 @@ function MenuManagement(props) {
     ]);
 
 
+    function statusToggel(objID){
+        setListMenu((pre)=>{
+            const newlist =  listMenu.map((obj)=>{
+                if (obj.row===objID){
+                    return {...obj,status:!obj.status}
+                }
+                return obj;
+            })
+            return newlist
+        })
+    }
+
+    function addNew(newObj){
+        setListMenu(listMenu.concat([newObj]))
+    }
+
+
   return (
     <div>
         <p className='fs-4'>فهرست سایت</p>
@@ -40,8 +57,8 @@ function MenuManagement(props) {
                             <th scope="col" className="px-6 py-3 border-l border-neutral-500">
                                 تاریخ
                             </th>
-                            <th scope="col" className="w-10">
-                                <button></button>
+                            <th scope="col" className="w-10 text-center">
+                                <button className='bi bi-plus btn btn-success'>  </button>
                             </th>
                         </tr>
                     </thead>
@@ -49,7 +66,7 @@ function MenuManagement(props) {
                         {
                             listMenu.map((obj,index)=>{
                                 return(
-                                    <tr className="bg-white text-black border-b-0 ">
+                                    <tr key={index} className="bg-white text-black border-b-0 ">
                                         <th scope="row" className="px-6 py-4 font-bold text-gray-900 whitespace-nowrap border-l border-neutral-500 ">
                                             {obj.row}     
                                         </th>
@@ -68,8 +85,8 @@ function MenuManagement(props) {
                                         <td className="px-6 py-4 border-l border-neutral-500">
                                             {obj.date}
                                         </td>
-                                        <td className="flex flex-col p-1">
-                                            <button className={`btn ${obj.status?'btn-success':'btn-danger'} py-1`} >{obj.status?'فعال':'غیرفعال'}</button>
+                                        <td className="flex flex-col p-1 w-20">
+                                            <button onClick={()=>statusToggel(obj.row)} className={`btn ${obj.status?'btn-success':'btn-danger'} py-1`} >{obj.status?'فعال':'غیرفعال'}</button>
                                             <i className='bi bi-pencil-square btn btn-secondary py-1 my-1'></i>
                                             <i className='bi bi-trash btn btn-danger py-1 my'></i>
                                         </td>

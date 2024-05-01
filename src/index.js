@@ -23,7 +23,7 @@ const router = createBrowserRouter([
       },
       {
         path: "List2",
-        element: <List></List>,
+        element: <></>,
       },
     ],
   },
