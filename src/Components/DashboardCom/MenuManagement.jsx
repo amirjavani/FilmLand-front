@@ -16,7 +16,7 @@ function MenuManagement(props) {
 
 
   return (
-    <div className={`table-wrapper flex flex-col-reverse my-8  ml-10 px-4 `} style={{ transition:' all 0.3s ease',marginRight:props.isOpen?'260px':'70px'}}>
+    <div>
         <p className='fs-4'>فهرست سایت</p>
         <div className="my-5 relative overflow-x-auto max-h-96 overflow-y-auto shadow rounded border-1 border-zinc-800">
             <table className="w-full text-sm text-left rtl:text-right  ">
@@ -37,10 +37,11 @@ function MenuManagement(props) {
                             <th scope="col" className="px-6 py-3 border-l border-neutral-500">
                                 لینک
                             </th>
-                            <th scope="col" className="px-6 py-3 ">
+                            <th scope="col" className="px-6 py-3 border-l border-neutral-500">
                                 تاریخ
                             </th>
                             <th scope="col" className="w-10">
+                                <button></button>
                             </th>
                         </tr>
                     </thead>

@@ -17,10 +17,13 @@ function MainDashboard() {
         <Header></Header>
         <SideNavbar toggel={toggel}></SideNavbar>
         <Outlet></Outlet>
-        <Routes >
-            <Route path='/menuManagement' element={<MenuManagement isOpen={isOpen}></MenuManagement>}></Route>
-            <Route path='/List2' element={<List text={"List 2"}></List>}></Route>                        
-        </Routes>
+        <div className={`table-wrapper flex flex-col-reverse my-8  ml-10 px-4 `} style={{ transition:' all 0.3s ease',marginRight:isOpen?'260px':'70px'}} >
+            <Routes >
+                <Route path='/menuManagement' element={<MenuManagement isOpen={isOpen}></MenuManagement>}></Route>
+                <Route path='/List2' element={<List text={"List 2"}></List>}></Route>                        
+            </Routes>
+        </div>
+        
     </>
   )
 }
