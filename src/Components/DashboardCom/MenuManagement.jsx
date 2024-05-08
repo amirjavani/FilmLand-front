@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Route, Routes, Outlet } from "react-router-dom";
 import { FetchListMenu } from "../../Utility/api";
-import axios from "axios";
 
 function MenuManagement(props) {
   const navigate = useNavigate();
@@ -204,7 +203,6 @@ function AddObject() {
           <button
             className="btn btn-success flex-auto"
             type="submit"
-            // onClick={() => navigate("/dashboard/menuManagement")}
             >
             تایید
           </button>
