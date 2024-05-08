@@ -7,5 +7,13 @@ const FetchListMenu = async () => {
   });
   return response;
 };
+const AddMenuItem = async (props) => {
+  const response = await axios.post(
+    "http://localhost:5289/SiteMenu", {
+    headers: {},
+    body:{}
+  });
+  return response;
+};
 
-export { FetchListMenu };
+export { FetchListMenu ,AddMenuItem };

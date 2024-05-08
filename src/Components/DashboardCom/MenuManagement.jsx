@@ -20,7 +20,7 @@ function MenuManagement(props) {
   const fetchData = async () => {
     try {
       const response = await FetchListMenu();
-      setListMenu(response.data)
+      setListMenu(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -66,7 +66,9 @@ function MenuManagement(props) {
         <Route
           path=""
           element={
-            <div className="my-5 relative overflow-x-auto  overflow-y-auto shadow rounded border-1 border-zinc-800" style={{maxHeight:"60vh"}}>
+            <div
+              className="my-5 relative overflow-x-auto  overflow-y-auto shadow rounded border-1 border-zinc-800"
+              style={{ maxHeight: "60vh" }}>
               <table className="w-full text-sm text-left rtl:text-right  ">
                 <thead className="text-xs text-gray-900  border-b ">
                   <tr className="sticky top-0 bg-slate-400 border-b ">
@@ -79,11 +81,6 @@ function MenuManagement(props) {
                       scope="col"
                       className="px-6 py-3 border-l border-neutral-500">
                       عنوان
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 border-l border-neutral-500">
-                      آیکون فهرست
                     </th>
                     <th
                       scope="col"
@@ -114,44 +111,44 @@ function MenuManagement(props) {
                 {listMenu && (
                   <tbody>
                     {listMenu.map((obj, index) => {
-                      if(obj.isDelete ===false) {return (
-                        <tr
-                          key={index}
-                          className="bg-white text-black border-b border-black">
-                          <th
-                            scope="row"
-                            className="px-6 py-4 font-bold text-gray-900 whitespace-nowrap border-l border-neutral-500 ">
-                            {obj.id}
-                          </th>
-                          <td className="px-6 py-4 border-l border-neutral-500">
-                            {obj.name}
-                          </td>
-                          <td className="px-6 py-4 border-l border-neutral-500">
-                            {obj.iconURL}
-                          </td>
-                          <td className="px-6 py-4 border-l border-neutral-500">
-                            {obj.sort}
-                          </td>
-                          <td className="px-6 py-4 border-l border-neutral-500">
-                            {obj.url}
-                          </td>
-                          <td className="px-6 py-4 border-l border-neutral-500">
-                            {obj.createDate}
-                          </td>
-                          <td className="flex flex-col p-1 w-20">
-                            <button
-                              onClick={() => statusToggel(obj.id)}
-                              className={`btn ${
-                                obj.isStatus ? "btn-success" : "btn-danger"
-                              } py-1`}>
-                              {obj.isStatus ? "فعال" : "غیرفعال"}
-                            </button>
-                            <i className="bi bi-pencil-square btn btn-secondary py-1 my-1"></i>
-                            <i className="bi bi-trash btn btn-danger py-1 my" onClick={()=>deleting(obj.id)}></i>
-                          </td>
-                        </tr>
-                      );}
-                      else return null
+                      if (obj.isDelete === false) {
+                        return (
+                          <tr
+                            key={index}
+                            className="bg-white text-black border-b border-black">
+                            <th
+                              scope="row"
+                              className="px-6 py-4 font-bold text-gray-900 whitespace-nowrap border-l border-neutral-500 ">
+                              {obj.id}
+                            </th>
+                            <td className="px-6 py-4 border-l border-neutral-500">
+                              {obj.name}
+                            </td>
+                            <td className="px-6 py-4 border-l border-neutral-500">
+                              {obj.sort}
+                            </td>
+                            <td className="px-6 py-4 border-l border-neutral-500">
+                              {obj.url}
+                            </td>
+                            <td className="px-6 py-4 border-l border-neutral-500">
+                              {obj.createDate}
+                            </td>
+                            <td className="flex flex-col p-1 w-20">
+                              <button
+                                onClick={() => statusToggel(obj.id)}
+                                className={`btn ${
+                                  obj.isStatus ? "btn-success" : "btn-danger"
+                                } py-1`}>
+                                {obj.isStatus ? "فعال" : "غیرفعال"}
+                              </button>
+                              <i className="bi bi-pencil-square btn btn-secondary py-1 my-1"></i>
+                              <i
+                                className="bi bi-trash btn btn-danger py-1 my"
+                                onClick={() => deleting(obj.id)}></i>
+                            </td>
+                          </tr>
+                        );
+                      } else return null;
                     })}
                   </tbody>
                 )}
@@ -165,20 +162,60 @@ function MenuManagement(props) {
 }
 
 function AddObject() {
+  const [name, setName] = useState("");
+  const [sort, setSort] = useState("");
+  const [link, setLink] = useState("");
+
+  const Submit = () => {
+    console.log("asdas");
+    alert(`${name} added`)
+    navigate("/dashboard/menuManagement")
+  };
+
   const navigate = useNavigate();
   return (
-    <form>
-      <input type="text" className=""></input>
-      <input type="text" className=""></input>
-      <input type="text" className=""></input>
-      <input type="text" className=""></input>
-      <button
-        className="btn btn-danger"
-        onClick={() => navigate("/dashboard/menuManagement")}>
-        {" "}
-        cancel
-      </button>
-    </form>
+    <div className="flex justify-center m-12">
+      <form
+        className=" border-1 border-gray-700 rounded w-50 justify-center items-center flex flex-col gap-2 p-3"
+        onSubmit={Submit}>
+        <label className="fs-3"> افزودن</label>
+        <input
+          type="text "
+          required
+          className="form-control "
+          placeholder="عنوان..."
+          value={name}
+          onChange={(e) => setName(e.target.value)}></input>
+        <input
+          type="text "
+          required
+          className="form-control "
+          placeholder="ترتیب(عدد)..."
+          value={sort}
+          onChange={(e) => setSort(e.target.value)}></input>
+        <input
+          type="text "
+          required
+          className="form-control  "
+          placeholder="لینک..."
+          value={link}
+          onChange={(e) => setLink(e.target.value)}></input>
+        <div className=" flex gap-5 m-2  justify-center w-100">
+          <button
+            className="btn btn-success flex-auto"
+            type="submit"
+            // onClick={() => navigate("/dashboard/menuManagement")}
+            >
+            تایید
+          </button>
+          <button
+            className="btn btn-danger"
+            onClick={() => navigate("/dashboard/menuManagement")}>
+            برگشت
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }
 
