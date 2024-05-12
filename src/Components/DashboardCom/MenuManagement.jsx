@@ -1,20 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Route, Routes, Outlet } from "react-router-dom";
-import { FetchListMenu } from "../../Utility/api";
+import { useHistory,useNavigate, Route, Routes, Outlet, useParams } from "react-router-dom";
+import { AddMenuItem, FetchListMenu } from "../../Utility/api";
 
 function MenuManagement(props) {
   const navigate = useNavigate();
-  const [listMenu, setListMenu] = useState([
-    // {
-    //     row:1,
-    //     title:"صفحه اصلی",
-    //     iconURL:"",
-    //     sortNum:1,
-    //     route:'/home',
-    //     email:'asdasdasd',
-    //     status:false,
-    // }
-  ]);
+  const [listMenu, setListMenu] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -40,6 +30,7 @@ function MenuManagement(props) {
       return newlist;
     });
   }
+
   function deleting(objID) {
     setListMenu((pre) => {
       const newlist = listMenu.map((obj) => {
@@ -52,16 +43,13 @@ function MenuManagement(props) {
     });
   }
 
-  // function addNew(newObj){
-  //     setListMenu(listMenu.concat([newObj]))
-  // }
-
   return (
     <div>
       <p className="fs-4">فهرست سایت</p>
       <Outlet></Outlet>
       <Routes>
         <Route path="add" element={<AddObject></AddObject>}></Route>
+        <Route path=":id" element={<AddObject></AddObject>}></Route>
         <Route
           path=""
           element={
@@ -160,20 +148,39 @@ function MenuManagement(props) {
   );
 }
 
-function AddObject() {
+function AddObject(props) {
   const [name, setName] = useState("");
   const [sort, setSort] = useState("");
   const [link, setLink] = useState("");
-
-  const Submit = () => {
-    console.log("asdas");
-    alert(`${name} added`)
-    navigate("/dashboard/menuManagement")
+  const { id }= useParams()
+  useEffect(() => {
+    if (id){
+      console.log(id)
+    }else{
+      console.log('not found')
+    }
+  }, []);
+  const navigate = useNavigate();
+  const Submit =async () => {
+    try {
+      navigate("/dashboard/menuManagement");
+      const res = await AddMenuItem({ name: name, sort: sort, link: link });
+      
+    } catch (error) {
+      console.error("Error adding menu item:", error);
+    }finally {
+      alert(`${name} added`);
+      
+      
+      
+    }
   };
 
-  const navigate = useNavigate();
+  
+
   return (
     <div className="flex justify-center m-12">
+    {id}
       <form
         className=" border-1 border-gray-700 rounded w-50 justify-center items-center flex flex-col gap-2 p-3"
         onSubmit={Submit}>
@@ -200,10 +207,7 @@ function AddObject() {
           value={link}
           onChange={(e) => setLink(e.target.value)}></input>
         <div className=" flex gap-5 m-2  justify-center w-100">
-          <button
-            className="btn btn-success flex-auto"
-            type="submit"
-            >
+          <button className="btn btn-success flex-auto" type="submit">
             تایید
           </button>
           <button

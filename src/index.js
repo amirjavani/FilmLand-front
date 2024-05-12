@@ -23,6 +23,10 @@ const router = createBrowserRouter([
             element: <></>,
           },
           {
+            path: ":id",
+            element: <></>,
+          },
+          {
             path: "*",
             element: <div>MMNotfound</div>,
           },
