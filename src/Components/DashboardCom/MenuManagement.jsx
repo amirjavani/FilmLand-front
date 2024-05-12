@@ -1,6 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useHistory,useNavigate, Route, Routes, Outlet, useParams } from "react-router-dom";
-import { AddMenuItem, FetchListMenu } from "../../Utility/api";
+import {
+  useHistory,
+  useNavigate,
+  Route,
+  Routes,
+  Outlet,
+  useParams,
+  Link,
+} from "react-router-dom";
+import {
+  AddMenuItem,
+  EditMenuItem,
+  FetchListMenu,
+  GetListMenuItem,
+  RemoveMenuItem,
+} from "../../Utility/api";
 
 function MenuManagement(props) {
   const navigate = useNavigate();
@@ -15,9 +29,13 @@ function MenuManagement(props) {
     }
   };
 
+  const Refresh = () => {
+    fetchData();
+  };
+
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [listMenu]);
 
   function statusToggel(objID) {
     setListMenu((pre) => {
@@ -32,15 +50,8 @@ function MenuManagement(props) {
   }
 
   function deleting(objID) {
-    setListMenu((pre) => {
-      const newlist = listMenu.map((obj) => {
-        if (obj.id === objID) {
-          return { ...obj, isDelete: !obj.isDelete };
-        }
-        return obj;
-      });
-      return newlist;
-    });
+    RemoveMenuItem({ id: objID });
+    Refresh();
   }
 
   return (
@@ -48,8 +59,9 @@ function MenuManagement(props) {
       <p className="fs-4">فهرست سایت</p>
       <Outlet></Outlet>
       <Routes>
-        <Route path="add" element={<AddObject></AddObject>}></Route>
         <Route path=":id" element={<AddObject></AddObject>}></Route>
+        <Route path="add" element={<AddObject></AddObject>}></Route>
+
         <Route
           path=""
           element={
@@ -128,7 +140,9 @@ function MenuManagement(props) {
                                 } py-1`}>
                                 {obj.isStatus ? "فعال" : "غیرفعال"}
                               </button>
-                              <i className="bi bi-pencil-square btn btn-secondary py-1 my-1"></i>
+                              <Link
+                                to={`/dashboard/menuManagement/${obj.id}`}
+                                className="bi bi-pencil-square btn btn-secondary py-1 my-1"></Link>
                               <i
                                 className="bi bi-trash btn btn-danger py-1 my"
                                 onClick={() => deleting(obj.id)}></i>
@@ -152,39 +166,43 @@ function AddObject(props) {
   const [name, setName] = useState("");
   const [sort, setSort] = useState("");
   const [link, setLink] = useState("");
-  const { id }= useParams()
+  const { id } = useParams();
   useEffect(() => {
-    if (id){
-      console.log(id)
-    }else{
-      console.log('not found')
+    if (id) {
+      get({ id: id });
+    } else {
+      console.log("not found");
     }
   }, []);
+
+  const get = async (props) => {
+    const res = await GetListMenuItem({ id: props.id });
+    setName(res.data.name);
+    setLink(res.data.url);
+    setSort(res.data.sort);
+  };
   const navigate = useNavigate();
-  const Submit =async () => {
+  const Submit = async () => {
+    navigate("/dashboard/menuManagement");
     try {
-      navigate("/dashboard/menuManagement");
-      const res = await AddMenuItem({ name: name, sort: sort, link: link });
-      
+      if (id) {
+        alert(`${name} edited`);
+        await EditMenuItem({id:id ,name: name, sort: sort, link: link });
+      } else {
+        alert(`${name} added`);
+        await AddMenuItem({ name: name, sort: sort, link: link });
+      }
     } catch (error) {
       console.error("Error adding menu item:", error);
-    }finally {
-      alert(`${name} added`);
-      
-      
-      
-    }
+    } 
   };
-
-  
 
   return (
     <div className="flex justify-center m-12">
-    {id}
       <form
         className=" border-1 border-gray-700 rounded w-50 justify-center items-center flex flex-col gap-2 p-3"
         onSubmit={Submit}>
-        <label className="fs-3"> افزودن</label>
+        <label className="fs-3">{!id ? "افزودن" : "ویرایش"}</label>
         <input
           type="text "
           required
