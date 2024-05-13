@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  useHistory,
   useNavigate,
   Route,
   Routes,
@@ -14,7 +13,7 @@ import {
   FetchListMenu,
   GetListMenuItem,
   RemoveMenuItem,
-} from "../../Utility/api";
+} from "../../Utility/MainMenuAPi";
 
 function MenuManagement(props) {
   const navigate = useNavigate();
@@ -173,6 +172,7 @@ function AddObject(props) {
     } else {
       console.log("not found");
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const get = async (props) => {
