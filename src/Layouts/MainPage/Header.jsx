@@ -29,7 +29,7 @@ function Header() {
           {MenuList && (
             <div>
               {MenuList.map((obj, index) => {
-                return <Link to={obj.url}>{obj.name}</Link>;
+                return <Link to={obj.menuSiteUrl}>{obj.menuSiteName} </Link>;
               })}
             </div>
           )}
@@ -40,10 +40,10 @@ function Header() {
           <h4>خرید اشتراک</h4>
           <i className="fa fa-shopping-cart" aria-hidden="true" />
         </a>
-        <a className="login" href="">
+        <Link className="login" to="/dashboard">
           <h4>ورود</h4>
           <i className="fa fa-sign-in" aria-hidden="true" />
-        </a>
+        </Link>
         <a href="#" className="search-icon">
           <i className="fas fa-search" />
         </a>

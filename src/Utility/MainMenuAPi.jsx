@@ -19,9 +19,9 @@ const AddMenuItem = async (props) => {
   const response = await axios.post(
     `${Url}/SiteMenu/Add`,
     {
-      name: props.name,
-      sort: props.sort,
-      url: props.link,
+      menuSiteName: props.name,
+      menuSiteUrl: props.link,
+      menuSiteSort: parseInt(props.sort),
     },
     {
       headers: {},
@@ -39,14 +39,8 @@ const RemoveMenuItem = async (props) => {
 };
 
 const ToggelMenuItem = async (props) => {
-  const response = await axios.post(`${Url}/remove`, {
+  const response = await axios.get(`${Url}/SiteMenu/ChangeStatus/${props.id}`, {
     headers: {},
-    data: {
-      id: props.id,
-      name: props.name,
-      sort: props.sort,
-      url: props.link,
-    },
   });
   return response;
 };
@@ -55,9 +49,9 @@ const EditMenuItem = async (props) => {
   const response = await axios.put(
     `${Url}/SiteMenu/Edit/${props.id}`,
     {
-      name: props.name,
-      sort: props.sort,
-      url: props.link,
+      menuSiteName: props.name,
+      menuSiteUrl: props.link,
+      menuSiteSort: parseInt(props.sort),
     },
     {
       headers: {},

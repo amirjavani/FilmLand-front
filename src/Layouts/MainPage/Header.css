@@ -1,3 +1,8 @@
+@font-face {
+  font-family: iransans;
+  src: url(../../IRANSans.ttf);
+}
+
 .header {
     position: fixed;
     top: 0;
@@ -200,10 +205,12 @@
     backdrop-filter: blur(50px);
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
     overflow: hidden;
+    visibility: hidden;
     transition: .3s ease;
   }
 
-  #check:checked~.navbar {
+  #check:checked~.navbar { 
+    visibility: visible;
     height: 22.7rem;
   }
 

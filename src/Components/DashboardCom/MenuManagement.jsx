@@ -13,6 +13,7 @@ import {
   FetchListMenu,
   GetListMenuItem,
   RemoveMenuItem,
+  ToggelMenuItem,
 } from "../../Utility/MainMenuAPi";
 
 function MenuManagement(props) {
@@ -36,17 +37,18 @@ function MenuManagement(props) {
     fetchData();
   }, [listMenu]);
 
-  function statusToggel(objID) {
-    setListMenu((pre) => {
-      const newlist = listMenu.map((obj) => {
-        if (obj.id === objID) {
-          return { ...obj, isStatus: !obj.isStatus };
-        }
-        return obj;
-      });
-      return newlist;
-    });
-  }
+  const statusToggel = async (objID) => {
+    // setListMenu((pre) => {
+    //   const newlist = listMenu.map((obj) => {
+    //     if (obj.id === objID) {
+    //       return { ...obj, isStatus: !obj.isStatus };
+    //     }
+    //     return obj;
+    //   });
+    //   return newlist;
+    // });
+    const res = await ToggelMenuItem({ id: objID });
+  };
 
   function deleting(objID) {
     RemoveMenuItem({ id: objID });
@@ -109,7 +111,7 @@ function MenuManagement(props) {
                 {listMenu && (
                   <tbody>
                     {listMenu.map((obj, index) => {
-                      if (obj.isDelete === false) {
+                      if (obj.menuSiteIsDelete === false) {
                         return (
                           <tr
                             key={index}
@@ -117,34 +119,36 @@ function MenuManagement(props) {
                             <th
                               scope="row"
                               className="px-6 py-4 font-bold text-gray-900 whitespace-nowrap border-l border-neutral-500 ">
-                              {obj.id}
+                              {obj.menuSiteId}
                             </th>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.name}
+                              {obj.menuSiteName}
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.sort}
+                              {obj.menuSiteSort}
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.url}
+                              {obj.menuSiteUrl}
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.createDate}
+                              {obj.menuSiteCreateDate}
                             </td>
                             <td className="flex flex-col p-1 w-20">
                               <button
-                                onClick={() => statusToggel(obj.id)}
+                                onClick={() => statusToggel(obj.menuSiteId)}
                                 className={`btn ${
-                                  obj.isStatus ? "btn-success" : "btn-danger"
+                                  obj.menuSiteIsStatus
+                                    ? "btn-success"
+                                    : "btn-danger"
                                 } py-1`}>
-                                {obj.isStatus ? "فعال" : "غیرفعال"}
+                                {obj.menuSiteIsStatus ? "فعال" : "غیرفعال"}
                               </button>
                               <Link
-                                to={`/dashboard/menuManagement/${obj.id}`}
+                                to={`/dashboard/menuManagement/${obj.menuSiteId}`}
                                 className="bi bi-pencil-square btn btn-secondary py-1 my-1"></Link>
                               <i
                                 className="bi bi-trash btn btn-danger py-1 my"
-                                onClick={() => deleting(obj.id)}></i>
+                                onClick={() => deleting(obj.menuSiteId)}></i>
                             </td>
                           </tr>
                         );
@@ -172,14 +176,14 @@ function AddObject(props) {
     } else {
       console.log("not found");
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const get = async (props) => {
     const res = await GetListMenuItem({ id: props.id });
-    setName(res.data.name);
-    setLink(res.data.url);
-    setSort(res.data.sort);
+    setName(res.data.menuSiteName);
+    setLink(res.data.menuSiteUrl);
+    setSort(res.data.menuSiteSort);
   };
   const navigate = useNavigate();
   const Submit = async () => {
@@ -187,14 +191,14 @@ function AddObject(props) {
     try {
       if (id) {
         alert(`${name} edited`);
-        await EditMenuItem({id:id ,name: name, sort: sort, link: link });
+        await EditMenuItem({ id: id, name: name, sort: sort, link: link });
       } else {
         alert(`${name} added`);
         await AddMenuItem({ name: name, sort: sort, link: link });
       }
     } catch (error) {
       console.error("Error adding menu item:", error);
-    } 
+    }
   };
 
   return (
