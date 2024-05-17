@@ -19,9 +19,9 @@ const AddMenuItem = async (props) => {
   const response = await axios.post(
     `${Url}/SiteMenu/Add`,
     {
-      menuSiteName: props.name,
-      menuSiteUrl: props.link,
-      menuSiteSort: parseInt(props.sort),
+      siteMenuName: props.name,
+      siteMenuUrl: props.link,
+      siteMenuSort: parseInt(props.sort),
     },
     {
       headers: {},
@@ -49,9 +49,9 @@ const EditMenuItem = async (props) => {
   const response = await axios.put(
     `${Url}/SiteMenu/Edit/${props.id}`,
     {
-      menuSiteName: props.name,
-      menuSiteUrl: props.link,
-      menuSiteSort: parseInt(props.sort),
+      siteMenuName: props.name,
+      siteMenuUrl: props.link,
+      siteMenuSort: parseInt(props.sort),
     },
     {
       headers: {},

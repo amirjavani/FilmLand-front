@@ -23,6 +23,7 @@ function MenuManagement(props) {
   const fetchData = async () => {
     try {
       const response = await FetchListMenu();
+      console.log(response.data);
       setListMenu(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -35,25 +36,22 @@ function MenuManagement(props) {
 
   useEffect(() => {
     fetchData();
-  }, [listMenu]);
+  }, []);
 
   const statusToggel = async (objID) => {
-    // setListMenu((pre) => {
-    //   const newlist = listMenu.map((obj) => {
-    //     if (obj.id === objID) {
-    //       return { ...obj, isStatus: !obj.isStatus };
-    //     }
-    //     return obj;
-    //   });
-    //   return newlist;
-    // });
-    const res = await ToggelMenuItem({ id: objID });
+    await ToggelMenuItem({ id: objID });
+    Refresh();
+
   };
 
-  function deleting(objID) {
-    RemoveMenuItem({ id: objID });
-    Refresh();
-  }
+  const deleting = async (objID) => {
+    try {
+      await RemoveMenuItem({ id: objID });
+      Refresh();
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    }
+  };
 
   return (
     <div>
@@ -111,7 +109,7 @@ function MenuManagement(props) {
                 {listMenu && (
                   <tbody>
                     {listMenu.map((obj, index) => {
-                      if (obj.menuSiteIsDelete === false) {
+                      if (obj.siteMenuIsDelete === false) {
                         return (
                           <tr
                             key={index}
@@ -119,36 +117,36 @@ function MenuManagement(props) {
                             <th
                               scope="row"
                               className="px-6 py-4 font-bold text-gray-900 whitespace-nowrap border-l border-neutral-500 ">
-                              {obj.menuSiteId}
+                              {index + 1}
                             </th>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.menuSiteName}
+                              {obj.siteMenuName}
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.menuSiteSort}
+                              {obj.siteMenuSort}
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.menuSiteUrl}
+                              {obj.siteMenuUrl}
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.menuSiteCreateDate}
+                              {obj.siteMenuCreateDate}
                             </td>
                             <td className="flex flex-col p-1 w-20">
                               <button
-                                onClick={() => statusToggel(obj.menuSiteId)}
+                                onClick={() => statusToggel(obj.siteMenuId)}
                                 className={`btn ${
-                                  obj.menuSiteIsStatus
+                                  obj.siteMenuIsStatus
                                     ? "btn-success"
                                     : "btn-danger"
                                 } py-1`}>
-                                {obj.menuSiteIsStatus ? "فعال" : "غیرفعال"}
+                                {obj.siteMenuIsStatus ? "فعال" : "غیرفعال"}
                               </button>
                               <Link
-                                to={`/dashboard/menuManagement/${obj.menuSiteId}`}
+                                to={`/dashboard/menuManagement/${obj.siteMenuId}`}
                                 className="bi bi-pencil-square btn btn-secondary py-1 my-1"></Link>
                               <i
                                 className="bi bi-trash btn btn-danger py-1 my"
-                                onClick={() => deleting(obj.menuSiteId)}></i>
+                                onClick={() => deleting(obj.siteMenuId)}></i>
                             </td>
                           </tr>
                         );
@@ -181,23 +179,36 @@ function AddObject(props) {
 
   const get = async (props) => {
     const res = await GetListMenuItem({ id: props.id });
-    setName(res.data.menuSiteName);
-    setLink(res.data.menuSiteUrl);
-    setSort(res.data.menuSiteSort);
+    setName(res.data.siteMenuName);
+    setLink(res.data.siteMenuUrl);
+    setSort(res.data.siteMenuSort);
   };
+
   const navigate = useNavigate();
   const Submit = async () => {
     navigate("/dashboard/menuManagement");
+    var res;
     try {
       if (id) {
         alert(`${name} edited`);
-        await EditMenuItem({ id: id, name: name, sort: sort, link: link });
+        res = await EditMenuItem({
+          id: id,
+          name: name,
+          sort: sort,
+          link: link,
+        });
       } else {
-        alert(`${name} added`);
-        await AddMenuItem({ name: name, sort: sort, link: link });
+        res = await AddMenuItem({ name: name, sort: sort, link: link });
       }
+      
     } catch (error) {
       console.error("Error adding menu item:", error);
+    } finally {
+      if (res.status === 200 || res.status === 201) {
+        alert(`Success`);
+      } else {
+        alert(`Failed`);
+      }
     }
   };
 
