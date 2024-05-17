@@ -41,7 +41,6 @@ function MenuManagement(props) {
   const statusToggel = async (objID) => {
     await ToggelMenuItem({ id: objID });
     Refresh();
-
   };
 
   const deleting = async (objID) => {
@@ -187,28 +186,20 @@ function AddObject(props) {
   const navigate = useNavigate();
   const Submit = async () => {
     navigate("/dashboard/menuManagement");
-    var res;
+
     try {
       if (id) {
-        alert(`${name} edited`);
-        res = await EditMenuItem({
+        await EditMenuItem({
           id: id,
           name: name,
           sort: sort,
           link: link,
         });
       } else {
-        res = await AddMenuItem({ name: name, sort: sort, link: link });
+        await AddMenuItem({ name: name, sort: sort, link: link });
       }
-      
     } catch (error) {
       console.error("Error adding menu item:", error);
-    } finally {
-      if (res.status === 200 || res.status === 201) {
-        alert(`Success`);
-      } else {
-        alert(`Failed`);
-      }
     }
   };
 

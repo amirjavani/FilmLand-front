@@ -7,13 +7,15 @@ import logo from "../../Assets/Header/logo.png";
 
 function Header() {
   const [MenuList, setMenuList] = useState([]);
+  const [searchShow, setSearchShow] = useState(false);
 
   const fetchData = async () => {
     const res = await FetchListMenu();
     setMenuList(res.data);
   };
+
   useEffect(() => {
-    fetchData()
+    fetchData();
     return () => {};
   }, []);
   return (
@@ -29,24 +31,28 @@ function Header() {
           {MenuList && (
             <div>
               {MenuList.map((obj, index) => {
-                return <Link to={obj.menuSiteUrl}>{obj.menuSiteName} </Link>;
+                return <Link to={obj.siteMenuUrl}>{obj.siteMenuName} </Link>;
               })}
             </div>
           )}
         </nav>
       </div>
       <div className="nav-left">
-        <a className="subscription" href="">
+        <Link className="subscription" to="/">
           <h4>خرید اشتراک</h4>
-          <i className="fa fa-shopping-cart" aria-hidden="true" />
-        </a>
+          <i className="bi bi-cart" aria-hidden="true" />
+        </Link>
         <Link className="login" to="/dashboard">
           <h4>ورود</h4>
-          <i className="fa fa-sign-in" aria-hidden="true" />
+          <i className="bi bi-box-arrow-in-right" aria-hidden="true" />
         </Link>
-        <a href="#" className="search-icon">
-          <i className="fas fa-search" />
-        </a>
+        <div className="my-auto pr-5 transition-all">
+           <input type="text" className={`${searchShow?'w-60':'w-0 invisible'} bg-transparent border-1  border-slate-300 rounded-lg p-1 text-white `} style={{transition:'.4s',}} placeholder="جست و جو..."></input>
+          <i
+            className=" bi bi-search p-1 search-icon fs-3"
+            onClick={() => setSearchShow(!searchShow)}
+          />
+        </div>
       </div>
     </header>
   );
