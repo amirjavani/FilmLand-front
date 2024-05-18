@@ -5,6 +5,7 @@ import "./silder.css";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
+import { Link } from "react-router-dom";
 
 function Slider() {
   const imagePath = "../../Assets/Slider/Shogun-preview.jpg";
@@ -13,7 +14,6 @@ function Slider() {
     <div className="slider-and-cart " style={{ backgroundColor: " #15202b" }}>
       <div className=" slider">
         <Swiper
-          
           // install Swiper modules
 
           spaceBetween={50}
@@ -27,10 +27,12 @@ function Slider() {
           }}
           modules={[Autoplay, Pagination]}
           scrollbar={{ draggable: true }}>
-          <SwiperSlide >
-            <img
-              src={require("../../Assets/Slider/Shogun-preview.jpg")}
-              alt="1"></img>
+          <SwiperSlide>
+            <Link to={'/shogun'}>
+              <img
+                src={require("../../Assets/Slider/Shogun-preview.jpg")}
+                alt="1"></img>
+            </Link>
           </SwiperSlide>
           <SwiperSlide>
             <img

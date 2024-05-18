@@ -4,6 +4,7 @@
 }
 
 .header {
+  font-family: iransans;
     position: fixed;
     top: 0;
     left: 0;
@@ -143,18 +144,13 @@
 
 .search-icon {
   color: white;
-  font-size: larger;
-  margin: 0.7rem 1rem 0.5rem 0rem;
-  padding: .3rem .5rem 0rem .5rem;
-  border-radius: 2rem;
-  transition: .5s;
-  
+  border-radius: .5rem;
+  transition: .5s; 
 }
 
 .search-icon:hover {
   background-color: #ffffff2c ;
   transition: .5s;
-
 }
 
 .nav-left {
