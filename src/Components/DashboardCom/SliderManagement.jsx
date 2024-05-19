@@ -7,35 +7,17 @@ import {
   useParams,
   Link,
 } from "react-router-dom";
+import { AddSlide, FetchSlides } from "../../Utility/SliderApi";
 
 function SliderManagement() {
-  const [sliderList, setSliderList] = useState([
-    
-  ]);
+  const [sliderList, setSliderList] = useState([]);
   const navigate = useNavigate();
 
   const fetchData = async () => {
     try {
-      //   const response = await FetchListMenu();
-      //   console.log(response.data);
-      //   setSliderList(response.data);
-      setSliderList([{
-        sliderId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        sliderName: "string",
-        sliderUrl: "string",
-        sliderSort: 0,
-        sliderCreateDate: "2024-05-18T13:05:02.432Z",
-        sliderModifiedDate: "2024-05-18T13:05:02.432Z",
-        sliderIsStatus: true,
-        sliderIsDelete: false,
-        fileId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        filePath : "/Assets/Slider/",
-        fileName: "Shogun-preview",
-        fileExtension: ".jpg",
-        fileCreateDate: "2024-05-18T13:05:02.432Z",
-        fileModifiedDate: "2024-05-18T13:05:02.432Z",
-        fileIsDelete: false,
-      }])
+      const response = await FetchSlides();
+      console.log(response.data);
+      setSliderList(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -125,8 +107,9 @@ function SliderManagement() {
                   <tbody>
                     {sliderList.map((obj, index) => {
                       if (obj.sliderIsDelete === false) {
-                        {/* const imageUrl = `${obj.filePath}${obj.fileName}${obj.fileExtension}`; */}
-                        console.log(obj.filePath+obj.fileName+obj.fileExtension)
+                        {
+                          /* const imageUrl = `${obj.filePath}${obj.fileName}${obj.fileExtension}`; */
+                        }
                         return (
                           <tr
                             key={index}
@@ -146,7 +129,14 @@ function SliderManagement() {
                               {obj.sliderUrl}
                             </td>
                             <td className=" py-2 border-l border-neutral-500">
-                              <img className="max-h-20 mx-auto" src={obj.filePath+obj.fileName+obj.fileExtension} alt={obj.fileName}></img>
+                              <img
+                                className="max-h-20 mx-auto"
+                                src={
+                                  obj.filePath +
+                                  obj.fileName +
+                                  obj.fileExtension
+                                }
+                                alt={obj.fileName}></img>
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
                               {obj.sliderCreateDate}
@@ -188,6 +178,8 @@ function AddObject(props) {
   const [sort, setSort] = useState("");
   const [link, setLink] = useState("");
   const { id } = useParams();
+  const [file, setFile] = useState("");
+
   useEffect(() => {
     if (id) {
       get({ id: id });
@@ -205,9 +197,15 @@ function AddObject(props) {
   };
 
   const navigate = useNavigate();
-  const Submit = async () => {
-    navigate('/dashboard/sliderManagement');
-
+  const Submit = async (event) => {
+    navigate("/dashboard/sliderManagement");
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("SliderName", name);
+    formData.append("SliderSort", sort);
+    formData.append("SliderUrl", link);
+    formData.append("File", file);
+    event.preventDefault();
     try {
       if (id) {
         //   await EditMenuItem({
@@ -217,11 +215,31 @@ function AddObject(props) {
         //     link: link,
         //   });
       } else {
-        //   await AddMenuItem({ name: name, sort: sort, link: link });
+        // const response = await fetch("https://localhost:44310/Slider/Add", {
+        //   method: "POST",
+        //   body: formData,
+        // });
+
+        // if (response.ok) {
+        //   const result = await response.json();
+        //   console.log(result);
+        //   alert("File uploaded successfully");
+        // } else {
+        //   alert("File upload failed");
+        // }
+        const res = await AddSlide({ formData: formData });
       }
     } catch (error) {
       console.error("Error adding menu item:", error);
     }
+  };
+
+  const [fileURL, setFileURL] = useState("");
+
+  const handleFileChange = (event) => {
+    const f = event.target.files[0];
+    console.log(f);
+    setFile(f);
   };
 
   return (
@@ -251,13 +269,13 @@ function AddObject(props) {
           placeholder="لینک..."
           value={link}
           onChange={(e) => setLink(e.target.value)}></input>
+        <input type="file" onChange={handleFileChange} />
+        {file && <img alt="pic" src={URL.createObjectURL(file)}></img>}
         <div className=" flex gap-5 m-2  justify-center w-100">
           <button className="btn btn-success flex-auto" type="submit">
             تایید
           </button>
-          <button
-            className="btn btn-danger"
-            onClick={() => navigate(-1)}>
+          <button className="btn btn-danger" onClick={() => navigate(-1)}>
             برگشت
           </button>
         </div>

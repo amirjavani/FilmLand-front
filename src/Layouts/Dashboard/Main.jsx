@@ -11,11 +11,11 @@ function MainDashboard() {
         setIsOpen(!isOpen)
     }
     return (
-    <>
+    <div className='overflow-hidden'>
         
         <Header></Header>
         <SideNavbar toggel={toggel}></SideNavbar>
-        <div className={`table-wrapper flex flex-col-reverse my-8  ml-10 px-4 `} style={{ transition:' all 0.3s ease',marginRight:isOpen?'260px':'70px'}} >
+        <div className={`table-wrapper flex flex-col-reverse mt-16 mb-8  ml-10 px-4 `} style={{ transition:' all 0.3s ease',marginRight:isOpen?'260px':'70px' }} >
             <Outlet></Outlet>
             {/* <Routes>
                 <Route path='/menuManagement' element={<MenuManagement></MenuManagement>}>
@@ -23,7 +23,7 @@ function MainDashboard() {
             </Routes> */}
         </div>
         
-    </>
+    </div>
   )
 }
 
