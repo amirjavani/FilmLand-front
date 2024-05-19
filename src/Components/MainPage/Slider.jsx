@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import "./silder.css";
@@ -8,9 +8,8 @@ import "swiper/css/pagination";
 import { Link } from "react-router-dom";
 
 function Slider() {
-  const imagePath = "../../Assets/Slider/Shogun-preview.jpg";
-
-  return (
+  const [imagePath, setimagePath] = useState("");
+  return (    
     <div className="slider-and-cart " style={{ backgroundColor: " #15202b" }}>
       <div className=" slider">
         <Swiper
@@ -30,23 +29,23 @@ function Slider() {
           <SwiperSlide>
             <Link to={'/shogun'}>
               <img
-                src={require("../../Assets/Slider/Shogun-preview.jpg")}
+                src={'/Assets/Slider/Shogun-preview.jpg'}
                 alt="1"></img>
             </Link>
           </SwiperSlide>
           <SwiperSlide>
             <img
-              src={require("../../Assets/Slider/Panda4-preview.jpg")}
+              src={'/Assets/Slider/Sentinel-Preview.jpg'}
               alt="1"></img>
           </SwiperSlide>
           <SwiperSlide>
             <img
-              src={require("../../Assets/Slider/halo-preview.jpg")}
+              src={'/Assets/Slider/halo.jpg'}
               alt="1"></img>
           </SwiperSlide>
           <SwiperSlide>
             <img
-              src={require("../../Assets/Slider/Sentinel-Preview.jpg")}
+              src={'/Assets/Slider/Panda4-preview.jpg'}
               alt="1"></img>
           </SwiperSlide>
         </Swiper>

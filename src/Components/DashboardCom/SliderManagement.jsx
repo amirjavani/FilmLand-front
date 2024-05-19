@@ -7,24 +7,35 @@ import {
   useParams,
   Link,
 } from "react-router-dom";
-import {
-  AddMenuItem,
-  EditMenuItem,
-  FetchListMenu,
-  GetListMenuItem,
-  RemoveMenuItem,
-  ToggelMenuItem,
-} from "../../Utility/MainMenuAPi";
 
-function MenuManagement(props) {
+function SliderManagement() {
+  const [sliderList, setSliderList] = useState([
+    
+  ]);
   const navigate = useNavigate();
-  const [listMenu, setListMenu] = useState([]);
 
   const fetchData = async () => {
     try {
-      const response = await FetchListMenu();
-      console.log(response.data);
-      setListMenu(response.data);
+      //   const response = await FetchListMenu();
+      //   console.log(response.data);
+      //   setSliderList(response.data);
+      setSliderList([{
+        sliderId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        sliderName: "string",
+        sliderUrl: "string",
+        sliderSort: 0,
+        sliderCreateDate: "2024-05-18T13:05:02.432Z",
+        sliderModifiedDate: "2024-05-18T13:05:02.432Z",
+        sliderIsStatus: true,
+        sliderIsDelete: false,
+        fileId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        filePath : "/Assets/Slider/",
+        fileName: "Shogun-preview",
+        fileExtension: ".jpg",
+        fileCreateDate: "2024-05-18T13:05:02.432Z",
+        fileModifiedDate: "2024-05-18T13:05:02.432Z",
+        fileIsDelete: false,
+      }])
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -39,13 +50,13 @@ function MenuManagement(props) {
   }, []);
 
   const statusToggel = async (objID) => {
-    await ToggelMenuItem({ id: objID });
+    // await ToggelMenuItem({ id: objID });
     Refresh();
   };
 
   const deleting = async (objID) => {
     try {
-      await RemoveMenuItem({ id: objID });
+      //   await RemoveMenuItem({ id: objID });
       Refresh();
     } catch (error) {
       console.error("Error deleting item:", error);
@@ -54,7 +65,7 @@ function MenuManagement(props) {
 
   return (
     <div>
-      <p className="fs-4">فهرست سایت</p>
+      <p className="fs-4"> سلایدر</p>
       <Outlet></Outlet>
       <Routes>
         <Route path=":id" element={<AddObject></AddObject>}></Route>
@@ -92,12 +103,17 @@ function MenuManagement(props) {
                     <th
                       scope="col"
                       className="px-6 py-3 border-l border-neutral-500">
+                      عکس
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 border-l border-neutral-500">
                       تاریخ
                     </th>
                     <th scope="col" className="w-10 text-center">
                       <button
                         onClick={() => {
-                          navigate("/dashboard/menuManagement/add");
+                          navigate("/dashboard/sliderManagement/add");
                         }}
                         className="bi bi-plus btn btn-success">
                         {" "}
@@ -105,10 +121,12 @@ function MenuManagement(props) {
                     </th>
                   </tr>
                 </thead>
-                {listMenu && (
+                {sliderList && (
                   <tbody>
-                    {listMenu.map((obj, index) => {
-                      if (obj.siteMenuIsDelete === false) {
+                    {sliderList.map((obj, index) => {
+                      if (obj.sliderIsDelete === false) {
+                        {/* const imageUrl = `${obj.filePath}${obj.fileName}${obj.fileExtension}`; */}
+                        console.log(obj.filePath+obj.fileName+obj.fileExtension)
                         return (
                           <tr
                             key={index}
@@ -119,16 +137,19 @@ function MenuManagement(props) {
                               {index + 1}
                             </th>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.siteMenuName}
+                              {obj.sliderName}
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.siteMenuSort}
+                              {obj.sliderSort}
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.siteMenuUrl}
+                              {obj.sliderUrl}
+                            </td>
+                            <td className=" py-2 border-l border-neutral-500">
+                              <img className="max-h-20 mx-auto" src={obj.filePath+obj.fileName+obj.fileExtension} alt={obj.fileName}></img>
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.siteMenuCreateDate}
+                              {obj.sliderCreateDate}
                             </td>
                             <td className="flex flex-col p-1 w-20">
                               <button
@@ -177,26 +198,26 @@ function AddObject(props) {
   }, []);
 
   const get = async (props) => {
-    const res = await GetListMenuItem({ id: props.id });
-    setName(res.data.siteMenuName);
-    setLink(res.data.siteMenuUrl);
-    setSort(res.data.siteMenuSort);
+    //const res = await GetListMenuItem({ id: props.id });
+    //   setName(res.data.siteMenuName);
+    //   setLink(res.data.siteMenuUrl);
+    //   setSort(res.data.siteMenuSort);
   };
 
   const navigate = useNavigate();
   const Submit = async () => {
-    navigate('/dashboard/menuManagement');
+    navigate('/dashboard/sliderManagement');
 
     try {
       if (id) {
-        await EditMenuItem({
-          id: id,
-          name: name,
-          sort: sort,
-          link: link,
-        });
+        //   await EditMenuItem({
+        //     id: id,
+        //     name: name,
+        //     sort: sort,
+        //     link: link,
+        //   });
       } else {
-        await AddMenuItem({ name: name, sort: sort, link: link });
+        //   await AddMenuItem({ name: name, sort: sort, link: link });
       }
     } catch (error) {
       console.error("Error adding menu item:", error);
@@ -245,4 +266,4 @@ function AddObject(props) {
   );
 }
 
-export default MenuManagement;
+export default SliderManagement;

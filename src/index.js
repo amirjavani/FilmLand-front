@@ -5,6 +5,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import MainDashboard from "./Layouts/Dashboard/Main";
 import MenuManagement from "./Components/DashboardCom/MenuManagement";
 import Main from "./Components/MainPage/Main";
+import SliderManagement from "./Components/DashboardCom/SliderManagement";
 
 const router = createBrowserRouter([
   {
@@ -32,14 +33,32 @@ const router = createBrowserRouter([
             element: <div>MMNotfound</div>,
           },
           {
+            path: "",
             element: <></>,
-            index: true,
           },
         ],
       },
       {
-        path: "List2",
-        element: <div>asd</div>,
+        path: "sliderManagement",
+        element: <SliderManagement></SliderManagement>,
+        children: [
+          {
+            path: "add",
+            element: <></>,
+          },
+          {
+            path: ":id",
+            element: <></>,
+          },
+          {
+            path: "*",
+            element: <div>SMNotfound</div>,
+          },
+          {
+            path: "",
+            element: <></>,
+          },
+        ],
       },
       {
         path: "*",

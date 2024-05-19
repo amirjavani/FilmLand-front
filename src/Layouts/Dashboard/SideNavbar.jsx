@@ -16,12 +16,12 @@ function SideNavbar(props) {
       <nav className='d-flex flex-column ' >
         <i className={`fs-4 mr-auto bi ${sidebarVisible ? "bi-three-dots" : "bi-three-dots-vertical"}  text-slate-300 hover:bg-slate-800 rounded-1 px-2`} onClick={toggleSidebar}></i>
           <NavLink className='my-1 flex flex-row justify-between text-white p-2 rounded hover:bg-slate-800   [&.active]:bg-slate-800'  to="/dashboard/menuManagement">
-          <span>admin</span>
-          <i class="bi bi-person-workspace"></i>
+          <span>فهرست سایت</span>
+          <i class="bx bx-book-content bx-rotate-180 bx-flip-horizontal fs-5 p-1"></i>
           </NavLink>
-          <NavLink className='my-1 flex flex-row justify-between text-white p-2 rounded hover:bg-slate-800   [&.active]:bg-slate-800'  to="/dashboard/List2">
-          <span>admin</span>
-          <i class="bi bi-person-workspace"></i>
+          <NavLink className='my-1 flex flex-row justify-between text-white p-2 rounded hover:bg-slate-800   [&.active]:bg-slate-800'  to="/dashboard/sliderManagement">
+          <span>سلایدر</span>
+          <i class="bx bxs-carousel fs-5 p-1"></i>
           </NavLink>
       </nav>
     </div>
