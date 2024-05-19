@@ -8,15 +8,17 @@ import {
   Link,
 } from "react-router-dom";
 import { AddSlide, FetchSlides } from "../../Utility/SliderApi";
+import { getImageUrl } from "./getImageUrl";
 
 function SliderManagement() {
   const [sliderList, setSliderList] = useState([]);
   const navigate = useNavigate();
+  const url= 'https://localhost:44310'
 
   const fetchData = async () => {
     try {
       const response = await FetchSlides();
-      console.log(response.data);
+      console.log(process.env.PUBLIC_URL);
       setSliderList(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -132,11 +134,11 @@ function SliderManagement() {
                               <img
                                 className="max-h-20 mx-auto"
                                 src={
-                                  obj.filePath +
-                                  obj.fileName +
-                                  obj.fileExtension
+                                  `${url + obj.filePath + obj.fileName + obj.fileExtension}`
                                 }
-                                alt={obj.fileName}></img>
+                                alt={
+                                    `${url + obj.filePath +obj.fileName + obj.fileExtension}`
+                                }></img>
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
                               {obj.sliderCreateDate}
