@@ -7,15 +7,21 @@ import {
   useParams,
   Link,
 } from "react-router-dom";
-import { AddSlide, FetchSlides, GetSliderItem } from "../../Utility/SliderApi";
+import {
+  AddSlide,
+  EditSlide,
+  FetchSlides,
+  GetSliderItem,
+  RemoveSlide,
+  ToggelSlide,
+} from "../../Utility/SliderApi";
 import { getImageUrl } from "./getImageUrl";
 import { Url } from "../../Utility/URL";
-
 
 function SliderManagement() {
   const [sliderList, setSliderList] = useState([]);
   const navigate = useNavigate();
-  const url= Url;
+  const url = Url;
 
   const fetchData = async () => {
     try {
@@ -36,13 +42,13 @@ function SliderManagement() {
   }, []);
 
   const statusToggel = async (objID) => {
-    // await ToggelMenuItem({ id: objID });
+    await ToggelSlide({ id: objID });
     Refresh();
   };
 
   const deleting = async (objID) => {
     try {
-      //   await RemoveMenuItem({ id: objID });
+      await RemoveSlide({ id: objID });
       Refresh();
     } catch (error) {
       console.error("Error deleting item:", error);
@@ -132,12 +138,18 @@ function SliderManagement() {
                             <td className=" py-2 border-l border-neutral-500">
                               <img
                                 className="max-h-20 mx-auto"
-                                src={
-                                  `${url + obj.filePath + obj.fileName + obj.fileExtension}`
-                                }
-                                alt={
-                                    `${url + obj.filePath +obj.fileName + obj.fileExtension}`
-                                }></img>
+                                src={`${
+                                  url +
+                                  obj.filePath +
+                                  obj.fileName +
+                                  obj.fileExtension
+                                }`}
+                                alt={`${
+                                  url +
+                                  obj.filePath +
+                                  obj.fileName +
+                                  obj.fileExtension
+                                }`}></img>
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
                               {obj.sliderCreateDate}
@@ -193,10 +205,12 @@ function AddObject(props) {
 
   const get = async (props) => {
     const res = await GetSliderItem({ id: props.id });
-      setName(res.data.sliderName);
-      setLink(res.data.sliderUrl);
-      setSort(res.data.sliderSort);
-      setImageURL(Url+res.data.filePath+res.data.fileName+res.data.fileExtension)
+    setName(res.data.sliderName);
+    setLink(res.data.sliderUrl);
+    setSort(res.data.sliderSort);
+    setImageURL(
+      Url + res.data.filePath + res.data.fileName + res.data.fileExtension
+    );
   };
 
   const navigate = useNavigate();
@@ -211,32 +225,17 @@ function AddObject(props) {
     event.preventDefault();
     try {
       if (id) {
-        //   await EditMenuItem({
-        //     id: id,
-        //     name: name,
-        //     sort: sort,
-        //     link: link,
-        //   });
+        await EditSlide({
+          id: id,
+          fromData: formData,
+        });
       } else {
-        // const response = await fetch("https://localhost:44310/Slider/Add", {
-        //   method: "POST",
-        //   body: formData,
-        // });
-
-        // if (response.ok) {
-        //   const result = await response.json();
-        //   console.log(result);
-        //   alert("File uploaded successfully");
-        // } else {
-        //   alert("File upload failed");
-        // }
         const res = await AddSlide({ formData: formData });
       }
     } catch (error) {
       console.error("Error adding menu item:", error);
     }
   };
-
 
   const handleFileChange = (event) => {
     const f = event.target.files[0];
@@ -272,7 +271,11 @@ function AddObject(props) {
           value={link}
           onChange={(e) => setLink(e.target.value)}></input>
         <input type="file" onChange={handleFileChange} />
-        {file? <img alt="pic" src={URL.createObjectURL(file)}></img>:imageURL && <img alt="pic" src={imageURL}></img>}
+        {file ? (
+          <img alt="pic" src={URL.createObjectURL(file)}></img>
+        ) : (
+          imageURL && <img alt="pic" src={imageURL}></img>
+        )}
         <div className=" flex gap-5 m-2  justify-center w-100">
           <button className="btn btn-success flex-auto" type="submit">
             تایید

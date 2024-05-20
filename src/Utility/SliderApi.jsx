@@ -44,11 +44,7 @@ const ToggelSlide = async (props) => {
 const EditSlide = async (props) => {
   const response = await axios.put(
     `${Url}/Slider/Edit/${props.id}`,
-    {
-      siteMenuName: props.name,
-      siteMenuUrl: props.link,
-      siteMenuSort: parseInt(props.sort),
-    },
+    props.formData,
     {
       headers: {},
     }
