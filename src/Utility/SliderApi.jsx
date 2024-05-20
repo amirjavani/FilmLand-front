@@ -9,7 +9,7 @@ const FetchSlides = async () => {
 };
 
 const GetSliderItem = async (props) => {
-  const response = await axios.get(`${Url}/SiteMenu/${props.id}`, {
+  const response = await axios.get(`${Url}/Slider/${props.id}`, {
     headers: {},
   });
   return response;
@@ -28,14 +28,14 @@ const AddSlide = async (props) => {
 
 const RemoveSlide = async (props) => {
   console.log(props.id);
-  const response = await axios.delete(`${Url}/SiteMenu/${props.id}`, {
+  const response = await axios.delete(`${Url}/Slider/${props.id}`, {
     headers: {},
   });
   return response;
 };
 
 const ToggelSlide = async (props) => {
-  const response = await axios.get(`${Url}/SiteMenu/ChangeStatus/${props.id}`, {
+  const response = await axios.get(`${Url}/Slider/ChangeStatus/${props.id}`, {
     headers: {},
   });
   return response;
@@ -43,7 +43,7 @@ const ToggelSlide = async (props) => {
 
 const EditSlide = async (props) => {
   const response = await axios.put(
-    `${Url}/SiteMenu/Edit/${props.id}`,
+    `${Url}/Slider/Edit/${props.id}`,
     {
       siteMenuName: props.name,
       siteMenuUrl: props.link,

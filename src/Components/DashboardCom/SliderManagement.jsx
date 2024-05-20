@@ -7,7 +7,7 @@ import {
   useParams,
   Link,
 } from "react-router-dom";
-import { AddSlide, FetchSlides } from "../../Utility/SliderApi";
+import { AddSlide, FetchSlides, GetSliderItem } from "../../Utility/SliderApi";
 import { getImageUrl } from "./getImageUrl";
 import { Url } from "../../Utility/URL";
 
@@ -153,7 +153,7 @@ function SliderManagement() {
                                 {obj.sliderIsStatus ? "فعال" : "غیرفعال"}
                               </button>
                               <Link
-                                to={`/dashboard/menuManagement/${obj.sliderId}`}
+                                to={`/dashboard/sliderManagement/${obj.sliderId}`}
                                 className="bi bi-pencil-square btn btn-secondary py-1 my-1"></Link>
                               <i
                                 className="bi bi-trash btn btn-danger py-1 my"
@@ -178,6 +178,7 @@ function AddObject(props) {
   const [name, setName] = useState("");
   const [sort, setSort] = useState("");
   const [link, setLink] = useState("");
+  const [imageURL, setImageURL] = useState("");
   const { id } = useParams();
   const [file, setFile] = useState("");
 
@@ -191,10 +192,11 @@ function AddObject(props) {
   }, []);
 
   const get = async (props) => {
-    //const res = await GetListMenuItem({ id: props.id });
-    //   setName(res.data.siteMenuName);
-    //   setLink(res.data.siteMenuUrl);
-    //   setSort(res.data.siteMenuSort);
+    const res = await GetSliderItem({ id: props.id });
+      setName(res.data.sliderName);
+      setLink(res.data.sliderUrl);
+      setSort(res.data.sliderSort);
+      setImageURL(Url+res.data.filePath+res.data.fileName+res.data.fileExtension)
   };
 
   const navigate = useNavigate();
@@ -235,7 +237,6 @@ function AddObject(props) {
     }
   };
 
-  const [fileURL, setFileURL] = useState("");
 
   const handleFileChange = (event) => {
     const f = event.target.files[0];
@@ -271,7 +272,7 @@ function AddObject(props) {
           value={link}
           onChange={(e) => setLink(e.target.value)}></input>
         <input type="file" onChange={handleFileChange} />
-        {file && <img alt="pic" src={URL.createObjectURL(file)}></img>}
+        {file? <img alt="pic" src={URL.createObjectURL(file)}></img>:imageURL && <img alt="pic" src={imageURL}></img>}
         <div className=" flex gap-5 m-2  justify-center w-100">
           <button className="btn btn-success flex-auto" type="submit">
             تایید
