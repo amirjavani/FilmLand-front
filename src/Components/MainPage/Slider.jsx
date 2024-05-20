@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import "./silder.css";
@@ -6,10 +6,29 @@ import "./silder.css";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Link } from "react-router-dom";
+import { FetchSlides } from "../../Utility/SliderApi";
+import { Url } from "../../Utility/URL";
+
+
 
 function Slider() {
-  const [imagePath, setimagePath] = useState("");
-  return (    
+  const [slides, setSlides] = useState([]);
+
+  const FetchingSlides = async () => {
+    try {
+      const response = await FetchSlides();
+      setSlides(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    FetchingSlides();
+    return () => {};
+  }, []);
+
+  return (
     <div className="slider-and-cart " style={{ backgroundColor: " #15202b" }}>
       <div className=" slider">
         <Swiper
@@ -26,28 +45,18 @@ function Slider() {
           }}
           modules={[Autoplay, Pagination]}
           scrollbar={{ draggable: true }}>
-          <SwiperSlide>
-            <Link to={'/shogun'}>
-              <img
-                src={'/Assets/Slider/Shogun-preview.jpg'}
-                alt="1"></img>
-            </Link>
-          </SwiperSlide>
-          <SwiperSlide>
-            <img
-              src={'/Assets/Slider/Sentinel-Preview.jpg'}
-              alt="1"></img>
-          </SwiperSlide>
-          <SwiperSlide>
-            <img
-              src={'/Assets/Slider/halo.jpg'}
-              alt="1"></img>
-          </SwiperSlide>
-          <SwiperSlide>
-            <img
-              src={'/Assets/Slider/Panda4-preview.jpg'}
-              alt="1"></img>
-          </SwiperSlide>
+          {slides &&
+            slides.map((slide, index) => {
+              return (
+                <SwiperSlide>
+                  <Link to={slide.sliderUrl}>
+                    <img
+                      src={Url+slide.filePath+slide.fileName+slide.fileExtension}
+                      alt={slide.sliderName}></img>
+                  </Link>
+                </SwiperSlide>
+              );
+            })}
         </Swiper>
       </div>
 

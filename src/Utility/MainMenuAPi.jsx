@@ -1,5 +1,5 @@
 import axios from "axios";
-const Url = "https://localhost:44310";
+import { Url } from "./URL";
 
 const FetchListMenu = async () => {
   const response = await axios.get(`${Url}/SiteMenu`, {

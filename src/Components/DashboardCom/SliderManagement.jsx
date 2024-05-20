@@ -9,11 +9,13 @@ import {
 } from "react-router-dom";
 import { AddSlide, FetchSlides } from "../../Utility/SliderApi";
 import { getImageUrl } from "./getImageUrl";
+import { Url } from "../../Utility/URL";
+
 
 function SliderManagement() {
   const [sliderList, setSliderList] = useState([]);
   const navigate = useNavigate();
-  const url= 'https://localhost:44310'
+  const url= Url;
 
   const fetchData = async () => {
     try {
@@ -109,9 +111,6 @@ function SliderManagement() {
                   <tbody>
                     {sliderList.map((obj, index) => {
                       if (obj.sliderIsDelete === false) {
-                        {
-                          /* const imageUrl = `${obj.filePath}${obj.fileName}${obj.fileExtension}`; */
-                        }
                         return (
                           <tr
                             key={index}
@@ -145,20 +144,20 @@ function SliderManagement() {
                             </td>
                             <td className="flex flex-col p-1 w-20">
                               <button
-                                onClick={() => statusToggel(obj.siteMenuId)}
+                                onClick={() => statusToggel(obj.sliderId)}
                                 className={`btn ${
-                                  obj.siteMenuIsStatus
+                                  obj.sliderIsStatus
                                     ? "btn-success"
                                     : "btn-danger"
                                 } py-1`}>
-                                {obj.siteMenuIsStatus ? "فعال" : "غیرفعال"}
+                                {obj.sliderIsStatus ? "فعال" : "غیرفعال"}
                               </button>
                               <Link
-                                to={`/dashboard/menuManagement/${obj.siteMenuId}`}
+                                to={`/dashboard/menuManagement/${obj.sliderId}`}
                                 className="bi bi-pencil-square btn btn-secondary py-1 my-1"></Link>
                               <i
                                 className="bi bi-trash btn btn-danger py-1 my"
-                                onClick={() => deleting(obj.siteMenuId)}></i>
+                                onClick={() => deleting(obj.sliderId)}></i>
                             </td>
                           </tr>
                         );
