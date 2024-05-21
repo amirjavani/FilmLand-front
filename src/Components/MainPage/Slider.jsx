@@ -32,8 +32,6 @@ function Slider() {
     <div className="slider-and-cart " style={{ backgroundColor: " #15202b" }}>
       <div className=" slider">
         <Swiper
-          // install Swiper modules
-
           spaceBetween={50}
           slidesPerView={1}
           autoplay={{
@@ -47,7 +45,7 @@ function Slider() {
           scrollbar={{ draggable: true }}>
           {slides &&
             slides.map((slide, index) => {
-              return (
+              return slide.sliderIsStatus &&(
                 <SwiperSlide>
                   <Link to={slide.sliderUrl}>
                     <img
@@ -60,20 +58,20 @@ function Slider() {
         </Swiper>
       </div>
 
-      <div className="carts">
-        <div className="horizontal-card">
-          <div className="cart">
+      <div className="minibanners">
+        <div className="horizontal-minibanner">
+          <div className="minibanner">
             <img alt="s" src="Dune-Review.jpeg" />
           </div>
-          <div className="cart">
+          <div className="minibanner">
             <img alt="s" src="robel-moon-preview.jpg" />
           </div>
         </div>
-        <div className="horizontal-card2">
-          <div className="cart">
+        <div className="horizontal-minibanner2">
+          <div className="minibanner">
             <img alt="s" src="halo-preview.jpg" />
           </div>
-          <div className="cart">
+          <div className="minibanner">
             <img alt="s" src="luthes-preview.jpg" />
           </div>
         </div>

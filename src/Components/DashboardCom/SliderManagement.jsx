@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   useNavigate,
   Route,
@@ -193,6 +193,7 @@ function AddObject(props) {
   const [imageURL, setImageURL] = useState("");
   const { id } = useParams();
   const [file, setFile] = useState("");
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (id) {
@@ -208,9 +209,37 @@ function AddObject(props) {
     setName(res.data.sliderName);
     setLink(res.data.sliderUrl);
     setSort(res.data.sliderSort);
-    setImageURL(
-      Url + res.data.filePath + res.data.fileName + res.data.fileExtension
-    );
+    // setImageURL(
+    //   Url + res.data.filePath + res.data.fileName + res.data.fileExtension
+    // );
+    console.log(getMimeType(res.data.fileExtension));
+    fetchImage(res);
+  };
+  const fetchImage = async (res) => {
+    try {
+      const response = await fetch(
+        Url + res.data.filePath + res.data.fileName + res.data.fileExtension,
+        { method: "GET", headers: { "Content-Type": "application/json" } }
+      );
+      const blob = response.blob();
+      const imagefile = new File(
+        [blob],
+        res.data.fileName + res.data.fileExtension,
+        { type: getMimeType(res.data.fileExtension) }
+      );
+      fileInputRef.current = imagefile;
+    } catch (error) {}
+  };
+
+  const getMimeType = (extension) => {
+    const mimeTypes = {
+      ".jpg": "image/jpeg",
+      ".jpeg": "image/jpeg",
+      ".png": "image/png",
+      ".gif": "image/gif",
+      ".pdf": "application/pdf",
+    };
+    return mimeTypes[extension.toLowerCase()] || "application/octet-stream";
   };
 
   const navigate = useNavigate();
@@ -270,7 +299,12 @@ function AddObject(props) {
           placeholder="لینک..."
           value={link}
           onChange={(e) => setLink(e.target.value)}></input>
-        <input type="file" onChange={handleFileChange} />
+        <input
+          type="file"
+          required
+          onChange={handleFileChange}
+          ref={fileInputRef}
+        />
         {file ? (
           <img alt="pic" src={URL.createObjectURL(file)}></img>
         ) : (

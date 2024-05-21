@@ -19,7 +19,7 @@
     object-fit: cover;
   }
   
-  .carts {
+  .minibanner {
     display: flex;
     flex-direction: column;
     /* margin-top: 100px; */
@@ -27,19 +27,19 @@
     /* background-color: antiquewhite; */
   }
   
-  .horizontal-card {
+  .horizontal-minibanner {
     display: flex;
     margin: 5px;
     /* background-color: blue; */
   }
   
-  .horizontal-card2 {
+  .horizontal-minibanner2 {
     display: flex;
     margin: 5px;
     /* background-color: blue; */
   }
   
-  .cart {
+  .minibanner {
     margin: 10px;
     width: 300px;
     height: 150px;
@@ -48,7 +48,7 @@
   }
   
   
-  .cart img{
+  .minibanner img{
     width: 100%;
     height: 100%;
     border-radius: 10px;
@@ -61,7 +61,7 @@
 
   
 
-    .cart {
+    .minibanner {
       width: 200px;
       height: 100px;
     }
@@ -94,22 +94,22 @@
       height: 100%;
     }
     
-    .carts {
+    .minibanners {
       display: flex;
-      /* flex-direction: column; */
+      flex-direction: column;
       /* margin-top: 100px; */
       margin-right: 5px;
       justify-content: center;
       /* background-color: antiquewhite; */
     }
-    .horizontal-card {
+    .horizontal-minibanner {
       display: flex;
       justify-content: center;
       margin: 5px;
       /* background-color: blue; */
     }
   
-    .horizontal-card2 {
+    .horizontal-minibanner2 {
       display: flex;
       justify-content: center;
       margin: 5px;
@@ -117,7 +117,7 @@
     }
   
   
-    .cart {
+    .minibanner {
       width: 400PX;
       height: 200PX;
     }
@@ -129,7 +129,7 @@
       margin-top: 15%;
     }
   
-    .cart {
+    .minibanner {
       width: 150px;
       height: 75px;
     }

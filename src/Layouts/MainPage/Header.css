@@ -265,13 +265,13 @@
   }
 
   .subscription {
-    margin-left: 15px;
-    margin-top: 8px;
+    margin: auto;
+    margin-left: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 0;
-    height: 0;
+    height: 30px;
     padding: 18px;
     font-size: larger;
   }
@@ -286,12 +286,12 @@
   }
 
   .login {
-    margin-top: 9px;
+    margin: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 0;
-    height: 0;
+    height: 30px;
     padding: 16px;
     font-size: larger;
   }
@@ -302,6 +302,7 @@
 
   .login i {
     display: block;
+    margin-top:2px ;
   }
 
   .search-icon {
