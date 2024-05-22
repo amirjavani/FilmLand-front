@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import 'C:/React/main-project/src/index.js'
+import '../../../src/index'
 import {  NavLink } from "react-router-dom";
 
 
