@@ -78,7 +78,7 @@ function Slider() {
       {minibanners.length > 0 && (
         <div className="minibanners">
           <div className="horizontal-minibanner">
-            {minibanners[0] && (
+          {minibanners[0] && minibanners[0].miniBannerIsStatus && (
               <div className="minibanner">
                 <img
                   alt={minibanners[0].sliderName}
@@ -91,7 +91,8 @@ function Slider() {
                 />
               </div>
             )}
-            {minibanners[1] && (
+
+            {minibanners[1] && minibanners[1].miniBannerIsStatus && (
               <div className="minibanner">
                 <img
                   alt={minibanners[1].sliderName}
@@ -106,7 +107,7 @@ function Slider() {
             )}
           </div>
           <div className="horizontal-minibanner2">
-          {minibanners[2] && (
+          {minibanners[2] && minibanners[2].miniBannerIsStatus && (
               <div className="minibanner">
                 <img
                   alt={minibanners[2].sliderName}
@@ -119,7 +120,7 @@ function Slider() {
                 />
               </div>
             )}
-            {minibanners[3] && (
+            {minibanners[3] && minibanners[3].miniBannerIsStatus && (
               <div className="minibanner">
                 <img
                   alt={minibanners[3].sliderName}
