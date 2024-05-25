@@ -1,7 +1,7 @@
 import React from 'react'
-import Header from '../../Layouts/MainPage/Header'
-import Slider from './Slider'
-import Carts from './Carts'
+import Header from './Header'
+import Slider from '../../Components/MainPage/SliderAndMiniBanners'
+import Carts from '../../Components/MainPage/Carts'
 
 function Main() {
   return (

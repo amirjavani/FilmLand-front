@@ -8,6 +8,7 @@ import "swiper/css/pagination";
 import { Link } from "react-router-dom";
 import { FetchSlides } from "../../Utility/SliderApi";
 import { Url } from "../../Utility/URL";
+import { FetchMiniBanner } from "../../Utility/miniBannerAPI";
 
 function Slider() {
   const [slides, setSlides] = useState([]);
@@ -21,16 +22,11 @@ function Slider() {
       console.log(error);
     }
   };
+
   const FetchingMinibanners = async () => {
     try {
-      // const response = await FetchSlides();
-      setMinibanners([
-        { image: "/Assets/MiniBanners/Fallout-preview.jpeg" },
-        { image: "/Assets/MiniBanners/luthes-preview.jpg" },
-        { image: "/Assets/MiniBanners/robel-moon-preview.jpg" },
-        { image: "/Assets/MiniBanners/Sentinel-Preview.jpg" },
-      ]);
-      console.log(minibanners);
+      const response = await FetchMiniBanner();
+      setMinibanners(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -43,8 +39,8 @@ function Slider() {
   }, []);
 
   return (
-    <div className="slider-and-cart " style={{ backgroundColor: " #15202b" }}>
-      <div className=" slider">
+    <div className="slider-and-cart" style={{ backgroundColor: "#15202b" }}>
+      <div className="slider">
         <Swiper
           spaceBetween={50}
           slidesPerView={1}
@@ -62,7 +58,7 @@ function Slider() {
               return (
                 slide.sliderIsStatus && (
                   <SwiperSlide key={index}>
-                    <Link  to={slide.sliderUrl}>
+                    <Link to={slide.sliderUrl}>
                       <img
                         src={
                           Url +
@@ -79,23 +75,63 @@ function Slider() {
         </Swiper>
       </div>
 
-      {minibanners.length===4 && (
+      {minibanners.length > 0 && (
         <div className="minibanners">
           <div className="horizontal-minibanner">
-            <div className="minibanner">
-              <img alt="0" src={minibanners[0].image} />
-            </div>
-            <div className="minibanner">
-              <img alt="s" src={minibanners[1].image} />
-            </div>
+            {minibanners[0] && (
+              <div className="minibanner">
+                <img
+                  alt={minibanners[0].sliderName}
+                  src={
+                    Url +
+                    minibanners[0].filePath +
+                    minibanners[0].fileName +
+                    minibanners[0].fileExtension
+                  }
+                />
+              </div>
+            )}
+            {minibanners[1] && (
+              <div className="minibanner">
+                <img
+                  alt={minibanners[1].sliderName}
+                  src={
+                    Url +
+                    minibanners[1].filePath +
+                    minibanners[1].fileName +
+                    minibanners[1].fileExtension
+                  }
+                />
+              </div>
+            )}
           </div>
           <div className="horizontal-minibanner2">
-            <div className="minibanner">
-              <img alt="s" src={minibanners[2].image} />
-            </div>
-            <div className="minibanner">
-              <img alt="s" src={minibanners[3].image} />
-            </div>
+          {minibanners[2] && (
+              <div className="minibanner">
+                <img
+                  alt={minibanners[2].sliderName}
+                  src={
+                    Url +
+                    minibanners[2].filePath +
+                    minibanners[2].fileName +
+                    minibanners[2].fileExtension
+                  }
+                />
+              </div>
+            )}
+            {minibanners[3] && (
+              <div className="minibanner">
+                <img
+                  alt={minibanners[3].sliderName}
+                  src={
+                    Url +
+                    minibanners[3].filePath +
+                    minibanners[3].fileName +
+                    minibanners[3].fileExtension
+                  }
+                />
+              </div>
+            )}
           </div>
         </div>
       )}

@@ -4,7 +4,7 @@ import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import MainDashboard from "./Layouts/Dashboard/Main";
 import MenuManagement from "./Components/DashboardCom/MenuManagement";
-import Main from "./Components/MainPage/Main";
+import Main from "./Layouts/MainPage/Main";
 import SliderManagement from "./Components/DashboardCom/SliderManagement";
 import MiniBannerManagement from "./Components/DashboardCom/MiniBannerManagement";
 
