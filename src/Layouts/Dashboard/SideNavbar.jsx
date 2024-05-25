@@ -23,6 +23,10 @@ function SideNavbar(props) {
           <span>سلایدر</span>
           <i class="bx bxs-carousel fs-5 p-1"></i>
           </NavLink>
+          <NavLink className='my-1 flex flex-row justify-between text-white p-2 rounded hover:bg-slate-800   [&.active]:bg-slate-800'  to="/dashboard/MiniBannerManagement">
+          <span>مینی بنر</span>
+          <i class="bx bx-square-rounded fs-5 p-1"></i>
+          </NavLink>
       </nav>
     </div>
   )

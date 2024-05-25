@@ -8,24 +8,24 @@ import {
   Link,
 } from "react-router-dom";
 import {
-  AddSlide,
-  EditSlide,
-  FetchSlides,
-  GetSliderItem,
-  RemoveSlide,
-  ToggelSlide,
-} from "../../Utility/SliderApi";
+  FetchMiniBanner,
+  AddMiniBanner,
+  RemoveMiniBanner,
+  ToggelMiniBanner,
+  EditMiniBanner,
+  GetMiniBannerItem,
+} from "../../Utility/miniBannerAPI";
 import { Url } from "../../Utility/URL";
 
-function SliderManagement() {
-  const [sliderList, setSliderList] = useState([]);
+function MiniBannerManagement() {
+  const [miniBannersList, setMiniBannersList] = useState([]);
   const navigate = useNavigate();
   const url = Url;
 
   const fetchData = async () => {
     try {
-      const response = await FetchSlides();
-      setSliderList(response.data);
+      const response = await FetchMiniBanner();
+      setMiniBannersList(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -40,13 +40,13 @@ function SliderManagement() {
   }, []);
 
   const statusToggel = async (objID) => {
-    await ToggelSlide({ id: objID });
+    await ToggelMiniBanner({ id: objID });
     Refresh();
   };
 
   const deleting = async (objID) => {
     try {
-      await RemoveSlide({ id: objID });
+      await RemoveMiniBanner({ id: objID });
       Refresh();
     } catch (error) {
       console.error("Error deleting item:", error);
@@ -55,7 +55,8 @@ function SliderManagement() {
 
   return (
     <div>
-      <p className="fs-4"> سلایدر</p>
+      <p className="fs-4"> مینی بنر</p>
+      <p className="fs-6"> فقط 4 تای اول نمایش داده میشوند</p>
       <Outlet></Outlet>
       <Routes>
         <Route path=":id" element={<AddObject></AddObject>}></Route>
@@ -103,7 +104,7 @@ function SliderManagement() {
                     <th scope="col" className="w-10 text-center">
                       <button
                         onClick={() => {
-                          navigate("/dashboard/sliderManagement/add");
+                          navigate("/dashboard/MiniBannerManagement/add");
                         }}
                         className="bi bi-plus btn btn-success">
                         {" "}
@@ -111,10 +112,10 @@ function SliderManagement() {
                     </th>
                   </tr>
                 </thead>
-                {sliderList && (
+                {miniBannersList && (
                   <tbody>
-                    {sliderList.map((obj, index) => {
-                      if (obj.sliderIsDelete === false) {
+                    {miniBannersList.map((obj, index) => {
+                      if (obj.miniBannerIsDelete === false) {
                         return (
                           <tr
                             key={index}
@@ -125,13 +126,13 @@ function SliderManagement() {
                               {index + 1}
                             </th>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.sliderName}
+                              {obj.miniBannerName}
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.sliderSort}
+                              {obj.miniBannerSort}
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.sliderUrl}
+                              {obj.miniBannerUrl}
                             </td>
                             <td className=" py-2 border-l border-neutral-500">
                               <img
@@ -150,24 +151,24 @@ function SliderManagement() {
                                 }`}></img>
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.sliderCreateDate}
+                              {obj.miniBannerCreateDate}
                             </td>
                             <td className="flex flex-col p-1 w-20">
                               <button
-                                onClick={() => statusToggel(obj.sliderId)}
+                                onClick={() => statusToggel(obj.miniBannerId)}
                                 className={`btn ${
-                                  obj.sliderIsStatus
+                                  obj.miniBannerIsStatus
                                     ? "btn-success"
                                     : "btn-danger"
                                 } py-1`}>
-                                {obj.sliderIsStatus ? "فعال" : "غیرفعال"}
+                                {obj.miniBannerIsStatus ? "فعال" : "غیرفعال"}
                               </button>
                               <Link
-                                to={`/dashboard/sliderManagement/${obj.sliderId}`}
+                                to={`/dashboard/MiniBannerManagement/${obj.miniBannerId}`}
                                 className="bi bi-pencil-square btn btn-secondary py-1 my-1"></Link>
                               <i
                                 className="bi bi-trash btn btn-danger py-1 my"
-                                onClick={() => deleting(obj.sliderId)}></i>
+                                onClick={() => deleting(obj.miniBannerId)}></i>
                             </td>
                           </tr>
                         );
@@ -203,17 +204,17 @@ function AddObject(props) {
   }, []);
 
   const get = async (props) => {
-    const res = await GetSliderItem({ id: props.id });
-    setName(res.data.sliderName);
-    setLink(res.data.sliderUrl);
-    setSort(res.data.sliderSort);
+    const res = await GetMiniBannerItem({ id: props.id });
+    setName(res.data.miniBannerName);
+    setLink(res.data.miniBannerUrl);
+    setSort(res.data.miniBannerSort);
     fetchImage(res);
   };
   const fetchImage = async (res) => {
     try {
       const response = await fetch(
         Url + res.data.filePath + res.data.fileName + res.data.fileExtension,
-        { method: "GET"}
+        { method: "GET" }
       );
 
       const blob = response.blob();
@@ -223,7 +224,7 @@ function AddObject(props) {
         res.data.fileName + res.data.fileExtension,
         { type: getMimeType(res.data.fileExtension) }
       );
-      
+
       setImageURL(URL.createObjectURL(imagefile));
       console.log(imagefile);
     } catch (error) {}
@@ -242,22 +243,22 @@ function AddObject(props) {
 
   const navigate = useNavigate();
   const Submit = async (event) => {
-    navigate("/dashboard/sliderManagement");
+    navigate("/dashboard/MiniBannerManagement");
     event.preventDefault();
     const formData = new FormData();
-    formData.append("SliderName", name);
-    formData.append("SliderSort", sort);
-    formData.append("SliderUrl", link);
+    formData.append("miniBannerName", name);
+    formData.append("miniBannerSort", sort);
+    formData.append("miniBannerUrl", link);
     formData.append("File", file);
     event.preventDefault();
     try {
       if (id) {
-        await EditSlide({
+        await EditMiniBanner({
           id: id,
           formData: formData,
         });
       } else {
-         await AddSlide({ formData: formData });
+        await AddMiniBanner({ formData: formData });
       }
     } catch (error) {
       console.error("Error adding menu item:", error);
@@ -323,4 +324,4 @@ function AddObject(props) {
   );
 }
 
-export default SliderManagement;
+export default MiniBannerManagement;

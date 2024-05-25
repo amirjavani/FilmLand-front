@@ -6,6 +6,7 @@ import MainDashboard from "./Layouts/Dashboard/Main";
 import MenuManagement from "./Components/DashboardCom/MenuManagement";
 import Main from "./Components/MainPage/Main";
 import SliderManagement from "./Components/DashboardCom/SliderManagement";
+import MiniBannerManagement from "./Components/DashboardCom/MiniBannerManagement";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,28 @@ const router = createBrowserRouter([
       {
         path: "sliderManagement",
         element: <SliderManagement></SliderManagement>,
+        children: [
+          {
+            path: "add",
+            element: <></>,
+          },
+          {
+            path: ":id",
+            element: <></>,
+          },
+          {
+            path: "*",
+            element: <div>SMNotfound</div>,
+          },
+          {
+            path: "",
+            element: <></>,
+          },
+        ],
+      },
+      {
+        path: "MiniBannerManagement",
+        element: <MiniBannerManagement></MiniBannerManagement>,
         children: [
           {
             path: "add",
