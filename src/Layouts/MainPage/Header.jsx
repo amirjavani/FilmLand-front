@@ -31,7 +31,7 @@ function Header() {
           {MenuList && (
             <div>
               {MenuList.map((obj, index) => {
-                return <Link to={obj.siteMenuUrl}>{obj.siteMenuName} </Link>;
+                return <Link key={index} to={obj.siteMenuUrl}>{obj.siteMenuName} </Link>;
               })}
             </div>
           )}

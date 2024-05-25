@@ -9,10 +9,9 @@ import { Link } from "react-router-dom";
 import { FetchSlides } from "../../Utility/SliderApi";
 import { Url } from "../../Utility/URL";
 
-
-
 function Slider() {
   const [slides, setSlides] = useState([]);
+  const [minibanners, setMinibanners] = useState([]);
 
   const FetchingSlides = async () => {
     try {
@@ -22,8 +21,23 @@ function Slider() {
       console.log(error);
     }
   };
+  const FetchingMinibanners = async () => {
+    try {
+      // const response = await FetchSlides();
+      setMinibanners([
+        { image: "/Assets/MiniBanners/Fallout-preview.jpeg" },
+        { image: "/Assets/MiniBanners/luthes-preview.jpg" },
+        { image: "/Assets/MiniBanners/robel-moon-preview.jpg" },
+        { image: "/Assets/MiniBanners/Sentinel-Preview.jpg" },
+      ]);
+      console.log(minibanners);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
+    FetchingMinibanners();
     FetchingSlides();
     return () => {};
   }, []);
@@ -45,37 +59,46 @@ function Slider() {
           scrollbar={{ draggable: true }}>
           {slides &&
             slides.map((slide, index) => {
-              return slide.sliderIsStatus &&(
-                <SwiperSlide>
-                  <Link to={slide.sliderUrl}>
-                    <img
-                      src={Url+slide.filePath+slide.fileName+slide.fileExtension}
-                      alt={slide.sliderName}></img>
-                  </Link>
-                </SwiperSlide>
+              return (
+                slide.sliderIsStatus && (
+                  <SwiperSlide key={index}>
+                    <Link  to={slide.sliderUrl}>
+                      <img
+                        src={
+                          Url +
+                          slide.filePath +
+                          slide.fileName +
+                          slide.fileExtension
+                        }
+                        alt={slide.sliderName}></img>
+                    </Link>
+                  </SwiperSlide>
+                )
               );
             })}
         </Swiper>
       </div>
 
-      <div className="minibanners">
-        <div className="horizontal-minibanner">
-          <div className="minibanner">
-            <img alt="s" src="Dune-Review.jpeg" />
+      {minibanners.length===4 && (
+        <div className="minibanners">
+          <div className="horizontal-minibanner">
+            <div className="minibanner">
+              <img alt="0" src={minibanners[0].image} />
+            </div>
+            <div className="minibanner">
+              <img alt="s" src={minibanners[1].image} />
+            </div>
           </div>
-          <div className="minibanner">
-            <img alt="s" src="robel-moon-preview.jpg" />
+          <div className="horizontal-minibanner2">
+            <div className="minibanner">
+              <img alt="s" src={minibanners[2].image} />
+            </div>
+            <div className="minibanner">
+              <img alt="s" src={minibanners[3].image} />
+            </div>
           </div>
         </div>
-        <div className="horizontal-minibanner2">
-          <div className="minibanner">
-            <img alt="s" src="halo-preview.jpg" />
-          </div>
-          <div className="minibanner">
-            <img alt="s" src="luthes-preview.jpg" />
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -209,25 +209,25 @@ function AddObject(props) {
     setName(res.data.sliderName);
     setLink(res.data.sliderUrl);
     setSort(res.data.sliderSort);
-    // setImageURL(
-    //   Url + res.data.filePath + res.data.fileName + res.data.fileExtension
-    // );
-    console.log(getMimeType(res.data.fileExtension));
     fetchImage(res);
   };
   const fetchImage = async (res) => {
     try {
       const response = await fetch(
         Url + res.data.filePath + res.data.fileName + res.data.fileExtension,
-        { method: "GET", headers: { "Content-Type": "application/json" } }
+        { method: "GET"}
       );
+
       const blob = response.blob();
+      console.log(response.ok);
       const imagefile = new File(
         [blob],
         res.data.fileName + res.data.fileExtension,
         { type: getMimeType(res.data.fileExtension) }
       );
-      fileInputRef.current = imagefile;
+      
+      setImageURL(URL.createObjectURL(imagefile));
+      console.log(imagefile);
     } catch (error) {}
   };
 
@@ -306,9 +306,11 @@ function AddObject(props) {
           ref={fileInputRef}
         />
         {file ? (
-          <img alt="pic" src={URL.createObjectURL(file)}></img>
+          <img
+            alt={URL.createObjectURL(file)}
+            src={URL.createObjectURL(file)}></img>
         ) : (
-          imageURL && <img alt="pic" src={imageURL}></img>
+          imageURL && <img alt="pic2" src={imageURL}></img>
         )}
         <div className=" flex gap-5 m-2  justify-center w-100">
           <button className="btn btn-success flex-auto" type="submit">
