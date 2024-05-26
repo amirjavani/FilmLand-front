@@ -1,17 +1,17 @@
+
 @font-face {
     font-family: iransans;
     src: url(../../Assets/Font/IRANSans.ttf);
   }
 
-
-
-
+  
 .slide-container {
     max-width: 1320px;
     width: 100%;
     padding: 40px 0;
     font-family: iransans;
 }
+
 
 .slide-content {
     margin: 0 60px;
