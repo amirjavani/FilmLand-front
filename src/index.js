@@ -23,7 +23,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/movie",
-        element: <div className="mt-20 text-white"><Outlet></Outlet></div>,
+        element: <div className=" text-white"><Outlet></Outlet></div>,
         children:[
           {
             path: "",
