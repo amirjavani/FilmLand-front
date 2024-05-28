@@ -1,6 +1,7 @@
 import React from "react";
 import "./MoviesStyle.css";
 import MovieCard from "./MovieCard";
+import FilterNav from "./FilterNav";
 
 const movie = [
   {
@@ -39,6 +40,7 @@ const movie = [
 function MoviesComponent() {
   return (
     <div className="mt-20 text-white">
+    <FilterNav></FilterNav>
       <div className="pr-5 head">
         <div className="short-line"></div>
         <h2 className="fs-3">فیلم ها</h2>
