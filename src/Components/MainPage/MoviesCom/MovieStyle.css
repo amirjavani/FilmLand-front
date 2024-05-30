@@ -315,20 +315,25 @@ body {
 
 .actors-and-pictures {
     width: 100%;
-    height: 500px;
+    height: 300px;
     /* background-color: violet; */
+    display: flex;
 }
 
 .actors {
     width: 50%;
-    height: auto;
+    height: 100%;
     padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: start;
     /* background-color: yellow; */
 }
 
 
 .slide-actor {
     width: 70%;   
+    /* height: 100%; */
 }
 
 .line3 {
@@ -336,6 +341,79 @@ body {
     height: 2px;
     background-color: rgba(255, 255, 255, 0.21);
 }
+.pictures {
+    width: 50%;
+    height: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}
+
+.mySwiper {
+    width: 70%;
+    /* padding-top: 50px; */
+    padding-bottom: 50px;
+    margin: 0;
+  }
+  
+  .pic-swiper-slide {
+    background-position: center;
+    background-size: cover;
+    width: 300px;
+    height: 150px;
+  }
+  
+  .pic-swiper-slide img {
+    display: block;
+    width: 100%;
+  }
+
+  .actor-cart {
+    width: 320px;
+    /* height: 500px; */
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* padding: 10px; */
+}
+
+  .actor-container img {
+    width: 150px;
+    border-radius: 75px;
+    height: 120px;
+    object-fit: cover;
+    max-width: 120px;
+  }
+.actor-container {
+    /* padding: 10px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* width: 150px; */
+    height: 230px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+  .actor-name {
+    margin-top: 20px;
+    width: 100%;
+    height: 100%;
+    /* background-color: yellow; */
+    /* border-radius: 40px 40px 10px 10px; */
+  }
+
+
+
+  .download {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(245, 222, 179, 0.212);
+  }
 
 @media (max-width: 1150px) {
     
