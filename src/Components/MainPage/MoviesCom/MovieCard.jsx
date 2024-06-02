@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import "./MovieCardStyle.css";
-const MovieCard = ({ movie }) => {
+const MovieCard = ({ mov }) => {
+  const [movie, setMovie] = useState(mov);
+  
   return (
     <div className="rounded-2xl overflow-auto h-80  sm:h-60 md:h-72 lg:h-64 xl:h-80 m-1 movie-card">
       <div className="movie-card-content">
@@ -15,10 +17,17 @@ const MovieCard = ({ movie }) => {
           </div>
           <div className="front-content justify-between">
             <small className="badge">{movie.title}</small>
-            <div className="mr-auto border-1 rounded-full p-1 border-orange-200 bg-slate-600 bg-opacity-50">
+            <div className="flex flex-row justify-between">
+              <div className="flex flex-col" style={{fontSize:'12px'}}>
+              <span>سال تولید: 2008</span>
+              <span>کشور:آمریکا</span>
+              </div>
+              <div className=" border-1 rounded-full p-1 px-2 border-orange-200 bg-slate-600 bg-opacity-50">
               {" "}
-              9.1
+              9.0
             </div>
+            </div>
+            
             <div className="bg-black bg-opacity-50 p-2 rounded-lg">
               <span className="" style={{ fontSize: "12px" }}>
                 خلاصه:
@@ -39,8 +48,11 @@ const MovieCard = ({ movie }) => {
                 ادامه مطلب
               </button>
               <i
-                className="bx bxs-heart   btn rounded-full text-rose-700 bg-rose-200 bg-opacity-60 hover:bg-rose-500"
-                style={{ fontSize: "20px" }}></i>
+                className={`${movie.bookmark?'fa-solid':'fa-regular'} fa-star p-2 rounded-full text-sky-700 bg-sky-200 bg-opacity-60 hover:bg-sky-500  hover:text-white cursor-pointer `}
+                style={{ fontSize: "16px" }}
+                onClick={() => setMovie(prevMov => ({ ...prevMov, bookmark: !prevMov.bookmark }))}
+                >
+                </i>
             </div>
           </div>
         </div>
