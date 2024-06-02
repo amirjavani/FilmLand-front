@@ -13,18 +13,35 @@ const MovieCard = ({ movie }) => {
           <div className="img">
             <img className=" " src={movie.posterUrl} alt={movie.title} />
           </div>
-          <div className="front-content">
+          <div className="front-content justify-between">
             <small className="badge">{movie.title}</small>
-            <span className="" style={{ fontSize: "12px" }}>
-              خلاصه:
-            </span>
-            <p className=" description" style={{ fontSize: "13px"  }}>
-              داستان فیلم دوم به بررسی سفر اسطوره‌ای دوک پل اتریدیز می‌پردازد.
-              او با قدرت‌های روشن‌بینی خود می‌تواند بشریت را به آینده‌ای بهتر
-              هدایت کند. پل در حال حاضر با چانی و فرمن متحد شده‌است تا در مسیر
-              جنگ انتقام از توطئه‌گرانی قرار بگیرد که خانواده‌اش را نابود
-              کرده‌اند.
-            </p>
+            <div className="mr-auto border-1 rounded-full p-1 border-orange-200 bg-slate-600 bg-opacity-50">
+              {" "}
+              9.1
+            </div>
+            <div className="bg-black bg-opacity-50 p-2 rounded-lg">
+              <span className="" style={{ fontSize: "12px" }}>
+                خلاصه:
+              </span>
+              <p className=" description" style={{ fontSize: "13px" }}>
+                داستان فیلم دوم به بررسی سفر اسطوره‌ای دوک پل اتریدیز می‌پردازد.
+                او با قدرت‌های روشن‌بینی خود می‌تواند بشریت را به آینده‌ای بهتر
+                هدایت کند. پل در حال حاضر با چانی و فرمن متحد شده‌است تا در مسیر
+                جنگ انتقام از توطئه‌گرانی قرار بگیرد که خانواده‌اش را نابود
+                کرده‌اند.
+              </p>
+            </div>
+
+            <div className="flex flex-row gap-2 m-1 ">
+              <button
+                className="btn  flex-auto rounded-3xl bg-orange-300 bg-opacity-60 hover:bg-orange-400 "
+                style={{ fontSize: "11px", fontWeight: "bold" }}>
+                ادامه مطلب
+              </button>
+              <i
+                className="bx bxs-heart   btn rounded-full text-rose-700 bg-rose-200 bg-opacity-60 hover:bg-rose-500"
+                style={{ fontSize: "20px" }}></i>
+            </div>
           </div>
         </div>
       </div>
