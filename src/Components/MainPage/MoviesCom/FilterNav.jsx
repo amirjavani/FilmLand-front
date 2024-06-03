@@ -27,12 +27,20 @@ const FilterNav = () => {
       </div>
       <div className="filter-options flex-auto">
         <div className="filter-more-options">
-          <span>فیلتر های بیشتر</span>
-          <div className="filter-more-toggle"></div>
         </div>
-        <div className="filter-toggles">
+        <div className="filter-toggles gap-3">
+          <div className="filter-dropdown ">
+            <span className="ml-2">نمایش: </span>
+            <select>
+              <option value="drama">IMDB</option>
+              <option value="comedy">جدیدترین</option>
+              <option value="comedy">قدیمی ترین</option>
+              <option value="action">محبوب ترین ها</option>
+              {/* Add more genres as needed */}
+            </select>
+          </div>
           <div className="filter-dropdown">
-            <span>ژانر: </span>
+            <span className="ml-2">ژانر: </span>
             <select>
               <option value="drama">درام</option>
               <option value="comedy">کمدی</option>

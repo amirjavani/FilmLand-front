@@ -16,7 +16,7 @@ const MovieCard = ({ mov }) => {
             <img className=" " src={movie.posterUrl} alt={movie.title} />
           </div>
           <div className="front-content justify-between">
-            <small className="badge">{movie.title}</small>
+            <span className="font-bold">{movie.title}</span>
             <div className="flex flex-row justify-between">
               <div className="flex flex-col" style={{fontSize:'12px'}}>
               <span>سال تولید: 2008</span>
