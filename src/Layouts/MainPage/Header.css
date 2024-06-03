@@ -194,8 +194,9 @@
   .navbar {
     position: absolute;
     top: 100%;
-    left: 0;
-    width: 100%;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding: 10px;
     height: 0;
     background: rgba(0, 0, 0, .2);
     backdrop-filter: blur(50px);

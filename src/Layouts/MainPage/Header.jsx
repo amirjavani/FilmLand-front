@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "../../index.css";
 import "./Header.css";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FetchListMenu } from "../../Utility/MainMenuAPi";
 import logo from "../../Assets/Header/logo.png";
 
 function Header() {
   const [MenuList, setMenuList] = useState([]);
   const [searchShow, setSearchShow] = useState(false);
+  const navigate = useNavigate()
 
   const fetchData = async () => {
     const res = await FetchListMenu();
@@ -26,12 +27,12 @@ function Header() {
           <i className="bx bx-menu" id="menu-icon" />
           <i className="bx bx-x" id="close-icon" />
         </label>
-        <img src={logo} className="h-10" alt="" />
+        <img src={logo} onClick={()=>navigate('')} className="h-10 cursor-pointer" alt="" />
         <nav className="navbar">
           {MenuList && (
             <div>
               {MenuList.map((obj, index) => {
-                return <Link key={index} to={obj.siteMenuUrl}>{obj.siteMenuName} </Link>;
+                return <Link key={index}  to={obj.siteMenuUrl}>{obj.siteMenuName} </Link>;
               })}
             </div>
           )}
