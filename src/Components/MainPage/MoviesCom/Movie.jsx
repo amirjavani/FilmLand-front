@@ -28,24 +28,57 @@ function Movie() {
     "/Assets/Pictures/Kung-Fu-Panda-4-2024-img5-jpg.webp"
   ];
 
-  let moreInfo, downloadContainer;
+  let moreInfo, downloadContainer, comments;
   const [showMoreInfo, setShowMoreInfo] = useState(true);
   const [showDownload, setShowDownload] = useState(false);
 
+
   const handleMoreInfoClick = (event) => {
     event.preventDefault();
+    comments = document.querySelector(".comments");
     moreInfo = document.querySelector(".more-info");
     downloadContainer = document.querySelector(".downloads-container");
+    let circle1 = document.getElementById('MoreInfoCircle');
+    let circle2 = document.getElementById('DownloadCircle');
+    let circle3 = document.getElementById('CommentCircle');
+    circle1.hidden = false
+    circle2.hidden = true
+    circle3.hidden = true
+    comments.style.display = "none"
     moreInfo.style.display = "block"
     downloadContainer.style.display = "none"
   };
 
   const handleDownloadClick = (event) => {
     event.preventDefault();
+    comments = document.querySelector(".comments");
     moreInfo = document.querySelector(".more-info");
     downloadContainer = document.querySelector(".downloads-container");
+    let circle1 = document.getElementById('MoreInfoCircle');
+    let circle2 = document.getElementById('DownloadCircle');
+    let circle3 = document.getElementById('CommentCircle');
+    circle1.hidden = true
+    circle2.hidden = false
+    circle3.hidden = true
+    comments.style.display = "none"
     moreInfo.style.display = "none"
     downloadContainer.style.display = "flex"
+  };
+
+  const handleCommentClick = (event) => {
+    event.preventDefault();
+    comments = document.querySelector(".comments");
+    moreInfo = document.querySelector(".more-info");
+    downloadContainer = document.querySelector(".downloads-container");
+    let circle1 = document.getElementById('MoreInfoCircle');
+    let circle2 = document.getElementById('DownloadCircle');
+    let circle3 = document.getElementById('CommentCircle');
+    circle1.hidden = true
+    circle2.hidden = true
+    circle3.hidden = false
+    comments.style.display = "flex"
+    moreInfo.style.display = "none"
+    downloadContainer.style.display = "none"
   };
 
   const btnLeftRef = useRef(null);
@@ -144,6 +177,28 @@ function Movie() {
   };
 
   const options2 = ['سانسور شده', 'سانسور نشده'];
+
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    const textarea = textareaRef.current;
+
+    const resizeTextarea = () => {
+      textarea.style.height = 'auto';
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    };
+
+    // Initial resize to fit any pre-filled content
+    // resizeTextarea();
+
+    // Add event listener for input event
+    textarea.addEventListener('input', resizeTextarea);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      textarea.removeEventListener('input', resizeTextarea);
+    };
+  }, []);
   return (
     <>
       <div className="top">
@@ -192,19 +247,15 @@ function Movie() {
       <div className="movie-menu">
         <a className='item' href="" onClick={handleMoreInfoClick} >
           <h6>اطلاعات بیشتر</h6>
-          <div className='circle'></div>
+          <div className='circle' id='MoreInfoCircle'></div>
         </a>
         <a className='item' href="" onClick={handleDownloadClick}>
           <h6>دانلود</h6>
-          <div className='circle'></div>
+          <div hidden className='circle' id='DownloadCircle'></div>
         </a>
-        <a className='item' href="">
-          <h6>دیدگاه</h6>
-          <div className='circle'></div>
-        </a>
-        <a className='item' href="">
-          <h6>پرسش و پاسخ</h6>
-          <div className='circle'></div>
+        <a className='item' href="" onClick={handleCommentClick}>
+          <h6>کامنت ها</h6>
+          <div hidden className='circle' id='CommentCircle'></div>
         </a>
       </div>
       <div className='body-middle'>
@@ -213,7 +264,7 @@ function Movie() {
         <div className='more-info'>
           <div className='info'>
             <div className='info-head'>
-              <h2 className='fs-3 ml-8 mr-4 font-bold'>اطلاعات</h2>
+              <h2 className='fs-3 ml-8 mr-2 font-bold'>اطلاعات</h2>
               <div className='line2'></div>
             </div>
             <div className='info-body'>
@@ -308,23 +359,26 @@ function Movie() {
               </div>
             </div>
           </div>
-          <div className='info-head'>
-            <h2 className='fs-3 ml-8 mr-4 font-bold'>بازیگران</h2>
-            <div className='line3'></div>
-            <h2 className='fs-3 ml-8 mr-36 font-bold'>عکس ها</h2>
-            <div className='line3'></div>
-          </div>
           <div className='actors-and-pictures'>
             <div className='actors'>
+              <div className='info-head'>
+                <h2 className='fs-3 ml-8 mr-2 font-bold'>بازیگران</h2>
+                <div className='line3'></div>
+              </div>
               <Swiper
                 modules={[Pagination, Navigation, Autoplay]}
                 spaceBetween={40}
-                slidesPerView={3}
+                slidesPerView={2}
                 loop={true}
                 autoplay={{ delay: 3000, disableOnInteraction: false }}
                 centerSlide="true"
                 fade="true"
                 grabCursor="true"
+                breakpoints={{
+                  1200: {
+                    slidesPerView: 3,
+                  }
+                }}
                 className="slide-actor"
               >
                 {actors.map((actor, index) => (
@@ -347,6 +401,10 @@ function Movie() {
               </Swiper>
             </div>
             <div className='pictures'>
+              <div className='info-head'>
+                <h2 className='fs-3 ml-8 mr-2 font-bold'>عکس ها</h2>
+                <div className='line3'></div>
+              </div>
               <Swiper
                 effect={'coverflow'}
                 grabCursor={true}
@@ -442,14 +500,137 @@ function Movie() {
               </div>
             </div>
             <div className='download-container'>
-              <div className='part-movie'></div>
+              <div className='part-movie'>
+                <h2 className='text-lg font-semibold'>قسمت اول</h2>
+              </div>
               <div className='download-div'>
-                <div className='subtitle'></div>
-                <div className='download'></div>
-                <div className='download'></div>
-                <div className='download'></div>
+                <div className='subtitle'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>زیرنویس</p></div>
+                <div className='download'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>دانلود 1080</p></div>
+                <div className='download'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>دانلود 720</p></div>
+                <div className='download'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>دانلود 480</p></div>
               </div>
             </div>
+            <div className='download-container'>
+              <div className='part-movie'>
+                <h2 className='text-lg font-semibold'>قسمت دوم</h2>
+              </div>
+              <div className='download-div'>
+                <div className='subtitle'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>زیرنویس</p></div>
+                <div className='download'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>دانلود 1080</p></div>
+                <div className='download'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>دانلود 720</p></div>
+                <div className='download'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>دانلود 480</p></div>
+              </div>
+            </div>
+            <div className='download-container'>
+              <div className='part-movie'>
+                <h2 className='text-lg font-semibold'>قسمت سوم</h2>
+              </div>
+              <div className='download-div'>
+                <div className='subtitle'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>زیرنویس</p></div>
+                <div className='download'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>دانلود 1080</p></div>
+                <div className='download'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>دانلود 720</p></div>
+                <div className='download'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>دانلود 480</p></div>
+              </div>
+            </div>
+            <div className='download-container'>
+              <div className='part-movie'>
+                <h2 className='text-lg font-semibold'>قسمت چهارم</h2>
+              </div>
+              <div className='download-div'>
+                <div className='subtitle'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>زیرنویس</p></div>
+                <div className='download'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>دانلود 1080</p></div>
+                <div className='download'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>دانلود 720</p></div>
+                <div className='download'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>دانلود 480</p></div>
+              </div>
+            </div>
+            <div className='download-container'>
+              <div className='part-movie'>
+                <h2 className='text-lg font-semibold'>قسمت پنجم</h2>
+              </div>
+              <div className='download-div'>
+                <div className='subtitle'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>زیرنویس</p></div>
+                <div className='download'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>دانلود 1080</p></div>
+                <div className='download'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>دانلود 720</p></div>
+                <div className='download'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>دانلود 480</p></div>
+              </div>
+            </div>
+            <div className='download-container'>
+              <div className='part-movie'>
+                <h2 className='text-lg font-semibold'>قسمت ششم</h2>
+              </div>
+              <div className='download-div'>
+                <div className='subtitle'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>زیرنویس</p></div>
+                <div className='download'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>دانلود 1080</p></div>
+                <div className='download'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>دانلود 720</p></div>
+                <div className='download'><i class="fa fa-download" aria-hidden="true"></i><p className='text-sm mr-1'>دانلود 480</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="comments">
+          <div className='info-head'>
+            <h2 className='fs-3 ml-8 mr-2 font-bold'>کامنت ها</h2>
+            <div className='line2'></div>
+          </div>
+          <div className="send-comment-container">
+            <div className='comment-name'>
+              <h2>Mahdi</h2>
+            </div>
+            <textarea id="auto-resizing-textarea"
+              ref={textareaRef}
+              placeholder="کامنت شما"></textarea>
+            <div className='comment-send'>
+              <h2>ارسال</h2>
+            </div>
+          </div>
+          <div className="comment-container">
+            <div className='header-comment'>
+              <div className='comment-name'>
+                <h2>Mahdi1</h2>
+              </div>
+              <div className='comment-date'>
+                <h2>۵ آذر ۱۴۰۲ ۰۰:۲۰</h2>
+              </div>
+            </div>
+            <div className='comment'>
+              <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.</p>
+            </div>
+            <div className='footer-comment'>
+              <div className='comment-reactions'>
+                <i class="fa-regular fa-thumbs-up"></i>
+                <p>۰</p>
+                <i class="fa-regular fa-thumbs-down"></i>
+                <p>۰</p>
+              </div>
+              <div className='comment-send'>
+                <h2>پاسخ</h2>
+              </div>
+            </div>
+          </div>
+          <div className="reply-container">
+            <div className='header-comment'>
+              <div className='comment-name'>
+                <h2>Mahdi1</h2>
+              </div>
+              <div className='comment-date'>
+                <h2>۵ آذر ۱۴۰۲ ۰۰:۲۰</h2>
+              </div>
+            </div>
+            <div className='comment'>
+              <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد.</p>
+            </div>
+            <div className='footer-comment'>
+              <div className='comment-reactions'>
+                <i class="fa-regular fa-thumbs-up"></i>
+                <p>۰</p>
+                <i class="fa-regular fa-thumbs-down"></i>
+                <p>۰</p>
+              </div>
+              <div className='comment-send'>
+                <h2>پاسخ</h2>
+              </div>
+            </div>
+
           </div>
         </div>
         {/* )} */}
