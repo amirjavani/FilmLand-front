@@ -10,6 +10,7 @@ import MiniBannerManagement from "./Components/DashboardCom/MiniBannerManagement
 import MoviesComponent from "./Components/MainPage/MoviesCom/MoviesComponent";
 import Home from "./Components/MainPage/Home";
 import Movie from "./Components/MainPage/MoviesCom/Movie";
+import MovieManagement from "./Components/DashboardCom/MovieManagement";
  
 const router = createBrowserRouter([
   {
@@ -90,6 +91,28 @@ const router = createBrowserRouter([
       {
         path: "MiniBannerManagement",
         element: <MiniBannerManagement></MiniBannerManagement>,
+        children: [
+          {
+            path: "add",
+            element: <></>,
+          },
+          {
+            path: ":id",
+            element: <></>,
+          },
+          {
+            path: "*",
+            element: <div>SMNotfound</div>,
+          },
+          {
+            path: "",
+            element: <></>,
+          },
+        ],
+      },
+      {
+        path: "MovieManagement",
+        element: <MovieManagement></MovieManagement>,
         children: [
           {
             path: "add",

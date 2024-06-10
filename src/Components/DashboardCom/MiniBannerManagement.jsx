@@ -55,8 +55,8 @@ function MiniBannerManagement() {
 
   return (
     <div>
-      <p className="fs-4"> مینی بنر</p>
-      <p className="fs-6"> فقط 4 تای اول نمایش داده میشوند</p>
+      <p className="fs-2"> مینی بنر</p>
+      <p className="fs-5"> فقط 4 تای اول نمایش داده میشوند</p>
       <Outlet></Outlet>
       <Routes>
         <Route path=":id" element={<AddObject></AddObject>}></Route>

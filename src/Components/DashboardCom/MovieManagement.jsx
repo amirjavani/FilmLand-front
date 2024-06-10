@@ -17,7 +17,7 @@ import {
 } from "../../Utility/SliderApi";
 import { Url } from "../../Utility/URL";
 
-function SliderManagement() {
+function MovieManagement() {
   const [sliderList, setSliderList] = useState([]);
   const navigate = useNavigate();
   const url = Url;
@@ -55,7 +55,7 @@ function SliderManagement() {
 
   return (
     <div>
-      <p className="fs-2"> سلایدر</p>
+      <p className="fs-2"> فیلم ها</p>
       <Outlet></Outlet>
       <Routes>
         <Route path=":id" element={<AddObject></AddObject>}></Route>
@@ -323,4 +323,4 @@ function AddObject(props) {
   );
 }
 
-export default SliderManagement;
+export default MovieManagement;
