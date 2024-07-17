@@ -33,7 +33,7 @@ input:valid {
 }
 
 .input:valid~label {
-    transform: translateY(-70%) scale(0.8);
+    transform: translateY(-80%) translateX(30%) scale(0.8);
     background-color: te;
     padding: 0 .2em;
     color: #01060b;

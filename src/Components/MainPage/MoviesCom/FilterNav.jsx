@@ -36,7 +36,6 @@ const FilterNav = () => {
               <option value="comedy">جدیدترین</option>
               <option value="comedy">قدیمی ترین</option>
               <option value="action">محبوب ترین ها</option>
-              {/* Add more genres as needed */}
             </select>
           </div>
           <div className="filter-dropdown">
@@ -45,7 +44,6 @@ const FilterNav = () => {
               <option value="drama">درام</option>
               <option value="comedy">کمدی</option>
               <option value="action">اکشن</option>
-              {/* Add more genres as needed */}
             </select>
           </div>
         </div>
