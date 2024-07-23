@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import style from "./CustomInputStyle.module.css";
 
 function CustomInput({ className, value, setValue, title, type }) {
