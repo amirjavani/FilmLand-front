@@ -1,41 +1,5 @@
-import React from "react";
-import "./MoviesStyle.css";
-import MovieCard from "./MovieCard";
-import FilterNav from "./FilterNav";
-
-const movie = [
-  {
-    id: 1,
-    title: "Film Title 1",
-    description: "This is the description for film 1",
-    posterUrl: "/Assets/Carts/Dune.jpg",
-  },
-  {
-    id: 2,
-    title: "Film Title 2",
-    description: "This is the description for film 2",
-    posterUrl: "/Assets/Carts/Forrest Gump.jpg",
-  },
-  {
-    id: 2,
-    title: "Film Title 2",
-    description: "This is the description for film 2",
-    posterUrl: "/Assets/Carts/Forrest Gump.jpg",
-  },
-  {
-    id: 2,
-    title: "Film Title 2",
-    description: "This is the description for film 2",
-    posterUrl: "/Assets/Carts/Forrest Gump.jpg",
-  },
-  {
-    id: 2,
-    title: "Film Title 2",
-    description: "This is the description for film 2",
-    posterUrl: "/Assets/Carts/Forrest Gump.jpg",
-  },
-  // Add more film objects here
-];
+import React from 'react'
+import './MoviesStyle.css'
 
 function MoviesComponent() {
   return (

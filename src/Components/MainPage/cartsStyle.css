@@ -22,7 +22,7 @@
 .cart {
     width: 320px;
     border-radius: 25px;
-    background-color: #FFF;
+    /* background-color: #FFF; */
 }
 
 .cart img {
