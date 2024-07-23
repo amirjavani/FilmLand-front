@@ -5,20 +5,20 @@
 
 .header {
   font-family: iransans;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: .5rem 5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 100;
-    background-color: black;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: .5rem 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  background-color: black;
+}
 
 
-  
+
 .nav-items {
   display: flex;
   justify-content: flex-start;
@@ -32,7 +32,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,.1);
+  background: rgba(0, 0, 0, .1);
   backdrop-filter: blur(50px);
   z-index: -1;
 }
@@ -56,7 +56,7 @@
   margin-top: .4rem;
 }
 
-.logo img{
+.logo img {
   width: 200px;
 }
 
@@ -145,23 +145,24 @@
 .search-icon {
   color: white;
   border-radius: .5rem;
-  transition: .5s; 
+  transition: .5s;
 }
 
 .search-icon:hover {
-  background-color: #ffffff2c ;
+  background-color: #ffffff2c;
   transition: .5s;
 }
 
 .nav-left {
   display: flex;
 }
+
 @media (max-width: 1200px) {
 
-  
 
-  
-  
+
+
+
   .navigation-manual {
     width: 500px;
     margin-top: 230px;
@@ -175,6 +176,7 @@
   .header {
     padding: .3rem 3%;
   }
+
   .icons {
     display: inline-flex;
   }
@@ -194,8 +196,9 @@
   .navbar {
     position: absolute;
     top: 100%;
-    left: 0;
-    width: 100%;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding: 10px;
     height: 0;
     background: rgba(0, 0, 0, .2);
     backdrop-filter: blur(50px);
@@ -205,7 +208,7 @@
     transition: .3s ease;
   }
 
-  #check:checked~.navbar { 
+  #check:checked~.navbar {
     visibility: visible;
     height: 22.7rem;
   }
@@ -220,7 +223,7 @@
     transition: .3s ease;
   }
 
-  #check:checked~.navbar a{
+  #check:checked~.navbar a {
     transform: translateY(0);
     opacity: 1;
     transition-delay: calc(.15s * var(--i));
@@ -234,10 +237,10 @@
 }
 
 @media (max-width: 992px) {
-  
 
-  
-  
+
+
+
   .navigation-manual {
     width: 100%;
     margin-top: 50%;
@@ -247,16 +250,16 @@
     width: 100%;
     margin-top: 50%;
   }
-  
-  
+
+
 
 }
 
 @media (max-width: 768px) {
 
-  
 
-  .logo img{
+
+  .logo img {
     width: 150px;
   }
 
@@ -302,7 +305,7 @@
 
   .login i {
     display: block;
-    margin-top:2px ;
+    margin-top: 2px;
   }
 
   .search-icon {
@@ -313,7 +316,5 @@
     border-radius: 2rem;
     transition: .5s;
   }
-  
+
 }
-
-

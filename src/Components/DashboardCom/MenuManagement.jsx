@@ -54,7 +54,7 @@ function MenuManagement(props) {
 
   return (
     <div>
-      <p className="fs-4">فهرست سایت</p>
+      <p className="fs-2">فهرست سایت</p>
       <Outlet></Outlet>
       <Routes>
         <Route path=":id" element={<AddObject></AddObject>}></Route>

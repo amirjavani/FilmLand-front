@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+  font-family: BNAZANIN;
+}
+
 .sidebar {
     position: fixed;
     top: 58px;

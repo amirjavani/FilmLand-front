@@ -16,8 +16,9 @@ import {
   ToggelSlide,
 } from "../../Utility/SliderApi";
 import { Url } from "../../Utility/URL";
+import AddMovie from "./MovieManagement_addingMovie";
 
-function SliderManagement() {
+function MovieManagement() {
   const [sliderList, setSliderList] = useState([]);
   const navigate = useNavigate();
   const url = Url;
@@ -55,11 +56,11 @@ function SliderManagement() {
 
   return (
     <div>
-      <p className="fs-2"> سلایدر</p>
+      <p className="fs-2"> فیلم ها</p>
       <Outlet></Outlet>
       <Routes>
-        <Route path=":id" element={<AddObject></AddObject>}></Route>
-        <Route path="add" element={<AddObject></AddObject>}></Route>
+        <Route path=":id" element={<AddMovie></AddMovie>}></Route>
+        <Route path="add" element={<AddMovie></AddMovie>}></Route>
 
         <Route
           path=""
@@ -103,7 +104,7 @@ function SliderManagement() {
                     <th scope="col" className="w-10 text-center">
                       <button
                         onClick={() => {
-                          navigate("/dashboard/sliderManagement/add");
+                          navigate("/dashboard/movieManagement/add");
                         }}
                         className="bi bi-plus btn btn-success">
                         {" "}
@@ -184,143 +185,6 @@ function SliderManagement() {
   );
 }
 
-function AddObject(props) {
-  const [name, setName] = useState("");
-  const [sort, setSort] = useState("");
-  const [link, setLink] = useState("");
-  const [imageURL, setImageURL] = useState("");
-  const { id } = useParams();
-  const [file, setFile] = useState("");
-  const fileInputRef = useRef(null);
 
-  useEffect(() => {
-    if (id) {
-      get({ id: id });
-    } else {
-      console.log("not found");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
-  const get = async (props) => {
-    const res = await GetSliderItem({ id: props.id });
-    setName(res.data.sliderName);
-    setLink(res.data.sliderUrl);
-    setSort(res.data.sliderSort);
-    fetchImage(res);
-  };
-  const fetchImage = async (res) => {
-    try {
-      const response = await fetch(
-        Url + res.data.filePath + res.data.fileName + res.data.fileExtension,
-        { method: "GET"}
-      );
-
-      const blob = response.blob();
-      console.log(response.ok);
-      const imagefile = new File(
-        [blob],
-        res.data.fileName + res.data.fileExtension,
-        { type: getMimeType(res.data.fileExtension) }
-      );
-      
-      setImageURL(URL.createObjectURL(imagefile));
-      console.log(imagefile);
-    } catch (error) {}
-  };
-
-  const getMimeType = (extension) => {
-    const mimeTypes = {
-      ".jpg": "image/jpeg",
-      ".jpeg": "image/jpeg",
-      ".png": "image/png",
-      ".gif": "image/gif",
-      ".pdf": "application/pdf",
-    };
-    return mimeTypes[extension.toLowerCase()] || "application/octet-stream";
-  };
-
-  const navigate = useNavigate();
-  const Submit = async (event) => {
-    navigate("/dashboard/sliderManagement");
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append("SliderName", name);
-    formData.append("SliderSort", sort);
-    formData.append("SliderUrl", link);
-    formData.append("File", file);
-    event.preventDefault();
-    try {
-      if (id) {
-        await EditSlide({
-          id: id,
-          formData: formData,
-        });
-      } else {
-         await AddSlide({ formData: formData });
-      }
-    } catch (error) {
-      console.error("Error adding menu item:", error);
-    }
-  };
-
-  const handleFileChange = (event) => {
-    const f = event.target.files[0];
-    console.log(f);
-    setFile(f);
-  };
-
-  return (
-    <div className="flex justify-center m-12">
-      <form
-        className=" border-1 border-gray-700 rounded w-50 justify-center items-center flex flex-col gap-2 p-3"
-        onSubmit={Submit}>
-        <label className="fs-3">{!id ? "افزودن" : "ویرایش"}</label>
-        <input
-          type="text "
-          required
-          className="form-control "
-          placeholder="عنوان..."
-          value={name}
-          onChange={(e) => setName(e.target.value)}></input>
-        <input
-          type="text "
-          required
-          className="form-control "
-          placeholder="ترتیب(عدد)..."
-          value={sort}
-          onChange={(e) => setSort(e.target.value)}></input>
-        <input
-          type="text "
-          required
-          className="form-control  "
-          placeholder="لینک..."
-          value={link}
-          onChange={(e) => setLink(e.target.value)}></input>
-        <input
-          type="file"
-          required
-          onChange={handleFileChange}
-          ref={fileInputRef}
-        />
-        {file ? (
-          <img
-            alt={URL.createObjectURL(file)}
-            src={URL.createObjectURL(file)}></img>
-        ) : (
-          imageURL && <img alt="pic2" src={imageURL}></img>
-        )}
-        <div className=" flex gap-5 m-2  justify-center w-100">
-          <button className="btn btn-success flex-auto" type="submit">
-            تایید
-          </button>
-          <button className="btn btn-danger" onClick={() => navigate(-1)}>
-            برگشت
-          </button>
-        </div>
-      </form>
-    </div>
-  );
-}
-
-export default SliderManagement;
+export default MovieManagement;
