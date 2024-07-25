@@ -22,14 +22,13 @@ const GetListMenuItem = async (props) => {
   return response;
 };
 
-const AddingMovie = async (props) => {
+const AddingMovie = async ({formData}) => {
+    for (const [key, value] of formData) {
+        console.log(`${key}: ${value}\n`);
+      }
   const response = await axios.post(
-    `${Url}/SiteMenu/Add`,
-    {
-      siteMenuName: props.name,
-      siteMenuUrl: props.link,
-      siteMenuSort: parseInt(props.sort),
-    },
+    `${Url}/Movie/Add`,
+    formData,
     {
       headers: {},
     }

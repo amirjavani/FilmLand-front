@@ -88,14 +88,27 @@ function AddMovie(props) {
   };
 
   const Submit = async (event) => {
-    navigate("/dashboard/sliderManagement");
+    navigate("/dashboard/MovieManagement");
     event.preventDefault();
-    //   const formData = new FormData();
-    //   formData.append("SliderName", name);
-    //   formData.append("SliderSort", sort);
-    //   formData.append("SliderUrl", link);
-    //   formData.append("File", file);
-    event.preventDefault();
+    const formData = new FormData();
+    formData.append("MoviePersionName", persianName);
+    formData.append("MovieEnglishName", englishName);
+    formData.append("MovieTitle", title);
+    formData.append("MovieReleaseDate", year.toString);
+    formData.append("MovieStatus", status);
+    formData.append("MovieCountryProduct", country);
+    formData.append("MovieAgeCategory", Category);
+    formData.append("MovieOriginalLanguage", language);
+    formData.append("MovieIMDBScore", IMDB.toString);
+    formData.append("MovieAuthor", "");
+    formData.append("MovieDirector", director);
+    formData.append("MovieDuration", duration.toString);
+    formData.append("MovieSummary", summary);
+    formData.append("MovieAbout", about);
+    formData.append("MovieBudget", budget.toString);
+    // formData.append("File", file);
+    
+    
     try {
       if (id) {
         //   await EditSlide({
@@ -103,7 +116,9 @@ function AddMovie(props) {
         //     formData: formData,
         //   });
       } else {
-        //    await AddSlide({ formData: formData });
+        
+        const res = await AddingMovie({formData:formData});
+        console.log(res.status);
       }
     } catch (error) {
       console.error("Error adding menu item:", error);
@@ -300,13 +315,6 @@ function AddMovie(props) {
             onChange={(e) => setSummary(e.target.value)}></textarea>
         </div>
 
-        {file ? (
-          <img
-            alt={URL.createObjectURL(file)}
-            src={URL.createObjectURL(file)}></img>
-        ) : (
-          imageURL && <img alt="pic2" src={imageURL}></img>
-        )}
         <div className=" flex gap-5 m-2  justify-center w-100">
           <button className="btn btn-success flex-auto" type="submit">
             تایید
