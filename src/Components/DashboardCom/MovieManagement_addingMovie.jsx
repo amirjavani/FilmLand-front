@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Url } from "../../Utility/URL";
 import CustomInput from "../GeneralComponents/CustomInput";
+import { FetchCategory, AddingMovie, FetchGenre } from "../../Utility/MovieAPI";
 
 function AddMovie(props) {
   const [englishName, setEnglishName] = useState("");
@@ -10,7 +11,10 @@ function AddMovie(props) {
   const [year, setYear] = useState("");
   const [status, setStatus] = useState("");
   const [country, setCountry] = useState("");
-  const [ageCategory, setAgeCategory] = useState("");
+  const [Category, setCategory] = useState("");
+  const [Categories, setCategories] = useState([]);
+  const [Genre, setGenre] = useState("");
+  const [Genres, setGenres] = useState([]);
   const [language, setLanguage] = useState("");
   const [IMDB, setIMDB] = useState("");
   const [autorsList, setAutorsList] = useState([]);
@@ -27,6 +31,8 @@ function AddMovie(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
+    fetch();
+
     if (id) {
       get({ id: id });
     } else {
@@ -34,6 +40,13 @@ function AddMovie(props) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const fetch = async () => {
+    const cat = await FetchCategory();
+    setCategories(cat.data);
+    const genre = await FetchGenre();
+    setGenres(genre.data);
+  };
 
   const get = async (props) => {
     //   const res = await GetSliderItem({ id: props.id });
@@ -154,19 +167,44 @@ function AddMovie(props) {
               دسته بندی
             </label>
             <select
-              value={ageCategory}
-              onChange={(e) => setAgeCategory(e.target.value)}
+              value={Category}
+              onChange={(e) => setCategory(e.target.value)}
               className="font-bold w-full p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 ">
               <option selected value="">
                 --
               </option>
-              <option className="font-bold" value="US">United States</option>
-              <option className="font-bold" value="CA">Canada</option>
-              <option className="font-bold" value="FR">France</option>
-              <option className="font-bold" value="DE">Germany</option>
+              {Categories &&
+                Categories.map((cat) => {
+                  return (
+                    <option className="font-bold" value={cat.categoryTitle}>
+                      {cat.categoryTitle}
+                    </option>
+                  );
+                })}
             </select>
           </div>
-          <div className="col-1">
+          <div className="col-2 ">
+            <label className="mb-2 text-lg font-medium text-gray-900 ">
+              ژانر{" "}
+            </label>
+            <select
+              value={Genre}
+              onChange={(e) => setGenre(e.target.value)}
+              className="font-bold w-full p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 ">
+              <option selected value="">
+                --
+              </option>
+              {Genres &&
+                Genres.map((genre) => {
+                  return (
+                    <option className="font-bold" value={genre.genreTitle}>
+                      {genre.genreTitle}
+                    </option>
+                  );
+                })}
+            </select>
+          </div>
+          <div className="col-2">
             <label className=" mb-2 text-lg font-medium text-gray-900 ">
               وضعیت
             </label>
@@ -178,9 +216,15 @@ function AddMovie(props) {
               <option selected value="">
                 --
               </option>
-              <option className="font-bold" value="US">درحال بخش</option>
-              <option className="font-bold" value="CA">تمام شده </option>
-              <option className="font-bold" value="FR">کنسل شده</option>
+              <option className="font-bold" value="US">
+                درحال بخش
+              </option>
+              <option className="font-bold" value="CA">
+                تمام شده{" "}
+              </option>
+              <option className="font-bold" value="FR">
+                کنسل شده
+              </option>
             </select>
           </div>
           <div className="col-1 ">
@@ -195,9 +239,15 @@ function AddMovie(props) {
               <option selected value="">
                 --
               </option>
-              <option className="font-bold" value="US">فارسی</option>
-              <option className="font-bold" value="CA">آلمانی </option>
-              <option className="font-bold" value="FR">انگلیسی</option>
+              <option className="font-bold" value="US">
+                فارسی
+              </option>
+              <option className="font-bold" value="CA">
+                آلمانی{" "}
+              </option>
+              <option className="font-bold" value="FR">
+                انگلیسی
+              </option>
             </select>
           </div>
           <div className="flex flex-row pt-8 flex-auto">
@@ -208,13 +258,13 @@ function AddMovie(props) {
               title={"کارگردان"}
               type={"text"}></CustomInput>
             <CustomInput
-              className={"col-2 "}
+              className={"col-4 "}
               value={duration}
               setValue={setDuration}
               title={"زمان (دقیقه)"}
               type={"number"}></CustomInput>
             <CustomInput
-              className={"col-2 "}
+              className={"col-4 "}
               value={budget}
               setValue={setBudget}
               title={"بودجه (میلون دلار)"}
@@ -231,7 +281,9 @@ function AddMovie(props) {
             id="message"
             rows="2"
             class="block p-2.5 w-full text-lg text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
-            placeholder="..." value={about} onChange={(e)=>setAbout(e.target.value)}></textarea>
+            placeholder="..."
+            value={about}
+            onChange={(e) => setAbout(e.target.value)}></textarea>
         </div>
         <div className="w-full">
           <label
@@ -243,9 +295,10 @@ function AddMovie(props) {
             id="message"
             rows="2"
             class="block p-2.5 w-full text-lg text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
-            placeholder="..." value={summary} onChange={(e)=>setSummary(e.target.value)}></textarea>
+            placeholder="..."
+            value={summary}
+            onChange={(e) => setSummary(e.target.value)}></textarea>
         </div>
-        
 
         {file ? (
           <img
