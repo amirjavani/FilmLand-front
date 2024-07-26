@@ -11,9 +11,10 @@ function AddMovie(props) {
   const [year, setYear] = useState("");
   const [status, setStatus] = useState("");
   const [country, setCountry] = useState("");
+  const [ageCategoty, setAgeCategory] = useState("");
   const [Category, setCategory] = useState("");
   const [Categories, setCategories] = useState([]);
-  const [Genre, setGenre] = useState("");
+  const [movieGenre, setMovieGenre] = useState([]);
   const [Genres, setGenres] = useState([]);
   const [language, setLanguage] = useState("");
   const [IMDB, setIMDB] = useState("");
@@ -46,6 +47,11 @@ function AddMovie(props) {
     setCategories(cat.data);
     const genre = await FetchGenre();
     setGenres(genre.data);
+  };
+
+  const genreFunction = ({ value }) => {
+    value && setMovieGenre(movieGenre.concat(value));
+    console.log(movieGenre);
   };
 
   const get = async (props) => {
@@ -107,8 +113,7 @@ function AddMovie(props) {
     formData.append("MovieAbout", about);
     formData.append("MovieBudget", budget.toString);
     // formData.append("File", file);
-    
-    
+
     try {
       if (id) {
         //   await EditSlide({
@@ -116,8 +121,7 @@ function AddMovie(props) {
         //     formData: formData,
         //   });
       } else {
-        
-        const res = await AddingMovie({formData:formData});
+        const res = await AddingMovie({ formData: formData });
         console.log(res.status);
       }
     } catch (error) {
@@ -198,27 +202,6 @@ function AddMovie(props) {
                 })}
             </select>
           </div>
-          <div className="col-2 ">
-            <label className="mb-2 text-lg font-medium text-gray-900 ">
-              ژانر{" "}
-            </label>
-            <select
-              value={Genre}
-              onChange={(e) => setGenre(e.target.value)}
-              className="font-bold w-full p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 ">
-              <option selected value="">
-                --
-              </option>
-              {Genres &&
-                Genres.map((genre) => {
-                  return (
-                    <option className="font-bold" value={genre.genreTitle}>
-                      {genre.genreTitle}
-                    </option>
-                  );
-                })}
-            </select>
-          </div>
           <div className="col-2">
             <label className=" mb-2 text-lg font-medium text-gray-900 ">
               وضعیت
@@ -265,6 +248,35 @@ function AddMovie(props) {
               </option>
             </select>
           </div>
+          <div className="col-1 ">
+            <label className=" mb-2 text-lg font-medium text-gray-900 ">
+              رده سنی{" "}
+            </label>
+            <select
+              value={ageCategoty}
+              onChange={(e) => setAgeCategory(e.target.value)}
+              id="small"
+              className="font-bold w-full p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 ">
+              <option selected value="">
+                --
+              </option>
+              <option className="font-bold" value="NC-17">
+                NC-17
+              </option>
+              <option className="font-bold" value="G">
+                G{" "}
+              </option>
+              <option className="font-bold" value="PG">
+                PG{" "}
+              </option>
+              <option className="font-bold" value="PG-13">
+                PG-13{" "}
+              </option>
+              <option className="font-bold" value="R">
+                R{" "}
+              </option>
+            </select>
+          </div>
           <div className="flex flex-row pt-8 flex-auto">
             <CustomInput
               className={"col-4 "}
@@ -284,6 +296,49 @@ function AddMovie(props) {
               setValue={setBudget}
               title={"بودجه (میلون دلار)"}
               type={"number"}></CustomInput>
+          </div>
+        </div>
+        <div className="flex flex-row ml-auto w-full">
+          <div className="col-1">
+            <label className="mb-2 text-lg font-medium text-gray-900 ">
+              ژانر{" "}
+            </label>
+            <select
+              value="--"
+              onChange={(e) => genreFunction({ value: e.target.value })}
+              className="font-bold w-full p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 ">
+              <option selected value="">
+                --
+              </option>
+              {Genres &&
+                Genres.map((genre) => {
+                  return (
+                    !movieGenre.includes(genre.genreId) && (
+                      <option className="font-bold" value={genre.genreId}>
+                        {genre.genreTitle}
+                      </option>
+                    )
+                  );
+                })}
+            </select>
+          </div>
+          <div className="overflow-auto flex flex-row col-11">
+            {movieGenre &&
+              Genres.map((genre) => {
+                return (
+                  movieGenre.includes(genre.genreId) && (
+                    <div
+                      className="border rounded border-slate-700 p-2 my-auto mx-1 duration-300 hover:bg-slate-700 hover:cursor-pointer hover:text-white"
+                      onClick={() =>
+                        setMovieGenre(
+                          movieGenre.filter((e) => e !== genre.genreId)
+                        )
+                      }>
+                      {genre.genreTitle}
+                    </div>
+                  )
+                );
+              })}
           </div>
         </div>
         <div className="w-full">
