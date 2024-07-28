@@ -1,26 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useNavigate,
   Route,
   Routes,
   Outlet,
-  useParams,
   Link,
 } from "react-router-dom";
 import {
   FetchMoviesList,
-  AddingMovie,
   RemoveMovie,
   ToggelMovie,
-  EditMovie,
 } from "../../Utility/MovieAPI";
-import { Url } from "../../Utility/URL";
+
 import AddMovie from "./MovieManagement_addingMovie";
+import EpisodeManager from "./MovieManagement_EpisodeManager";
 
 function MovieManagement() {
   const [moviesList, setMoviesList] = useState([]);
   const navigate = useNavigate();
-  const url = Url;
+  const [showEpisodeManager, setShowEpisodeManager] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -56,6 +54,8 @@ function MovieManagement() {
   return (
     <div>
       <p className="fs-2"> فیلم ها</p>
+      <button className="btn bg-slate-500" onClick={()=> setShowEpisodeManager(true)} >model</button>
+      <EpisodeManager closeCom={()=>setShowEpisodeManager(false)} isShow={showEpisodeManager}>model</EpisodeManager>
       <Outlet></Outlet>
       <Routes>
         <Route path=":id" element={<AddMovie ></AddMovie>}></Route>
@@ -129,7 +129,7 @@ function MovieManagement() {
                               {obj.categoryTitle ? obj.categoryTitle : "خالی"}
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.genreTitles[0] ? obj.genreTitles[0] : "خالی"}
+                              {obj.genreTitles[0] ? obj.genreTitles.map((e)=>{return(<>{e},</>)}) : "خالی"}
                             </td>
                             <td className="flex flex-col p-1 w-20">
                               <button
