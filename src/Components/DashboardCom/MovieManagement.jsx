@@ -8,25 +8,24 @@ import {
   Link,
 } from "react-router-dom";
 import {
-  AddSlide,
-  EditSlide,
-  FetchSlides,
-  GetSliderItem,
-  RemoveSlide,
-  ToggelSlide,
-} from "../../Utility/SliderApi";
+  FetchMoviesList,
+  AddingMovie,
+  RemoveMovie,
+  ToggelMovie,
+  EditMovie,
+} from "../../Utility/MovieAPI";
 import { Url } from "../../Utility/URL";
 import AddMovie from "./MovieManagement_addingMovie";
 
 function MovieManagement() {
-  const [sliderList, setSliderList] = useState([]);
+  const [moviesList, setMoviesList] = useState([]);
   const navigate = useNavigate();
   const url = Url;
 
   const fetchData = async () => {
     try {
-      const response = await FetchSlides();
-      setSliderList(response.data);
+      const response = await FetchMoviesList();
+      setMoviesList(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -41,13 +40,13 @@ function MovieManagement() {
   }, []);
 
   const statusToggel = async (objID) => {
-    await ToggelSlide({ id: objID });
+    await ToggelMovie({ id: objID });
     Refresh();
   };
 
   const deleting = async (objID) => {
     try {
-      await RemoveSlide({ id: objID });
+      await RemoveMovie({ id: objID });
       Refresh();
     } catch (error) {
       console.error("Error deleting item:", error);
@@ -59,8 +58,8 @@ function MovieManagement() {
       <p className="fs-2"> فیلم ها</p>
       <Outlet></Outlet>
       <Routes>
-        <Route path=":id" element={<AddMovie></AddMovie>}></Route>
-        <Route path="add" element={<AddMovie></AddMovie>}></Route>
+        <Route path=":id" element={<AddMovie  ></AddMovie>}></Route>
+        <Route path="add" element={<AddMovie ></AddMovie>}></Route>
 
         <Route
           path=""
@@ -84,22 +83,17 @@ function MovieManagement() {
                     <th
                       scope="col"
                       className="px-6 py-3 border-l border-neutral-500">
-                      ترتیب
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 border-l border-neutral-500">
-                      لینک
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 border-l border-neutral-500">
-                      عکس
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 border-l border-neutral-500">
                       تاریخ
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 border-l border-neutral-500">
+                      دسته بندی
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 border-l border-neutral-500">
+                      ژانر
                     </th>
                     <th scope="col" className="w-10 text-center">
                       <button
@@ -112,10 +106,10 @@ function MovieManagement() {
                     </th>
                   </tr>
                 </thead>
-                {sliderList && (
+                {moviesList && (
                   <tbody>
-                    {sliderList.map((obj, index) => {
-                      if (obj.sliderIsDelete === false) {
+                    {moviesList.map((obj, index) => {
+                      if (true) {
                         return (
                           <tr
                             key={index}
@@ -126,49 +120,33 @@ function MovieManagement() {
                               {index + 1}
                             </th>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.sliderName}
+                              {obj.movieEnglishName}
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.sliderSort}
+                              {obj.movieModifiedDate}
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.sliderUrl}
-                            </td>
-                            <td className=" py-2 border-l border-neutral-500">
-                              <img
-                                className="max-h-20 mx-auto"
-                                src={`${
-                                  url +
-                                  obj.filePath +
-                                  obj.fileName +
-                                  obj.fileExtension
-                                }`}
-                                alt={`${
-                                  url +
-                                  obj.filePath +
-                                  obj.fileName +
-                                  obj.fileExtension
-                                }`}></img>
+                              {obj.categoryTitle ? obj.categoryTitle : "خالی"}
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.sliderCreateDate}
+                              {obj.genreTitles[0] ? obj.genreTitles[0] : "خالی"}
                             </td>
                             <td className="flex flex-col p-1 w-20">
                               <button
-                                onClick={() => statusToggel(obj.sliderId)}
+                                onClick={() => statusToggel(obj.movieId)}
                                 className={`btn ${
-                                  obj.sliderIsStatus
+                                  obj.movieIsStatus
                                     ? "btn-success"
                                     : "btn-danger"
                                 } py-1`}>
-                                {obj.sliderIsStatus ? "فعال" : "غیرفعال"}
+                                {obj.movieIsStatus ? "فعال" : "غیرفعال"}
                               </button>
                               <Link
-                                to={`/dashboard/sliderManagement/${obj.sliderId}`}
+                                to={`/dashboard/Movie/${obj.movieId}`}
                                 className="bi bi-pencil-square btn btn-secondary py-1 my-1"></Link>
                               <i
                                 className="bi bi-trash btn btn-danger py-1 my"
-                                onClick={() => deleting(obj.sliderId)}></i>
+                                onClick={() => deleting(obj.movieId)}></i>
                             </td>
                           </tr>
                         );
@@ -184,7 +162,5 @@ function MovieManagement() {
     </div>
   );
 }
-
-
 
 export default MovieManagement;

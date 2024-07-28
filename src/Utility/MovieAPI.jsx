@@ -15,8 +15,15 @@ const FetchGenre = async () => {
   return response;
 };
 
-const GetListMenuItem = async (props) => {
-  const response = await axios.get(`${Url}/SiteMenu/${props.id}`, {
+const FetchMoviesList = async () => {
+  const response = await axios.get(`${Url}/Movie`, {
+    headers: {},
+  });
+  return response;
+};
+
+const GetOneMovie = async (props) => {
+  const response = await axios.get(`${Url}/Movie/${props.id}`, {
     headers: {},
   });
   return response;
@@ -36,24 +43,24 @@ const AddingMovie = async ({formData}) => {
   return response;
 };
 
-const RemoveMenuItem = async (props) => {
+const RemoveMovie = async (props) => {
   console.log(props.id);
-  const response = await axios.delete(`${Url}/SiteMenu/${props.id}`, {
+  const response = await axios.delete(`${Url}/Movie/${props.id}`, {
     headers: {},
   });
   return response;
 };
 
-const ToggelMenuItem = async (props) => {
-  const response = await axios.get(`${Url}/SiteMenu/ChangeStatus/${props.id}`, {
+const ToggelMovie = async (props) => {
+  const response = await axios.get(`${Url}/Movie/ChangeStatus/${props.id}`, {
     headers: {},
   });
   return response;
 };
 
-const EditMenuItem = async (props) => {
+const EditMovie = async (props) => {
   const response = await axios.put(
-    `${Url}/SiteMenu/Edit/${props.id}`,
+    `${Url}/Movie/Edit/${props.id}`,
     {
       siteMenuName: props.name,
       siteMenuUrl: props.link,
@@ -69,9 +76,10 @@ const EditMenuItem = async (props) => {
 export {
   FetchCategory,
   FetchGenre,
+  FetchMoviesList,
   AddingMovie,
-  RemoveMenuItem,
-  ToggelMenuItem,
-  EditMenuItem,
-  GetListMenuItem,
+  RemoveMovie,
+  ToggelMovie,
+  EditMovie,
+  GetOneMovie,
 };

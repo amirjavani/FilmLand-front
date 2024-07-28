@@ -4,7 +4,7 @@ import { Url } from "../../Utility/URL";
 import CustomInput from "../GeneralComponents/CustomInput";
 import { FetchCategory, AddingMovie, FetchGenre } from "../../Utility/MovieAPI";
 
-function AddMovie(props) {
+function AddMovie({ refresh }) {
   const [englishName, setEnglishName] = useState("");
   const [persianName, setPersianName] = useState("");
   const [title, setTitle] = useState("");
@@ -31,6 +31,8 @@ function AddMovie(props) {
   const [file, setFile] = useState("");
   const navigate = useNavigate();
 
+  
+
   useEffect(() => {
     fetch();
 
@@ -39,6 +41,9 @@ function AddMovie(props) {
     } else {
       console.log("not found");
     }
+
+    
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
