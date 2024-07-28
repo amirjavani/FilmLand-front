@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Url } from "../../Utility/URL";
 import CustomInput from "../GeneralComponents/CustomInput";
-import { FetchCategory, AddingMovie, FetchGenre } from "../../Utility/MovieAPI";
+import {
+  FetchCategory,
+  AddingMovie,
+  FetchGenre,
+  GetOneMovie,
+} from "../../Utility/MovieAPI";
 
 function AddMovie({ refresh }) {
   const [englishName, setEnglishName] = useState("");
@@ -31,8 +36,6 @@ function AddMovie({ refresh }) {
   const [file, setFile] = useState("");
   const navigate = useNavigate();
 
-  
-
   useEffect(() => {
     fetch();
 
@@ -41,8 +44,6 @@ function AddMovie({ refresh }) {
     } else {
       console.log("not found");
     }
-
-    
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -60,10 +61,23 @@ function AddMovie({ refresh }) {
   };
 
   const get = async (props) => {
-    //   const res = await GetSliderItem({ id: props.id });
-    //   setName(res.data.sliderName);
-    //   setLink(res.data.sliderUrl);
-    //   setSort(res.data.sliderSort);
+    const res = await GetOneMovie({ id: props.id });
+    console.log(res.data.movieId);
+    setPersianName(res.data[0].moviePersionName);
+    setEnglishName(res.data[0].movieEnglishName);
+    setTitle(res.data[0].movieTitle);
+    setYear(res.data[0].movieReleaseDate);
+    setStatus(res.data[0].movieStatus);
+    setCountry(res.data[0].movieCountryProduct);
+    setLanguage(res.data[0].movieOriginalLanguage);
+    setIMDB(res.data[0].movieIMDBScore);
+    setDirector(res.data[0].movieDirector);
+    setDuration(res.data[0].movieDuration);
+    setSummary(res.data[0].movieSummary);
+    setAbout(res.data[0].movieAbout);
+    setBudget(res.data[0].movieBudget);
+    setCategory(res.data[0].categoryTitle);
+    setMovieGenre(res.data[0].genreTitles);
     //   fetchImage(res);
   };
 
@@ -105,18 +119,20 @@ function AddMovie({ refresh }) {
     formData.append("MoviePersionName", persianName);
     formData.append("MovieEnglishName", englishName);
     formData.append("MovieTitle", title);
-    formData.append("MovieReleaseDate", year.toString);
+    formData.append("MovieReleaseDate", year);
     formData.append("MovieStatus", status);
     formData.append("MovieCountryProduct", country);
-    formData.append("MovieAgeCategory", Category);
+    formData.append("CategoryId", Category);
+    formData.append("GenreIds", [movieGenre]);
+    formData.append("MovieAgeCategory", ageCategoty);
     formData.append("MovieOriginalLanguage", language);
-    formData.append("MovieIMDBScore", IMDB.toString);
+    formData.append("MovieIMDBScore", IMDB);
     formData.append("MovieAuthor", "");
     formData.append("MovieDirector", director);
-    formData.append("MovieDuration", duration.toString);
+    formData.append("MovieDuration", duration);
     formData.append("MovieSummary", summary);
     formData.append("MovieAbout", about);
-    formData.append("MovieBudget", budget.toString);
+    formData.append("MovieBudget", budget);
     // formData.append("File", file);
 
     try {
@@ -200,7 +216,7 @@ function AddMovie({ refresh }) {
               {Categories &&
                 Categories.map((cat) => {
                   return (
-                    <option className="font-bold" value={cat.categoryTitle}>
+                    <option className="font-bold" value={cat.categoryId}>
                       {cat.categoryTitle}
                     </option>
                   );
@@ -219,13 +235,13 @@ function AddMovie({ refresh }) {
               <option selected value="">
                 --
               </option>
-              <option className="font-bold" value="US">
+              <option className="font-bold" value="درحال بخش">
                 درحال بخش
               </option>
-              <option className="font-bold" value="CA">
+              <option className="font-bold" value="تمام شده">
                 تمام شده{" "}
               </option>
-              <option className="font-bold" value="FR">
+              <option className="font-bold" value="کنسل شده">
                 کنسل شده
               </option>
             </select>
@@ -242,13 +258,13 @@ function AddMovie({ refresh }) {
               <option selected value="">
                 --
               </option>
-              <option className="font-bold" value="US">
+              <option className="font-bold" value="FR">
                 فارسی
               </option>
-              <option className="font-bold" value="CA">
+              <option className="font-bold" value="DE">
                 آلمانی{" "}
               </option>
-              <option className="font-bold" value="FR">
+              <option className="font-bold" value="EN">
                 انگلیسی
               </option>
             </select>

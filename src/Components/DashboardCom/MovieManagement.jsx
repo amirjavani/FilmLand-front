@@ -58,7 +58,7 @@ function MovieManagement() {
       <p className="fs-2"> فیلم ها</p>
       <Outlet></Outlet>
       <Routes>
-        <Route path=":id" element={<AddMovie  ></AddMovie>}></Route>
+        <Route path=":id" element={<AddMovie ></AddMovie>}></Route>
         <Route path="add" element={<AddMovie ></AddMovie>}></Route>
 
         <Route
@@ -66,7 +66,7 @@ function MovieManagement() {
           element={
             <div
               className="my-5 relative overflow-x-auto  overflow-y-auto shadow rounded border-1 border-zinc-800"
-              style={{ maxHeight: "60vh" }}>
+              style={{ maxHeight: "70vh" }}>
               <table className="w-full text-sm text-left rtl:text-right  ">
                 <thead className="text-xs text-gray-900  border-b ">
                   <tr className="sticky top-0 bg-slate-400 border-b ">
@@ -142,7 +142,7 @@ function MovieManagement() {
                                 {obj.movieIsStatus ? "فعال" : "غیرفعال"}
                               </button>
                               <Link
-                                to={`/dashboard/Movie/${obj.movieId}`}
+                                to={`/dashboard/movieManagement/${obj.movieId}`}
                                 className="bi bi-pencil-square btn btn-secondary py-1 my-1"></Link>
                               <i
                                 className="bi bi-trash btn btn-danger py-1 my"

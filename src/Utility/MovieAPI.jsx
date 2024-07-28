@@ -30,9 +30,6 @@ const GetOneMovie = async (props) => {
 };
 
 const AddingMovie = async ({formData}) => {
-    for (const [key, value] of formData) {
-        console.log(`${key}: ${value}\n`);
-      }
   const response = await axios.post(
     `${Url}/Movie/Add`,
     formData,
