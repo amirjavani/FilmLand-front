@@ -23,12 +23,15 @@ function AddMovie({ refresh }) {
   const [Genres, setGenres] = useState([]);
   const [language, setLanguage] = useState("");
   const [IMDB, setIMDB] = useState("");
-  const [autorsList, setAutorsList] = useState([]);
+  const [movieAuthor, setMovieAuthor] = useState("");
+  const [actorIds, setActorIds] = useState([]);
   const [director, setDirector] = useState("");
   const [duration, setDuration] = useState("");
   const [summary, setSummary] = useState("");
   const [about, setAbout] = useState("");
   const [budget, setBudget] = useState("");
+  const [cartPic, setCartPic] = useState("");
+  const [galleryPics, setGalleryPics] = useState([]);
 
   const [link, setLink] = useState("");
   const [imageURL, setImageURL] = useState("");
@@ -123,16 +126,19 @@ function AddMovie({ refresh }) {
     formData.append("MovieStatus", status);
     formData.append("MovieCountryProduct", country);
     formData.append("CategoryId", Category);
-    formData.append("GenreIds", [movieGenre]);
+    formData.append("GenreIds", movieGenre);
     formData.append("MovieAgeCategory", ageCategoty);
     formData.append("MovieOriginalLanguage", language);
     formData.append("MovieIMDBScore", IMDB);
-    formData.append("MovieAuthor", "");
+    formData.append("MovieAuthor", movieAuthor);
     formData.append("MovieDirector", director);
     formData.append("MovieDuration", duration);
     formData.append("MovieSummary", summary);
     formData.append("MovieAbout", about);
     formData.append("MovieBudget", budget);
+    formData.append("CartPicture", cartPic);
+    formData.append("GalleryPictures", galleryPics);
+    formData.append("ActorIds", actorIds);
     // formData.append("File", file);
 
     try {
@@ -319,6 +325,12 @@ function AddMovie({ refresh }) {
               type={"number"}></CustomInput>
           </div>
         </div>
+        <CustomInput
+          className={"col-2 ml-auto"}
+          value={movieAuthor}
+          setValue={setMovieAuthor}
+          title={"نویسنده"}
+          type={"text"}></CustomInput>
         <div className="flex flex-row ml-auto w-full">
           <div className="col-1">
             <label className="mb-2 text-lg font-medium text-gray-900 ">
@@ -389,6 +401,38 @@ function AddMovie({ refresh }) {
             placeholder="..."
             value={summary}
             onChange={(e) => setSummary(e.target.value)}></textarea>
+        </div>
+        <div className="flex flex-row border-none">
+          <input
+            className="border-none"
+            type="file"
+            onChange={(f) => setCartPic(f.target.files[0])}
+          />
+          {cartPic && (
+            <img
+              className="w-[120px]"
+              src={URL.createObjectURL(cartPic)}
+              alt="cartpic"
+            />
+          )}
+        </div>
+        <div className="flex flex-row ">
+          <input
+            className="border-none"
+            multiple
+            type="file"
+            onChange={(f) => setGalleryPics(f.target.files)}
+          />
+          {galleryPics &&
+            Array.from(galleryPics).map((pic) => {
+              return (
+                <img
+                  className="w-[120px]"
+                  src={URL.createObjectURL(pic)}
+                  alt="gallery"
+                />
+              );
+            })}
         </div>
 
         <div className=" flex gap-5 m-2  justify-center w-100">

@@ -16,14 +16,14 @@ const FetchGenre = async () => {
 };
 
 const FetchMoviesList = async () => {
-  const response = await axios.get(`${Url}/Movie`, {
+  const response = await axios.get(`${Url}/MovieManagement`, {
     headers: {},
   });
   return response;
 };
 
 const GetOneMovie = async (props) => {
-  const response = await axios.get(`${Url}/Movie/${props.id}`, {
+  const response = await axios.get(`${Url}/MovieManagement/${props.id}`, {
     headers: {},
   });
   return response;
@@ -31,7 +31,7 @@ const GetOneMovie = async (props) => {
 
 const AddingMovie = async ({formData}) => {
   const response = await axios.post(
-    `${Url}/Movie/Add`,
+    `${Url}/MovieManagement/Add`,
     formData,
     {
       headers: {},
@@ -42,14 +42,14 @@ const AddingMovie = async ({formData}) => {
 
 const RemoveMovie = async (props) => {
   console.log(props.id);
-  const response = await axios.delete(`${Url}/Movie/${props.id}`, {
+  const response = await axios.delete(`${Url}/MovieManagement/${props.id}`, {
     headers: {},
   });
   return response;
 };
 
 const ToggelMovie = async (props) => {
-  const response = await axios.get(`${Url}/Movie/ChangeStatus/${props.id}`, {
+  const response = await axios.get(`${Url}/MovieManagement/ChangeStatus/${props.id}`, {
     headers: {},
   });
   return response;
@@ -57,7 +57,7 @@ const ToggelMovie = async (props) => {
 
 const EditMovie = async (props) => {
   const response = await axios.put(
-    `${Url}/Movie/Edit/${props.id}`,
+    `${Url}/MovieManagement/Edit/${props.id}`,
     {
       siteMenuName: props.name,
       siteMenuUrl: props.link,
