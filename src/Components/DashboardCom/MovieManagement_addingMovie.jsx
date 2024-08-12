@@ -24,7 +24,9 @@ function AddMovie({ refresh }) {
   const [language, setLanguage] = useState("");
   const [IMDB, setIMDB] = useState("");
   const [movieAuthor, setMovieAuthor] = useState("");
-  const [actorIds, setActorIds] = useState([]);
+  const [actorIds, setActorIds] = useState([
+    "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  ]);
   const [director, setDirector] = useState("");
   const [duration, setDuration] = useState("");
   const [summary, setSummary] = useState("");
@@ -59,28 +61,31 @@ function AddMovie({ refresh }) {
   };
 
   const genreFunction = ({ value }) => {
-    value && setMovieGenre(movieGenre.concat(value));
+    value && setMovieGenre([...movieGenre, value]);
     console.log(movieGenre);
   };
 
   const get = async (props) => {
     const res = await GetOneMovie({ id: props.id });
     console.log(res.data.movieId);
-    setPersianName(res.data[0].moviePersionName);
-    setEnglishName(res.data[0].movieEnglishName);
-    setTitle(res.data[0].movieTitle);
-    setYear(res.data[0].movieReleaseDate);
-    setStatus(res.data[0].movieStatus);
-    setCountry(res.data[0].movieCountryProduct);
-    setLanguage(res.data[0].movieOriginalLanguage);
-    setIMDB(res.data[0].movieIMDBScore);
-    setDirector(res.data[0].movieDirector);
-    setDuration(res.data[0].movieDuration);
-    setSummary(res.data[0].movieSummary);
-    setAbout(res.data[0].movieAbout);
-    setBudget(res.data[0].movieBudget);
-    setCategory(res.data[0].categoryTitle);
-    setMovieGenre(res.data[0].genreTitles);
+    setPersianName(res.data.moviePersionName);
+    setEnglishName(res.data.movieEnglishName);
+    setTitle(res.data.movieTitle);
+    setYear(res.data.movieReleaseDate);
+    setStatus(res.data.movieStatus);
+    setCountry(res.data.movieCountryProduct);
+    setLanguage(res.data.movieOriginalLanguage);
+    setIMDB(res.data.movieIMDBScore);
+    setDirector(res.data.movieDirector);
+    setDuration(res.data.movieDuration);
+    setSummary(res.data.movieSummary);
+    setAbout(res.data.movieAbout);
+    setBudget(res.data.movieBudget);
+    setCategory(res.data.categoryId);
+    setMovieGenre(res.data.genreIds);
+    setAgeCategory(res.data.movieAgeCategory);
+    setMovieAuthor(res.data.movieAuthor)
+    setActorIds(['asdasdasd']);
     //   fetchImage(res);
   };
 
@@ -117,6 +122,8 @@ function AddMovie({ refresh }) {
 
   const Submit = async (event) => {
     navigate("/dashboard/MovieManagement");
+    console.log(JSON.stringify(movieGenre));
+    console.log(galleryPics);
     event.preventDefault();
     const formData = new FormData();
     formData.append("MoviePersionName", persianName);
@@ -126,7 +133,9 @@ function AddMovie({ refresh }) {
     formData.append("MovieStatus", status);
     formData.append("MovieCountryProduct", country);
     formData.append("CategoryId", Category);
-    formData.append("GenreIds", movieGenre);
+    movieGenre.forEach((genreId) => {
+      formData.append("GenreIds", genreId);
+    });
     formData.append("MovieAgeCategory", ageCategoty);
     formData.append("MovieOriginalLanguage", language);
     formData.append("MovieIMDBScore", IMDB);
@@ -137,9 +146,13 @@ function AddMovie({ refresh }) {
     formData.append("MovieAbout", about);
     formData.append("MovieBudget", budget);
     formData.append("CartPicture", cartPic);
-    formData.append("GalleryPictures", galleryPics);
-    formData.append("ActorIds", actorIds);
-    // formData.append("File", file);
+    // formData.append("GalleryPictures", galleryPics);
+    for (let i = 0; i < galleryPics.length; i++) {
+      formData.append("GalleryPictures", galleryPics[i]);
+    }
+    actorIds.forEach((actorId) => {
+      formData.append("ActorIds", actorId);
+    });
 
     try {
       if (id) {
@@ -264,13 +277,13 @@ function AddMovie({ refresh }) {
               <option selected value="">
                 --
               </option>
-              <option className="font-bold" value="FR">
+              <option className="font-bold" value="فارسی">
                 فارسی
               </option>
-              <option className="font-bold" value="DE">
+              <option className="font-bold" value="آلمانی">
                 آلمانی{" "}
               </option>
-              <option className="font-bold" value="EN">
+              <option className="font-bold" value="انگلیسی">
                 انگلیسی
               </option>
             </select>
@@ -416,7 +429,7 @@ function AddMovie({ refresh }) {
             />
           )}
         </div>
-        <div className="flex flex-row ">
+        <div className="flex flex-row border-none">
           <input
             className="border-none"
             multiple
