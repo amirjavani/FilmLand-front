@@ -45,6 +45,12 @@ function SideNavbar(props) {
           <span>فیلم ها </span>
           <i class='bx bx-film fs-5 p-1' ></i>
         </NavLink>
+        <NavLink
+          className="my-1 fs-5 flex flex-row justify-between text-white p-2 rounded hover:bg-slate-800   [&.active]:bg-slate-800"
+          to="/dashboard/actorManagement">
+          <span>بازیگران </span>
+          <i class='bx bx-user-circle fs-5 p-1' ></i>
+        </NavLink>
       </nav>
     </div>
   );
