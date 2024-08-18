@@ -8,6 +8,12 @@ import "swiper/swiper-bundle.css";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import {
+  FetchSingleMovie
+} from "../../../Utility/SingleMovieAPI";
+import { Url } from "../../../Utility/URL";
+import { useParams, useNavigate } from 'react-router-dom';
+import NotFoundPage from './NotFoundPage'; // Import your NotFoundPage component
 // import "./Movie.js"
 
 function Movie() {
@@ -27,6 +33,35 @@ function Movie() {
     "/Assets/Pictures/Kung-Fu-Panda-4-2024-img4-jpg.webp",
     "/Assets/Pictures/Kung-Fu-Panda-4-2024-img5-jpg.webp",
   ];
+
+  const { id } = useParams();
+  const [error, setError] = useState(false); // State to track if a 400 error occurs
+  const [singleMovie, setSingleMovie] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const response = await FetchSingleMovie({ id });
+      setSingleMovie(response.data);
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        setError(true); // Set error state to true on 400 error
+      } else {
+        console.error("Error fetching data:", error);
+      }
+    }
+  };
+
+  const Refresh = () => {
+    fetchData();
+  };
+
+  useEffect(() => {
+    if (id) {
+      fetchData();
+    }
+  }, [id]);
+
+  
 
   let moreInfo, downloadContainer, comments;
   const [showMoreInfo, setShowMoreInfo] = useState(true);
@@ -120,7 +155,7 @@ function Movie() {
   window.onresize = function () {
     btnLeft.style.display =
       tabMenu.scrollWidth > tabMenu.clientWidth ||
-      tabMenu.scrollWidth >= window.innerWidth
+        tabMenu.scrollWidth >= window.innerWidth
         ? "block"
         : "none";
     btnRight.style.display =
@@ -202,6 +237,10 @@ function Movie() {
       textarea.removeEventListener("input", resizeTextarea);
     };
   }, []);
+
+  if (error) {
+    return <NotFoundPage />; // Render NotFoundPage component on 400 error
+  }
   return (
     <>
       <div className="top">
@@ -213,8 +252,9 @@ function Movie() {
             <div className="detail">
               <div className="title">
                 <h4 className="fs-5 font-bold">
-                  دانلود انیمیشن پاندای کونگ فو کار 4 Kung Fu Panda 4 2024 دوبله
-                  فارسی
+                  {singleMovie.movieTitle}
+                  {/* دانلود انیمیشن پاندای کونگ فو کار 4 Kung Fu Panda 4 2024 دوبله
+                  فارسی */}
                 </h4>
               </div>
               <div className="summary">
@@ -224,23 +264,24 @@ function Movie() {
                 </div>
                 <div className="summary-body">
                   <p>
-                    پس از اینکه پو برای تبدیل شدن به رهبر معنوی دره صلح انتخاب
+                    {singleMovie.movieSummary} ...
+                    {/* پس از اینکه پو برای تبدیل شدن به رهبر معنوی دره صلح انتخاب
                     شد، او باید یک جنگجوی اژدها را بیابد و آموزش دهد، در حالی که
-                    یک جادوگر شرور قصد دارد همه شر
+                    یک جادوگر شرور قصد دارد همه شر */}
                   </p>
                 </div>
               </div>
               <div className="interest">
                 <div className="like" title="لایک">
                   <i className="fa fa-thumbs-up" aria-hidden="true" />
-                  <span>1234</span>
+                  <span>{singleMovie.movieLike}</span>
                 </div>
                 <div className="interested" title="اضافه کردن به علاقه مندی ها">
                   <i className="fa fa-star" aria-hidden="true" />
                 </div>
                 <div className="dislike">
                   <i className="fa fa-thumbs-down" aria-hidden="true" />
-                  <span>123</span>
+                  <span>{singleMovie.movieDislike}</span>
                 </div>
               </div>
             </div>
@@ -263,7 +304,8 @@ function Movie() {
       </div>
       <div className="body-middle">
         <h1 className="title-movie fs-4 font-bold">
-          دانلود انیمیشن پاندای کونگ فو کار 4 Kung Fu Panda 4 2024 دوبله فارسی
+          {singleMovie.movieTitle}
+          {/* دانلود انیمیشن پاندای کونگ فو کار 4 Kung Fu Panda 4 2024 دوبله فارسی */}
         </h1>
         {/* {showMoreInfo && ( */}
         <div className="more-info">
@@ -280,9 +322,10 @@ function Movie() {
                 </div>
                 <div className="summary-body">
                   <p>
-                    پس از اینکه پو برای تبدیل شدن به رهبر معنوی دره صلح انتخاب
+                    {singleMovie.movieAbout} ...
+                    {/* پس از اینکه پو برای تبدیل شدن به رهبر معنوی دره صلح انتخاب
                     شد، او باید یک جنگجوی اژدها را بیابد و آموزش دهد، در حالی که
-                    یک جادوگر شرور قصد دارد همه شر
+                    یک جادوگر شرور قصد دارد همه شر */}
                   </p>
                 </div>
               </div>
@@ -294,7 +337,7 @@ function Movie() {
                       <h2>زبان اصلی</h2>
                     </div>
                     <div className="info-item-body">
-                      <h2>انگلیسی</h2>
+                      <h2>{singleMovie.movieOriginalLanguage}</h2>
                     </div>
                   </li>
                   <li>
@@ -303,7 +346,7 @@ function Movie() {
                       <h2>سال انتشار</h2>
                     </div>
                     <div className="info-item-body">
-                      <h2>2024</h2>
+                      <h2>{singleMovie.movieReleaseDate}</h2>
                     </div>
                   </li>
                   <li>
@@ -312,7 +355,7 @@ function Movie() {
                       <h2>محصول کشور</h2>
                     </div>
                     <div className="info-item-body">
-                      <h2>انگلستان</h2>
+                      <h2>{singleMovie.movieCountryProduct}</h2>
                     </div>
                   </li>
                   <li>
@@ -321,7 +364,13 @@ function Movie() {
                       <h2>کارگردان</h2>
                     </div>
                     <div className="info-item-body">
-                      <h2>Julius Berg</h2>
+                      <h2>
+                        {singleMovie.movieDirector
+                          ? singleMovie.movieDirector.split(',').map((director, index) => (
+                            <p key={index}>{director.trim()}</p>
+                          ))
+                          : 'No directors available'}
+                      </h2>
                     </div>
                   </li>
                   <li>
@@ -330,7 +379,13 @@ function Movie() {
                       <h2>نویسنده</h2>
                     </div>
                     <div className="info-item-body">
-                      <h2>Mathieu Gompel</h2>
+                      <h2>
+                        {singleMovie.movieAuthor
+                          ? singleMovie.movieAuthor.split(',').map((author, index) => (
+                            <p key={index}>{author.trim()}</p>
+                          ))
+                          : 'No directors available'}
+                      </h2>
                     </div>
                   </li>
                   <li>
@@ -339,7 +394,7 @@ function Movie() {
                       <h2>بودجه</h2>
                     </div>
                     <div className="info-item-body">
-                      <h2>$20,000,000</h2>
+                      <h2>${singleMovie.movieBudget}</h2>
                     </div>
                   </li>
                   <li>
@@ -348,7 +403,7 @@ function Movie() {
                       <h2>مدت زمان</h2>
                     </div>
                     <div className="info-item-body">
-                      <h2>۱ ساعت و ۳۴ دقیقه</h2>
+                      <h2>{singleMovie.movieDuration}</h2>
                     </div>
                   </li>
                   <li>
@@ -357,7 +412,7 @@ function Movie() {
                       <h2>رده سنی</h2>
                     </div>
                     <div className="info-item-body">
-                      <h2>PG-12</h2>
+                      <h2>{singleMovie.movieAgeCategory}</h2>
                     </div>
                   </li>
                 </ul>
@@ -385,7 +440,26 @@ function Movie() {
                   },
                 }}
                 className="slide-actor">
-                {actors.map((actor, index) => (
+                {singleMovie.actorPicPath && singleMovie.actorPicPath.length > 0 ? (
+                singleMovie.actorPicPath.map((actorPic, index) => (
+                  <SwiperSlide key={index} className="actor-cart">
+                    <div className="actor-container">
+                      <img src={Url + actorPic} />
+                      <div className="actor-name">
+                        <div className="info-item-head">
+                          <h2>{singleMovie.actorName[index]}</h2>
+                        </div>
+                        {/* <div className="info-item-body mt-2">
+                          <h2>Shifu</h2>
+                        </div> */}
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                ))
+                ) : (
+                  <p>No images available</p>
+                )}
+                {/* {actors.map((actor, index) => (
                   <SwiperSlide key={index} className="actor-cart">
                     <div className="actor-container">
                       <img src={actor} alt={actor.split(".")[0]} />
@@ -399,7 +473,7 @@ function Movie() {
                       </div>
                     </div>
                   </SwiperSlide>
-                ))}
+                ))} */}
               </Swiper>
             </div>
             <div className="pictures">
@@ -422,11 +496,17 @@ function Movie() {
                 }}
                 modules={[EffectCoverflow, Pagination]}
                 className="mySwiper">
-                {pics.map((pic, index) => (
-                  <SwiperSlide key={index} className="pic-swiper-slide">
-                    <img src={pic} alt={pic.split(".")[0]} />
-                  </SwiperSlide>
-                ))}
+                {singleMovie.galleryPicPath && singleMovie.galleryPicPath.length > 0 ? (
+                  singleMovie.galleryPicPath.map((pic, index) => (
+                    <SwiperSlide key={index} className="pic-swiper-slide">
+                      <img
+                        src={Url+pic}
+                      />
+                    </SwiperSlide>
+                  ))
+                ) : (
+                  <p>No images available</p>
+                )}
               </Swiper>
             </div>
           </div>
@@ -443,7 +523,7 @@ function Movie() {
               <section class="main-container">
                 <div class="tab-nav-bar">
                   <div class="tab-navigation">
-                    
+
                     <ul
                       ref={tabMenuRef}
                       onMouseMove={MouseMoveTabMenu}
@@ -453,11 +533,11 @@ function Movie() {
                       <i
                         ref={btnRightRef}
                         onClick={handleLeftClick}
-                        class="bi bi-chevron-compact-right  top-3 absolute hover:text-black duration-300" style={{fontSize:'30px'}}></i>
+                        class="bi bi-chevron-compact-right  top-3 absolute hover:text-black duration-300" style={{ fontSize: '30px' }}></i>
                       <i
                         ref={btnLeftRef}
                         onClick={handleRightClick}
-                        class="bi bi-chevron-compact-left left-0 top-3  absolute hover:text-black duration-300" style={{fontSize:'30px'}}></i>
+                        class="bi bi-chevron-compact-left left-0 top-3  absolute hover:text-black duration-300" style={{ fontSize: '30px' }}></i>
                       <li class="tab-btn active">فصل 1</li>
                       <li class="tab-btn">فصل 2</li>
                       <li class="tab-btn">فصل 3</li>
@@ -481,9 +561,8 @@ function Movie() {
                     onClick={toggleMenu}>
                     <span className="selected">{selectedOption}</span>
                     <div
-                      className={`caret ${
-                        menuOpen ? "caret-rotate" : ""
-                      }`}></div>
+                      className={`caret ${menuOpen ? "caret-rotate" : ""
+                        }`}></div>
                   </div>
                   <ul className={`menu ${menuOpen ? "menu-open" : ""}`}>
                     {options.map((option) => (
@@ -502,9 +581,8 @@ function Movie() {
                     onClick={toggleMenu2}>
                     <span className="selected">{selectedOption2}</span>
                     <div
-                      className={`caret ${
-                        menuOpen2 ? "caret-rotate" : ""
-                      }`}></div>
+                      className={`caret ${menuOpen2 ? "caret-rotate" : ""
+                        }`}></div>
                   </div>
                   <ul className={`menu ${menuOpen2 ? "menu-open" : ""}`}>
                     {options2.map((option2) => (

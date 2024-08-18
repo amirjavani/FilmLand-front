@@ -33,10 +33,9 @@ const router = createBrowserRouter([
             index :true
           },
           {
-            path: "1",
-            element: <Movie></Movie>,
-            index :true
-          },
+            path: ":id",
+            element: <Movie></Movie>
+          }
         ]
       },
     ]
