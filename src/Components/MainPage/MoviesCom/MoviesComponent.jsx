@@ -12,10 +12,10 @@ const movies = [
     bookmark: true,
   },
   {
-    id: 2,
+    id: "1689c946-6552-4aa5-923f-182900a05395",
     title: "Film Title 2",
     description: "This is the description for film 2",
-    posterUrl: "/Assets/Carts/Forrest Gump.jpg",
+    posterUrl: "/Assets/Movie/panda4-200x300.webp",
     bookmark: false,
   },
   {
@@ -39,10 +39,16 @@ const movies = [
     posterUrl: "/Assets/Carts/Forrest Gump.jpg",
     bookmark: true,
   },
-  // Add more film objects here
+
 ];
 
 function MoviesComponent() {
+
+  const fetchMovies = ()=> {
+
+  }
+
+
   return (
     <div className="mt-20 text-white">
       <FilterNav></FilterNav>

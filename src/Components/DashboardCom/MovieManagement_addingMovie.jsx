@@ -183,7 +183,7 @@ function AddMovie({ refresh }) {
         <label className="fs-3">{!id ? "افزودن" : "ویرایش"}</label>
         <div className="flex w-100 flex-row ">
           <CustomInput
-            className={"col-2 "}
+            className={"col-2"}
             value={title}
             setValue={setTitle}
             title={"title"}

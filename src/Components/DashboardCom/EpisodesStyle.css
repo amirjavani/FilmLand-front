@@ -1,0 +1,13 @@
+#episode-table th ,#episode-table td{
+    border: 1px solid #aaa ;
+    text-align: center;
+    padding: 5px 10px;
+}
+
+#episode-table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #cdcdcd; /* Set a background color for the fixed header */
+    z-index: 2;
+    
+  }

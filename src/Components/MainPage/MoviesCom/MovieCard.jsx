@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import style from "./MovieCardStyle.module.css";
+import { useNavigate } from "react-router-dom";
 const MovieCard = ({ mov }) => {
   const [movie, setMovie] = useState(mov);
-  
+  const navigator = useNavigate();
+
+  const continues = ()=>{
+    navigator('/movie/'+movie.id)
+  }
+
+
   return (
     <div className={`rounded-2xl overflow-auto h-80  sm:h-60 md:h-72 lg:h-64 xl:h-80 m-1 ${style.movie_card}`}>
       <div className={`${style.movie_card_content}`}>
@@ -12,7 +19,7 @@ const MovieCard = ({ mov }) => {
           </div>
         </div>
         <div className={`${style.front}`}>
-          <div id={`${style.img}`}>
+          <div id={`${style.img}`} className="h-auto max-w-full">
             <img className=" " src={movie.posterUrl} alt={movie.title} />
           </div>
           <div className={`${style.front_content} justify-between`}>
@@ -43,6 +50,7 @@ const MovieCard = ({ mov }) => {
 
             <div className="flex flex-row gap-2 m-1 ">
               <button
+                onClick={()=> continues()}
                 className="btn  flex-auto rounded-3xl bg-orange-300 bg-opacity-60 hover:bg-orange-400 "
                 style={{ fontSize: "11px", fontWeight: "bold" }}>
                 ادامه مطلب

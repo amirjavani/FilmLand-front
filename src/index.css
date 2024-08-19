@@ -30,6 +30,55 @@
   background: #555278;
 }
 
+@font-face {
+  font-family: IranYekanThin;
+  src: url(./Assets/fonts/IRANYekanThin.ttf);
+}
+
+@font-face {
+  font-family: IranYekanBold;
+  src: url(./Assets/fonts/IRANYekanBold.ttf);
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: IranYekanRegular;
+  src: url(./Assets/fonts//IRANYekanRegular.ttf);
+}
+
+@font-face {
+  font-family: IranYekanLight;
+  src: url(./Assets/fonts/IRANYekanLight.ttf);
+}
+
+@font-face {
+  font-family: farsiNum;
+  src: url(./Assets/fonts/IRANYekanRegularFaNum.ttf);
+}
+
+.font-IYnum {
+  font-family: farsiNum;
+}
+
+.font-IYthin {
+  font-family: IranYekanThin;
+}
+
+.font-IYbold {
+  font-family: IranYekanBold;
+}
+
+.font-IYregular {
+  font-family: IranYekanRegular;
+}
+
+.font-IYlight {
+  font-family: IranYekanLight;
+}
+
+
+
+
 
 body{
   font-family: BNAZANIN;
@@ -58,6 +107,6 @@ body{
 
 @font-face {
   font-family: BNAZANIN;
-  src: url(./Assets/Font/B-NAZANIN.TTF);
+  src: url(./Assets/fonts/B-NAZANIN.TTF);
 }
 
