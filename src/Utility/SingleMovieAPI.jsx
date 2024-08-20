@@ -8,6 +8,14 @@ const FetchSingleMovie = async (props) => {
     return response;
 };
 
+const FetchMovieFile = async (props) => {
+  const response = await axios.get(`${Url}/MovieFile/${props.id}`, {
+    headers: {},
+  });
+  return response;
+};
+
 export {
-    FetchSingleMovie
+    FetchSingleMovie,
+    FetchMovieFile
 };

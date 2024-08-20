@@ -9,7 +9,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import {
-  FetchSingleMovie
+  FetchSingleMovie,
+  FetchMovieFile
 } from "../../../Utility/SingleMovieAPI";
 import { Url } from "../../../Utility/URL";
 import { useParams, useNavigate } from 'react-router-dom';
@@ -37,11 +38,24 @@ function Movie() {
   const { id } = useParams();
   const [error, setError] = useState(false); // State to track if a 400 error occurs
   const [singleMovie, setSingleMovie] = useState([]);
+  const [MovieFile, setMovieFile] = useState([]);
 
   const fetchData = async () => {
     try {
       const response = await FetchSingleMovie({ id });
       setSingleMovie(response.data);
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        setError(true); // Set error state to true on 400 error
+      } else {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    try {
+      const response = await FetchMovieFile({ id });
+      setMovieFile(response.data);
+      console.log(MovieFile)
     } catch (error) {
       if (error.response && error.response.status === 400) {
         setError(true); // Set error state to true on 400 error
@@ -61,7 +75,7 @@ function Movie() {
     }
   }, [id]);
 
-  
+
 
   let moreInfo, downloadContainer, comments;
   const [showMoreInfo, setShowMoreInfo] = useState(true);
@@ -441,21 +455,21 @@ function Movie() {
                 }}
                 className="slide-actor">
                 {singleMovie.actorPicPath && singleMovie.actorPicPath.length > 0 ? (
-                singleMovie.actorPicPath.map((actorPic, index) => (
-                  <SwiperSlide key={index} className="actor-cart">
-                    <div className="actor-container">
-                      <img src={Url + actorPic} />
-                      <div className="actor-name">
-                        <div className="info-item-head">
-                          <h2>{singleMovie.actorName[index]}</h2>
-                        </div>
-                        {/* <div className="info-item-body mt-2">
+                  singleMovie.actorPicPath.map((actorPic, index) => (
+                    <SwiperSlide key={index} className="actor-cart">
+                      <div className="actor-container">
+                        <img src={Url + actorPic} />
+                        <div className="actor-name">
+                          <div className="info-item-head">
+                            <h2>{singleMovie.actorName[index]}</h2>
+                          </div>
+                          {/* <div className="info-item-body mt-2">
                           <h2>Shifu</h2>
                         </div> */}
+                        </div>
                       </div>
-                    </div>
-                  </SwiperSlide>
-                ))
+                    </SwiperSlide>
+                  ))
                 ) : (
                   <p>No images available</p>
                 )}
@@ -500,7 +514,7 @@ function Movie() {
                   singleMovie.galleryPicPath.map((pic, index) => (
                     <SwiperSlide key={index} className="pic-swiper-slide">
                       <img
-                        src={Url+pic}
+                        src={Url + pic}
                       />
                     </SwiperSlide>
                   ))
@@ -524,7 +538,7 @@ function Movie() {
                 <div class="tab-nav-bar">
                   <div class="tab-navigation">
 
-                    <ul
+                    {/* <ul
                       ref={tabMenuRef}
                       onMouseMove={MouseMoveTabMenu}
                       onMouseUp={MouseUpTabMenu}
@@ -550,7 +564,7 @@ function Movie() {
                       <li class="tab-btn">فصل 10</li>
                       <li class="tab-btn">فصل 11</li>
                       <li class="tab-btn">فصل 12</li>
-                    </ul>
+                    </ul> */}
                   </div>
                 </div>
               </section>
@@ -597,7 +611,48 @@ function Movie() {
                 </div>
               </div>
             </div>
-            <div className="download-container">
+            <div>
+              {MovieFile.map((file, index) => (
+                <div key={index} className="download-container">
+                  <div className="part-movie">
+                    <h2 className="text-lg font-semibold">{singleMovie.moviePersionName}</h2>
+                  </div>
+                  <div className="download-div">
+                    {file.movieFileSubtitleURL && (
+                      <div className="subtitle">
+                        <i className="fa fa-download" aria-hidden="true"></i>
+                        <p className="text-sm mr-1">{file.movieFileSubtitleURL}</p>
+                      </div>
+                    )}
+                    {file.movieFileQuality == 1080 && (
+                      <div className="download">
+                        <i className="fa fa-download" aria-hidden="true"></i>
+                        <a href={file.movieFile_MovieURL}>
+                          <p className="text-sm mr-1">دانلود {file.movieFileQuality}</p>
+                        </a>
+                      </div>
+                    )}
+                    {file.movieFileQuality == 720 && (
+                      <div className="download">
+                        <i className="fa fa-download" aria-hidden="true"></i>
+                        <a href={file.movieFile_MovieURL}>
+                          <p className="text-sm mr-1">دانلود {file.movieFileQuality}</p>
+                        </a>
+                      </div>
+                    )}
+                    {file.movieFileQuality == 480 && (
+                      <div className="download">
+                        <i className="fa fa-download" aria-hidden="true"></i>
+                        <a href={file.movieFile_MovieURL}>
+                          <p className="text-sm mr-1">دانلود {file.movieFileQuality}</p>
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+            {/* <div className="download-container">
               <div className="part-movie">
                 <h2 className="text-lg font-semibold">قسمت اول</h2>
               </div>
@@ -619,8 +674,8 @@ function Movie() {
                   <p className="text-sm mr-1">دانلود 480</p>
                 </div>
               </div>
-            </div>
-            <div className="download-container">
+            </div> */}
+            {/* <div className="download-container">
               <div className="part-movie">
                 <h2 className="text-lg font-semibold">قسمت دوم</h2>
               </div>
@@ -734,7 +789,7 @@ function Movie() {
                   <p className="text-sm mr-1">دانلود 480</p>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="comments">
