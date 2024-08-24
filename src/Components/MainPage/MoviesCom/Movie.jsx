@@ -533,12 +533,12 @@ function Movie() {
             <div className="line2"></div>
           </div>
           <div className="downloads">
-            <div className="filter-download">
+            {/* <div className="filter-download">
               <section class="main-container">
                 <div class="tab-nav-bar">
                   <div class="tab-navigation">
 
-                    {/* <ul
+                    <ul
                       ref={tabMenuRef}
                       onMouseMove={MouseMoveTabMenu}
                       onMouseUp={MouseUpTabMenu}
@@ -564,7 +564,7 @@ function Movie() {
                       <li class="tab-btn">فصل 10</li>
                       <li class="tab-btn">فصل 11</li>
                       <li class="tab-btn">فصل 12</li>
-                    </ul> */}
+                    </ul>
                   </div>
                 </div>
               </section>
@@ -610,12 +610,14 @@ function Movie() {
                   </ul>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div>
               {MovieFile.map((file, index) => (
                 <div key={index} className="download-container">
                   <div className="part-movie">
-                    <h2 className="text-lg font-semibold">{singleMovie.moviePersionName}</h2>
+                    <h2 className="text-lg font-semibold">
+                      {file.movieFileDubbing === "dubbed" ? "دوبله" : file.movieFileDubbing === "hard subtitle" ? "زیرنویس چسبیده" : "زبان اصلی"} - {file.movieFileIsCensored === false ? "سانسور نشده" : "سانسور شده"}
+                    </h2>
                   </div>
                   <div className="download-div">
                     {file.movieFileSubtitleURL && (
@@ -624,7 +626,22 @@ function Movie() {
                         <p className="text-sm mr-1">{file.movieFileSubtitleURL}</p>
                       </div>
                     )}
-                    {file.movieFileQuality == 1080 && (
+                    {file.movieFile_MovieURL
+                      .map((movieURL, index) => ({
+                        movieURL,
+                        quality: file.movieFileQuality[index],
+                      }))
+                      .sort((a, b) => a.quality - b.quality) // Sorting in increasing order of quality
+                      .map((fileObj, index2) => (
+                        <a href={fileObj.movieURL} key={index2}>
+                          <div className="download">
+                            <i className="fa fa-download" aria-hidden="true"></i>
+                            <p className="text-sm mr-1">دانلود {fileObj.quality}</p>
+                          </div>
+                        </a>
+                      ))}
+
+                    {/* {file.movieFileQuality == 1080 && (
                       <div className="download">
                         <i className="fa fa-download" aria-hidden="true"></i>
                         <a href={file.movieFile_MovieURL}>
@@ -647,7 +664,7 @@ function Movie() {
                           <p className="text-sm mr-1">دانلود {file.movieFileQuality}</p>
                         </a>
                       </div>
-                    )}
+                    )} */}
                   </div>
                 </div>
               ))}

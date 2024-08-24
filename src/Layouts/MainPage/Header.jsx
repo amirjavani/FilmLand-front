@@ -43,7 +43,7 @@ function Header() {
           <h4>خرید اشتراک</h4>
           <i className="bi bi-cart" aria-hidden="true" />
         </Link>
-        <Link className="login py-1" to="/dashboard">
+        <Link className="login py-1" to="/login">
           <h4>ورود</h4>
           <i className="bi bi-box-arrow-in-right" aria-hidden="true" />
         </Link>

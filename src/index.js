@@ -12,6 +12,8 @@ import Home from "./Components/MainPage/Home";
 import Movie from "./Components/MainPage/MoviesCom/Movie";
 import MovieManagement from "./Components/DashboardCom/MovieManagement";
 import ActorManagement from "./Components/DashboardCom/ActorManagement";
+import Register from "./Layouts/Register";
+import Login from "./Layouts/Login"
  
 const router = createBrowserRouter([
   {
@@ -37,7 +39,7 @@ const router = createBrowserRouter([
             element: <Movie></Movie>
           }
         ]
-      },
+      }
     ]
   },
   {
@@ -161,6 +163,16 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/register",
+    element: <Register></Register>,
+    index: true
+  },
+  {
+    path: "/login",
+    element: <Login></Login>,
+    index: true
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

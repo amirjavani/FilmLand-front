@@ -1,0 +1,140 @@
+.loginaa {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    margin-top: 100px;
+    height: 600px;
+    width: 400px;
+    background-color: aqua;
+    border-radius: 10px;
+}
+
+.login-title-container {
+    width: 100%;
+    height: 15%;
+    background-color: aquamarine;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-title {
+    font-size: xx-large;
+    font-weight: 800;
+}
+
+.login-body-container {
+    width: 100%;
+    height: 80%;
+    background-color: cadetblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+}
+
+.login-email-input {
+    margin-bottom: 20px;
+    width: 80%;
+    height: 20%;
+    border: none !important;
+    border-bottom: solid 2px #000000 !important;
+    background-color: inherit;
+    padding: 10px;
+    outline: none;
+    position: relative;
+    z-index: 0;
+}
+
+.login-username-input {
+    margin-bottom: 20px;
+    width: 80%;
+    height: 20%;
+    border: none !important;
+    border-bottom: solid 2px #000000 !important;
+    background-color: inherit;
+    padding: 10px;
+    outline: none;
+    position: relative;
+    z-index: 0;
+}
+
+.login-password-input {
+    margin-bottom: 20px;
+    width: 80%;
+    height: 20%;
+    border: none !important;
+    border-bottom: solid 2px #000000 !important;
+    background-color: inherit;
+    padding: 10px;
+    outline: none;
+    position: relative;
+    z-index: 0;
+}
+
+.login-email-label {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: cadetblue;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    padding: 0 5px;
+    color: #000;
+    z-index: 1;
+}
+
+.login-username-label {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: cadetblue;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    padding: 0 5px;
+    color: #000;
+    z-index: 1;
+}
+
+.login-password-label {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: cadetblue;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    padding: 0 5px;
+    color: #000;
+    z-index: 1;
+}
+
+.login-checkbox {
+    width: 80%;
+    /* padding: 10px; */
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    background-color: blanchedalmond;
+}
+
+.login-checkbox input {
+    margin-left: 5px;
+}
+
+.login-email-input:focus + .login-email-label,
+.login-email-input:not(:placeholder-shown) + .login-email-label {
+    bottom: 35%;
+    /* font-size: 0.8rem; */
+    color: #000;
+}
+
+.login-username-input:focus + .login-username-label,
+.login-username-input:not(:placeholder-shown) + .login-username-lebel {
+    bottom: 75%;
+    /* font-size: 0.8rem; */
+    color: #000;
+}
