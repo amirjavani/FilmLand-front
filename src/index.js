@@ -125,8 +125,12 @@ const router = createBrowserRouter([
             element: <></>,
           },
           {
+            path: "episodeManager/:id",
+            element: <></>,
+          },
+          {
             path: "*",
-            element: <div>SMNotfound</div>,
+            element: <div>MMNotfound</div>,
           },
           {
             path: "",

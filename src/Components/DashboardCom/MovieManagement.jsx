@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  useNavigate,
-  Route,
-  Routes,
-  Outlet,
-  Link,
-} from "react-router-dom";
+import { useNavigate, Route, Routes, Outlet, Link } from "react-router-dom";
 import {
   FetchMoviesList,
   RemoveMovie,
@@ -19,6 +13,8 @@ function MovieManagement() {
   const [moviesList, setMoviesList] = useState([]);
   const navigate = useNavigate();
   const [showEpisodeManager, setShowEpisodeManager] = useState(false);
+  const [modalUserID, setModalUserID] = useState("");
+  const [episodes, setEpisodes] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -54,18 +50,24 @@ function MovieManagement() {
   return (
     <div>
       <p className="fs-2"> فیلم ها</p>
-      <button className="btn bg-slate-500" onClick={()=> setShowEpisodeManager(true)} >model</button>
-      <EpisodeManager closeCom={()=>setShowEpisodeManager(false)} isShow={showEpisodeManager}>model</EpisodeManager>
+      {/* <EpisodeManager
+        closeCom={() => setShowEpisodeManager(false)}
+        isShow={showEpisodeManager}
+        movieID={modalUserID}
+        fetchedEpisodes={episodes}>
+        
+      </EpisodeManager> */}
       <Outlet></Outlet>
       <Routes>
-        <Route path=":id" element={<AddMovie ></AddMovie>}></Route>
-        <Route path="add" element={<AddMovie ></AddMovie>}></Route>
+        <Route path=":id" element={<AddMovie></AddMovie>}></Route>
+        <Route path="add" element={<AddMovie></AddMovie>}></Route>
+        <Route path="/episodeManager/:id" element={<EpisodeManager />}></Route>
 
         <Route
           path=""
           element={
             <div
-              className="my-5 relative overflow-x-auto  overflow-y-auto shadow rounded border-1 border-zinc-800"
+              className="my-5 relative overflow-x-auto  overflow-y-auto shadow rounded border-1 border-zinc-800 whitespace-nowrap"
               style={{ maxHeight: "70vh" }}>
               <table className="w-full text-sm text-left rtl:text-right  ">
                 <thead className="text-xs text-gray-900  border-b ">
@@ -94,6 +96,11 @@ function MovieManagement() {
                       scope="col"
                       className="px-6 py-3 border-l border-neutral-500">
                       ژانر
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 border-l border-neutral-500">
+                      قسمت ها{" "}
                     </th>
                     <th scope="col" className="w-10 text-center">
                       <button
@@ -129,7 +136,22 @@ function MovieManagement() {
                               {obj.categoryTitle ? obj.categoryTitle : "خالی"}
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.genreTitles[0] ? obj.genreTitles.map((e)=>{return(<>{e},</>)}) : "خالی"}
+                              {obj.genreTitles[0]
+                                ? obj.genreTitles.map((e) => {
+                                    return <>{e},</>;
+                                  })
+                                : "خالی"}
+                            </td>
+                            <td className="h-full p-1 border-l border-neutral-500">
+                              <button
+                                className="btn  bg-slate-500 w-full min-h-[100px]"
+                                onClick={() => {
+                                  navigate(
+                                    `/dashboard/movieManagement/episodeManager/${obj.movieId}`
+                                  );
+                                }}>
+                                قسمت
+                              </button>
                             </td>
                             <td className="flex flex-col p-1 w-20">
                               <button
