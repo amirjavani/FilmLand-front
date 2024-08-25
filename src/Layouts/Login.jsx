@@ -31,7 +31,12 @@ const Login = () => {
                         <input type="checkbox" />
                         <label htmlFor="">قوانین را مطالعه کرده ام و می پذیرم.</label>
                     </div>
-                    <button className="login-button"></button>
+                    <button className="login-button">ثبت نام</button>
+                    <div className="login-already-account-container">
+                        <p>آیا قبلا یک اکانت داشته اید؟&nbsp;</p>
+                        <a href="">ورود</a>
+                    </div>
+                    
                 </div>
             </div>
         </div>
