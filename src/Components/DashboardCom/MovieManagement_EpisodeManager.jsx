@@ -5,63 +5,66 @@ import $ from "jquery";
 import CustomInput from "../GeneralComponents/CustomInput";
 import "./EpisodesStyle.css";
 import { useParams } from "react-router-dom";
+import { FetchMovieFile } from "../../Utility/SingleMovieAPI";
+import { AddingMovieFile } from "../../Utility/MovieAPI";
 
-const EpisodeManager = ({ movieID }) => {
+const EpisodeManager = ({ movieName }) => {
   const [seasons, setSeasons] = useState([]);
   const [activSeason, setActiveSeason] = useState(1);
+  const [name, setmovieName] = useState("");
   const [episodes, setEpisodes] = useState([
-    {
-      movieFileId: "ef0eb2f5-c855-45f3-9935-cbdb4c980ca0",
-      movieFileChapter: "2",
-      movieFileEpisode: "3",
-      movieFileDubbing: "dubbed",
-      movieFileIsCensored: false,
-      movieFileSubtitleURL: null,
-      movieFile_MovieURL: [
-        "https://doostihaa.upera.tv/2965100-0-720.mp4?ref=3m8",
-        "https://doostihaa.upera.tv/2965100-0-480.mp4?ref=3m8",
-        "https://doostihaa.upera.tv/2965100-0-1080.mp4?ref=3m8",
-      ],
-      movieFileQuality: [720, 480, 1080],
-    },
-    {
-      movieFileId: "ef0eb2f5-c855-45f3-9935-cbdb4c980ca0",
-      movieFileChapter: "1",
-      movieFileEpisode: "2",
-      movieFileDubbing: "dubbed",
-      movieFileIsCensored: false,
-      movieFileSubtitleURL: null,
-      movieFile_MovieURL: [
-        "https://doostihaa.upera.tv/2965100-0-720.mp4?ref=3m8",
-        "https://doostihaa.upera.tv/2965100-0-480.mp4?ref=3m8",
-        "https://doostihaa.upera.tv/2965100-0-1080.mp4?ref=3m8",
-      ],
-      movieFileQuality: [720, 480, 1080],
-    },
-    {
-      movieFileId: "ef0eb2f5-c855-45f3-9935-cbdb4c980ca0",
-      movieFileChapter: "1",
-      movieFileEpisode: "3",
-      movieFileDubbing: "farsi",
-      movieFileIsCensored: false,
-      movieFileSubtitleURL: null,
-      movieFile_MovieURL: [
-        "https://doostihaa.upera.tv/2965100-0-720.mp4?ref=3m8",
-        "https://doostihaa.upera.tv/2965100-0-480.mp4?ref=3m8",
-        "https://doostihaa.upera.tv/2965100-0-1080.mp4?ref=3m8",
-      ],
-      movieFileQuality: [720, 480, 1080],
-    },
-    {
-      movieFileId: "ef0eb2f5-c855-45f3-9935-cbdb4c980ca0",
-      movieFileChapter: "1",
-      movieFileEpisode: "3",
-      movieFileDubbing: "farsi",
-      movieFileIsCensored: false,
-      movieFileSubtitleURL: null,
-      movieFile_MovieURL: [],
-      movieFileQuality: [],
-    },
+    // {
+    //   movieFileId: "ef0eb2f5-c855-45f3-9935-cbdb4c980ca0",
+    //   movieFileChapter: "2",
+    //   movieFileEpisode: "3",
+    //   movieFileDubbing: "dubbed",
+    //   movieFileIsCensored: false,
+    //   movieFileSubtitleURL: null,
+    //   movieFile_MovieURL: [
+    //     "https://doostihaa.upera.tv/2965100-0-720.mp4?ref=3m8",
+    //     "https://doostihaa.upera.tv/2965100-0-480.mp4?ref=3m8",
+    //     "https://doostihaa.upera.tv/2965100-0-1080.mp4?ref=3m8",
+    //   ],
+    //   movieFileQuality: [720, 480, 1080],
+    // },
+    // {
+    //   movieFileId: "ef0eb2f5-c855-45f3-9935-cbdb4c980ca0",
+    //   movieFileChapter: "1",
+    //   movieFileEpisode: "2",
+    //   movieFileDubbing: "dubbed",
+    //   movieFileIsCensored: false,
+    //   movieFileSubtitleURL: null,
+    //   movieFile_MovieURL: [
+    //     "https://doostihaa.upera.tv/2965100-0-720.mp4?ref=3m8",
+    //     "https://doostihaa.upera.tv/2965100-0-480.mp4?ref=3m8",
+    //     "https://doostihaa.upera.tv/2965100-0-1080.mp4?ref=3m8",
+    //   ],
+    //   movieFileQuality: [720, 480, 1080],
+    // },
+    // {
+    //   movieFileId: "ef0eb2f5-c855-45f3-9935-cbdb4c980ca0",
+    //   movieFileChapter: "1",
+    //   movieFileEpisode: "3",
+    //   movieFileDubbing: "farsi",
+    //   movieFileIsCensored: false,
+    //   movieFileSubtitleURL: null,
+    //   movieFile_MovieURL: [
+    //     "https://doostihaa.upera.tv/2965100-0-720.mp4?ref=3m8",
+    //     "https://doostihaa.upera.tv/2965100-0-480.mp4?ref=3m8",
+    //     "https://doostihaa.upera.tv/2965100-0-1080.mp4?ref=3m8",
+    //   ],
+    //   movieFileQuality: [720, 480, 1080],
+    // },
+    // {
+    //   movieFileId: "ef0eb2f5-c855-45f3-9935-cbdb4c980ca0",
+    //   movieFileChapter: "1",
+    //   movieFileEpisode: "3",
+    //   movieFileDubbing: "farsi",
+    //   movieFileIsCensored: false,
+    //   movieFileSubtitleURL: null,
+    //   movieFile_MovieURL: [],
+    //   movieFileQuality: [],
+    // },
   ]);
   const [episodeNum, setEpisodeNum] = useState("");
   const [episodeSubtitleUrl, setEpisodeSubtitleUrl] = useState("");
@@ -81,15 +84,15 @@ const EpisodeManager = ({ movieID }) => {
     setEpisodeNum("");
     setAddEpisodeShow(true);
   };
-  const newEpisodeSubmitt = () => {
-    // episodes.push({
-    //   movieFileSubtitleURL: episodeSubtitleUrl,
-    //   movieEpisode: episodeNum,
-    //   movieFileChapter: activSeason,
-      
-    //   dubbe: episodeDubbe,
-    // });
-    // setEpisodes(episodes);
+  const newEpisodeFileSubmitt = () => {
+    AddingMovieFile({
+      movieFileChapter: activSeason.toString(),
+      id: id,
+      movieFileDubbing: episodeDubbe,
+      movieFileEpisode: episodeNum,
+      movieFileIsCensored:episodeIsCensored,
+      movieFileSubtitleURL:episodeSubtitleUrl,
+    });
 
     setAddEpisodeShow(false);
   };
@@ -109,16 +112,28 @@ const EpisodeManager = ({ movieID }) => {
     $("#episode-slide" + index).fadeToggle("fast");
   };
 
-  const fetchData = () => {
-    console.log(id);
+  const fetchData = async () => {
+    const response = await FetchMovieFile({ id });
+    setEpisodes(response.data);
 
+    console.log(id);
+  };
+
+  useEffect(() => {
+    setmovieName(movieName);
+    fetchData();
+
+    return () => {};
+  }, []);
+
+  useEffect(() => {
     if (episodes.length > 0) {
       const maxSeason = episodes.reduce(
         (max, episode) =>
           parseInt(episode.movieFileChapter) > max
             ? parseInt(episode.movieFileChapter)
             : max,
-        episodes[0].movieFileChapter
+        parseInt(episodes[0].movieFileChapter)
       );
 
       let s = [];
@@ -127,16 +142,11 @@ const EpisodeManager = ({ movieID }) => {
       }
       setSeasons(s);
     }
-  };
-
-  useEffect(() => {
-    fetchData();
-
-    return () => {};
-  }, []);
+  }, [episodes]);
 
   return (
     <div className="border  border-black bg-white h-full rounded p-4 text-left my-10">
+      {movieName}
       <div className="flex flex-row gap-2 mb-2">
         <div className="flex flex-row gap-2 overflow-auto">
           {seasons &&
@@ -236,7 +246,7 @@ const EpisodeManager = ({ movieID }) => {
                                         </span>
                                       </div>
                                       <div>
-                                        <button className="btn btn-danger">
+                                        <button className="btn btn-danger text-sm">
                                           حذف
                                         </button>
                                       </div>
@@ -249,10 +259,23 @@ const EpisodeManager = ({ movieID }) => {
 
                           <div className="flex felx-row justify-between items-center mt-1">
                             <div className="flex felx-row gap-3 ">
-                              <label className="my-auto font-IYbold" htmlFor="episode-url">آدرس:</label>
-                              <input className="p-1 col-5 col-md-7 col-xl-10  rounded" id="episode-url rounded"></input>
-                              <label className="my-auto font-IYbold" htmlFor="episode-quality">کیفیت:</label>
-                              <input className="p-1 col-2 rounded" type="number" id="episode-quality"></input>
+                              <label
+                                className="my-auto font-IYbold"
+                                htmlFor="episode-url">
+                                آدرس:
+                              </label>
+                              <input
+                                className="p-1 col-5 col-md-7 col-xl-10  rounded"
+                                id="episode-url rounded"></input>
+                              <label
+                                className="my-auto font-IYbold"
+                                htmlFor="episode-quality">
+                                کیفیت:
+                              </label>
+                              <input
+                                className="p-1 col-2 rounded"
+                                type="number"
+                                id="episode-quality"></input>
                             </div>
                             <div className="">
                               <button className=" btn btn-success">ثبت </button>
@@ -286,23 +309,41 @@ const EpisodeManager = ({ movieID }) => {
               className={"col-2 my-2"}
               title={"قسمت"}></CustomInput>
             <label htmlFor="isCensored">سانسور شده:</label>
-            <input id="isCensored" type="checkbox" value={episodeIsCensored} onChange={(e) => setepIsodeIsCensored(e.target.value)}></input>
-            
+            <input
+              id="isCensored"
+              type="checkbox"
+              checked={episodeIsCensored}
+              onChange={(e) => {
+                console.log(episodeIsCensored)
+              setepIsodeIsCensored(!episodeIsCensored)}}></input>
+
             <label htmlFor="dubbe">دوبله:</label>
             <select
               id="dubbe"
               className="text-sm  col-3 outline-none bg-slate-100 text-center"
               value={episodeDubbe}
               onChange={(e) => setEpisodeDubbe(e.target.value)}>
-              <option className="text-sm col-2 outline-none bg-slate-200 text-center hover:bg-slate-300" value="">--</option>
-              <option className="text-sm col-2 outline-none bg-slate-200 text-center" value="dubbed">دوبله فارسی</option>
-              <option className="text-sm  col-2 outline-none bg-slate-200 text-center" value="original">زبان اصلی</option>
+              <option
+                className="text-sm col-2 outline-none bg-slate-200 text-center hover:bg-slate-300"
+                value="">
+                --
+              </option>
+              <option
+                className="text-sm col-2 outline-none bg-slate-200 text-center"
+                value="dubbed">
+                دوبله فارسی
+              </option>
+              <option
+                className="text-sm  col-2 outline-none bg-slate-200 text-center"
+                value="original">
+                زبان اصلی
+              </option>
             </select>
           </div>
 
           <CustomInput
             value={episodeSubtitleUrl}
-            setValue={episodeSubtitleUrl}
+            setValue={setEpisodeSubtitleUrl}
             type={"text"}
             className={"col-12 my-3"}
             title={"آدرس‌ زیرنویس"}></CustomInput>
@@ -311,7 +352,7 @@ const EpisodeManager = ({ movieID }) => {
           <Button variant="outline-danger" onClick={handleAddEpisodeClose}>
             لغو
           </Button>
-          <Button variant="success" onClick={() => newEpisodeSubmitt()}>
+          <Button variant="success" onClick={() => newEpisodeFileSubmitt()}>
             ثبت
           </Button>
         </Modal.Footer>

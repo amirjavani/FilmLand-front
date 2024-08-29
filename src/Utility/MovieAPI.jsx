@@ -29,14 +29,10 @@ const GetOneMovie = async (props) => {
   return response;
 };
 
-const AddingMovie = async ({formData}) => {
-  const response = await axios.post(
-    `${Url}/MovieManagement/Add`,
-    formData,
-    {
-      headers: {},
-    }
-  );
+const AddingMovie = async ({ formData }) => {
+  const response = await axios.post(`${Url}/MovieManagement/Add`, formData, {
+    headers: {},
+  });
   return response;
 };
 
@@ -49,9 +45,12 @@ const RemoveMovie = async (props) => {
 };
 
 const ToggelMovie = async (props) => {
-  const response = await axios.get(`${Url}/MovieManagement/ChangeStatus/${props.id}`, {
-    headers: {},
-  });
+  const response = await axios.get(
+    `${Url}/MovieManagement/ChangeStatus/${props.id}`,
+    {
+      headers: {},
+    }
+  );
   return response;
 };
 
@@ -70,6 +69,32 @@ const EditMovie = async (props) => {
   return response;
 };
 
+const AddingMovieFile = async ({
+  movieFileChapter,
+  movieFileEpisode,
+  movieFileDubbing,
+  movieFileIsCensored,
+  movieFileSubtitleURL,
+  id,
+}) => {
+  const formData = new FormData();
+  formData.append("MovieFileIsCensored", movieFileIsCensored);
+    formData.append("MovieFileSubtitleURL", movieFileSubtitleURL);
+    formData.append("MovieFileEpisode", movieFileEpisode);
+    formData.append("MovieFileChapter", movieFileChapter);
+    formData.append("MovieRef", id);
+    formData.append("MovieFileDubbing", movieFileDubbing);
+  const response = await axios.post(
+    `${Url}/MovieFile/Add`,
+    formData
+    ,
+    {
+      headers: {'Content-Type': 'multipart/form-data',},
+    }
+  );
+  return response;
+};
+
 export {
   FetchCategory,
   FetchGenre,
@@ -79,4 +104,5 @@ export {
   ToggelMovie,
   EditMovie,
   GetOneMovie,
+  AddingMovieFile,
 };

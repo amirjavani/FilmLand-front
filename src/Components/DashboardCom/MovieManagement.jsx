@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, Route, Routes, Outlet, Link } from "react-router-dom";
 import {
   FetchMoviesList,
@@ -15,6 +15,7 @@ function MovieManagement() {
   const [showEpisodeManager, setShowEpisodeManager] = useState(false);
   const [modalUserID, setModalUserID] = useState("");
   const [episodes, setEpisodes] = useState([]);
+  const [movieName,setMovieName] = useState('')
 
   const fetchData = async () => {
     try {
@@ -61,7 +62,7 @@ function MovieManagement() {
       <Routes>
         <Route path=":id" element={<AddMovie></AddMovie>}></Route>
         <Route path="add" element={<AddMovie></AddMovie>}></Route>
-        <Route path="/episodeManager/:id" element={<EpisodeManager />}></Route>
+        <Route path="/episodeManager/:id" element={<EpisodeManager movieName={movieName} />}></Route>
 
         <Route
           path=""
@@ -146,6 +147,7 @@ function MovieManagement() {
                               <button
                                 className="btn  bg-slate-500 w-full min-h-[100px]"
                                 onClick={() => {
+                                  setMovieName(obj.movieEnglishName)
                                   navigate(
                                     `/dashboard/movieManagement/episodeManager/${obj.movieId}`
                                   );
