@@ -94,6 +94,27 @@ const AddingMovieFile = async ({
   );
   return response;
 };
+const AddingMovieFileDetail = async ({
+  
+  movieFileQuality,
+  movieFile_MovieURL,
+  id,
+}) => {
+  const formData = new FormData();
+  formData.append("MovieFileQuality", movieFileQuality);
+    formData.append("MovieFile_MovieURL", movieFile_MovieURL);
+    formData.append("MovieFileRef", id);
+   
+  const response = await axios.post(
+    `${Url}/MovieFileDetail/Add`,
+    formData
+    ,
+    {
+      headers: {'Content-Type': 'multipart/form-data',},
+    }
+  );
+  return response;
+};
 
 export {
   FetchCategory,
@@ -105,4 +126,5 @@ export {
   EditMovie,
   GetOneMovie,
   AddingMovieFile,
+  AddingMovieFileDetail,
 };

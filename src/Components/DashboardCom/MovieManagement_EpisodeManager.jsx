@@ -6,65 +6,14 @@ import CustomInput from "../GeneralComponents/CustomInput";
 import "./EpisodesStyle.css";
 import { useParams } from "react-router-dom";
 import { FetchMovieFile } from "../../Utility/SingleMovieAPI";
-import { AddingMovieFile } from "../../Utility/MovieAPI";
+import { AddingMovieFile, AddingMovieFileDetail } from "../../Utility/MovieAPI";
 
 const EpisodeManager = ({ movieName }) => {
   const [seasons, setSeasons] = useState([]);
   const [activSeason, setActiveSeason] = useState(1);
   const [name, setmovieName] = useState("");
   const [episodes, setEpisodes] = useState([
-    // {
-    //   movieFileId: "ef0eb2f5-c855-45f3-9935-cbdb4c980ca0",
-    //   movieFileChapter: "2",
-    //   movieFileEpisode: "3",
-    //   movieFileDubbing: "dubbed",
-    //   movieFileIsCensored: false,
-    //   movieFileSubtitleURL: null,
-    //   movieFile_MovieURL: [
-    //     "https://doostihaa.upera.tv/2965100-0-720.mp4?ref=3m8",
-    //     "https://doostihaa.upera.tv/2965100-0-480.mp4?ref=3m8",
-    //     "https://doostihaa.upera.tv/2965100-0-1080.mp4?ref=3m8",
-    //   ],
-    //   movieFileQuality: [720, 480, 1080],
-    // },
-    // {
-    //   movieFileId: "ef0eb2f5-c855-45f3-9935-cbdb4c980ca0",
-    //   movieFileChapter: "1",
-    //   movieFileEpisode: "2",
-    //   movieFileDubbing: "dubbed",
-    //   movieFileIsCensored: false,
-    //   movieFileSubtitleURL: null,
-    //   movieFile_MovieURL: [
-    //     "https://doostihaa.upera.tv/2965100-0-720.mp4?ref=3m8",
-    //     "https://doostihaa.upera.tv/2965100-0-480.mp4?ref=3m8",
-    //     "https://doostihaa.upera.tv/2965100-0-1080.mp4?ref=3m8",
-    //   ],
-    //   movieFileQuality: [720, 480, 1080],
-    // },
-    // {
-    //   movieFileId: "ef0eb2f5-c855-45f3-9935-cbdb4c980ca0",
-    //   movieFileChapter: "1",
-    //   movieFileEpisode: "3",
-    //   movieFileDubbing: "farsi",
-    //   movieFileIsCensored: false,
-    //   movieFileSubtitleURL: null,
-    //   movieFile_MovieURL: [
-    //     "https://doostihaa.upera.tv/2965100-0-720.mp4?ref=3m8",
-    //     "https://doostihaa.upera.tv/2965100-0-480.mp4?ref=3m8",
-    //     "https://doostihaa.upera.tv/2965100-0-1080.mp4?ref=3m8",
-    //   ],
-    //   movieFileQuality: [720, 480, 1080],
-    // },
-    // {
-    //   movieFileId: "ef0eb2f5-c855-45f3-9935-cbdb4c980ca0",
-    //   movieFileChapter: "1",
-    //   movieFileEpisode: "3",
-    //   movieFileDubbing: "farsi",
-    //   movieFileIsCensored: false,
-    //   movieFileSubtitleURL: null,
-    //   movieFile_MovieURL: [],
-    //   movieFileQuality: [],
-    // },
+    
   ]);
   const [episodeNum, setEpisodeNum] = useState("");
   const [episodeSubtitleUrl, setEpisodeSubtitleUrl] = useState("");
@@ -90,11 +39,12 @@ const EpisodeManager = ({ movieName }) => {
       id: id,
       movieFileDubbing: episodeDubbe,
       movieFileEpisode: episodeNum,
-      movieFileIsCensored:episodeIsCensored,
-      movieFileSubtitleURL:episodeSubtitleUrl,
+      movieFileIsCensored: episodeIsCensored,
+      movieFileSubtitleURL: episodeSubtitleUrl,
     });
 
     setAddEpisodeShow(false);
+    fetchData();
   };
 
   const handleRemoveNotifClose = () => setRemovNotifShow(false);
@@ -103,10 +53,7 @@ const EpisodeManager = ({ movieName }) => {
   const handleEditEpisodeClose = () => setEditEpisodeShow(false);
   const handleEditEpisodeShow = () => setEditEpisodeShow(true);
 
-  const addSeasen = () => {
-    setSeasons(seasons.concat(seasons.length + 1));
-  };
-  // $('.episode-slide').hide()
+
 
   const episodeSlideToggle = (index) => {
     $("#episode-slide" + index).fadeToggle("fast");
@@ -141,6 +88,8 @@ const EpisodeManager = ({ movieName }) => {
         s.push(index);
       }
       setSeasons(s);
+    }else{
+      setSeasons([1]);
     }
   }, [episodes]);
 
@@ -197,6 +146,8 @@ const EpisodeManager = ({ movieName }) => {
           <tbody class="font-IYnum ">
             {episodes &&
               episodes.map((episode, index) => {
+                let url;
+                let quality;
                 if (parseInt(episode.movieFileChapter) === activSeason)
                   return (
                     <React.Fragment key={index}>
@@ -233,6 +184,7 @@ const EpisodeManager = ({ movieName }) => {
                           <div className="flex flex-column gap-1">
                             {episode.movieFile_MovieURL.length > 0 &&
                               episode.movieFileQuality.length > 0 &&
+                              episode.movieFile_MovieURL[0]===null?(<>آدرسی وجود ندارد</>):
                               episode.movieFile_MovieURL.map((url, index) => {
                                 return (
                                   <React.Fragment>
@@ -260,12 +212,16 @@ const EpisodeManager = ({ movieName }) => {
                           <div className="flex felx-row justify-between items-center mt-1">
                             <div className="flex felx-row gap-3 ">
                               <label
-                                className="my-auto font-IYbold"
+                                className="my-auto font-IYbold "
                                 htmlFor="episode-url">
                                 آدرس:
                               </label>
                               <input
-                                className="p-1 col-5 col-md-7 col-xl-10  rounded"
+                              value={url}
+                                onChange={(e) => {
+                                  url = e.target.value;
+                                }}
+                                className="p-1 col-5 col-md-7 col-xl-10  rounded slide-input"
                                 id="episode-url rounded"></input>
                               <label
                                 className="my-auto font-IYbold"
@@ -273,12 +229,24 @@ const EpisodeManager = ({ movieName }) => {
                                 کیفیت:
                               </label>
                               <input
-                                className="p-1 col-2 rounded"
+                              value={quality}
+                                onChange={(e) => {
+                                  quality = e.target.value;
+                                }}
+                                className="p-1 col-2 rounded slide-input"
                                 type="number"
                                 id="episode-quality"></input>
                             </div>
                             <div className="">
-                              <button className=" btn btn-success">ثبت </button>
+                              <button
+                                onClick={(e) => {
+                                  AddingMovieFileDetail({id:episode.movieFileId,movieFile_MovieURL:url,movieFileQuality:quality})
+                                  $('.slide-input').val('')
+                                  fetchData();
+                                }}
+                                className=" btn btn-success">
+                                ثبت{" "}
+                              </button>
                             </div>
                           </div>
                         </td>
@@ -314,8 +282,9 @@ const EpisodeManager = ({ movieName }) => {
               type="checkbox"
               checked={episodeIsCensored}
               onChange={(e) => {
-                console.log(episodeIsCensored)
-              setepIsodeIsCensored(!episodeIsCensored)}}></input>
+                console.log(episodeIsCensored);
+                setepIsodeIsCensored(!episodeIsCensored);
+              }}></input>
 
             <label htmlFor="dubbe">دوبله:</label>
             <select
