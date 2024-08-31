@@ -1,0 +1,101 @@
+.movies-container {
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.movies-inner-container {
+    /* background-color: rgb(5, 57, 103); */
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+.movies-inner-title-container {
+    /* background-color: aquamarine; */
+    height: 50px;
+    width: 100%;
+    display: flex;
+    margin-top: 30px;
+    justify-content: start;
+    align-items: center;
+}
+
+.movies-carts-container {
+    /* background-color: aqua; */
+    width: 95%;
+    /* padding-top: 5px; */
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    /* Space between the cards */
+}
+
+.movies-cart {
+    width: 13rem;
+    height: 22rem;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 11px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    /* The card will now have a fixed size and will properly contain the image */
+}
+
+.movie_cart_title {
+    position: relative;
+    display: flex;
+    height: 40px;
+    width: 170px;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.movies-title5 {
+    font-size: 25px;
+}
+
+@media (max-width: 700px) {
+    .movies-inner-container {
+        width: 95%;
+    }
+
+    .movies-cart {
+        width: 10rem;
+        height: 16rem;
+        margin: 0;
+        margin-top: 20px;
+    }
+
+    .movies-carts-container {
+        gap: 0;
+    }
+
+    .movie_cart_title {
+        font-size: 11px;
+        height: 25px;
+    }
+
+    .movies-container {
+        margin-top: 70px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .movies-title5 {
+        font-size: 20px;
+    }
+
+}

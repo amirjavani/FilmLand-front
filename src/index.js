@@ -12,8 +12,10 @@ import Home from "./Components/MainPage/Home";
 import Movie from "./Components/MainPage/MoviesCom/Movie";
 import MovieManagement from "./Components/DashboardCom/MovieManagement";
 import ActorManagement from "./Components/DashboardCom/ActorManagement";
-import Register from "./Layouts/Register";
-import Login from "./Layouts/Login"
+import Register from "./Layouts/MainPage/Register";
+import Login from "./Layouts/MainPage/Login";
+import Subscription from "./Layouts/MainPage/Subscription";
+import Redirect from "./Layouts/MainPage/Redirect";
  
 const router = createBrowserRouter([
   {
@@ -26,7 +28,7 @@ const router = createBrowserRouter([
         index :true
       },
       {
-        path: "/movie",
+        path: "/search",
         element: <div className=" text-white"><Outlet></Outlet></div>,
         children:[
           {
@@ -172,7 +174,17 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login></Login>,
     index: true
-  }
+  },
+  {
+    path: "/subscription",
+    element: <Subscription></Subscription>,
+    index: true
+  },
+  {
+    path: "/redirect",
+    element: <Redirect></Redirect>,
+    index: true
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

@@ -2,11 +2,12 @@ import React from 'react'
 
 import FilterNav from './FilterNav';
 import MovieCard from './MovieCard';
+import "./MoviesStyle.css"
 
 const movies = [
   {
     id: 1,
-    title: "Film Title 1",
+    title: "پاندای کونگ فو کار ",
     description: "This is the description for film 1",
     posterUrl: "/Assets/Carts/Dune.jpg",
     bookmark: true,
@@ -39,31 +40,55 @@ const movies = [
     posterUrl: "/Assets/Carts/Forrest Gump.jpg",
     bookmark: true,
   },
+  {
+    id: 2,
+    title: "Film Title 2",
+    description: "This is the description for film 2",
+    posterUrl: "/Assets/Carts/Forrest Gump.jpg",
+    bookmark: true,
+  },
+  {
+    id: 2,
+    title: "Film Title 2",
+    description: "This is the description for film 2",
+    posterUrl: "/Assets/Carts/Forrest Gump.jpg",
+    bookmark: true,
+  },
+  {
+    id: 2,
+    title: "Film Title 2",
+    description: "This is the description for film 2",
+    posterUrl: "/Assets/Carts/Forrest Gump.jpg",
+    bookmark: true,
+  },
 
 ];
 
 function MoviesComponent() {
 
-  const fetchMovies = ()=> {
+  const fetchMovies = () => {
 
   }
 
 
   return (
-    <div className="mt-20 text-white">
-      <FilterNav></FilterNav>
-      <div className="pr-5 head">
-        <div className="short-line"></div>
-        <h2 className="fs-3">فیلم ها</h2>
-      </div>
-      <div className=" xl:px-25 lg:px-20 md:px-15 sm:px-5 ">
-        <div className="flex flex-wrap -mx-4">
+    <div className="movies-container">
+      <FilterNav />
+      <div className="movies-inner-container">
+        <div className="movies-inner-title-container">
+          <div className="short-line"></div>
+          <h2 className="movies-title5">فیلم ها</h2>
+        </div>
+        <div className="movies-carts-container">
           {movies.map((movie) => (
-            <div
-              key={movie.id}
-              className="w-1/2  sm:w-1/3 md:w-1/3 lg:w-1/4 xl:w-1/5 px-4">
+            <div key={movie.id} className="movies-cart">
+              <div className="movie_cart_title">
+                Kung Fu Panda 4
+              </div>
               <MovieCard mov={movie} />
+              
             </div>
+            
           ))}
         </div>
       </div>
