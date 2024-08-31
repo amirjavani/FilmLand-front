@@ -1,0 +1,15 @@
+.redirect-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 35vh;
+}
+
+.redirect-title {
+    font-size: 50px;
+}
+
+.redirect-text {
+    margin-top: 30px;
+    font-size: 20px;
+}

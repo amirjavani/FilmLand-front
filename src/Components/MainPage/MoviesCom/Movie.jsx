@@ -533,7 +533,7 @@ function Movie() {
             <div className="line2"></div>
           </div>
           <div className="downloads">
-            {/* <div className="filter-download">
+            <div className="filter-download">
               <section class="main-container">
                 <div class="tab-nav-bar">
                   <div class="tab-navigation">
@@ -610,7 +610,7 @@ function Movie() {
                   </ul>
                 </div>
               </div>
-            </div> */}
+            </div>
             <div>
               {MovieFile.map((file, index) => (
                 <div key={index} className="download-container">
@@ -640,7 +640,6 @@ function Movie() {
                           </div>
                         </a>
                       ))}
-
                     {/* {file.movieFileQuality == 1080 && (
                       <div className="download">
                         <i className="fa fa-download" aria-hidden="true"></i>

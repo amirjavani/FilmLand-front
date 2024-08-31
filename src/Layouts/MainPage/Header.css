@@ -96,6 +96,9 @@
   height: 40px;
   background-color: rgb(230, 56, 56);
   border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-left: 20px;
   color: white;
   text-decoration: none;
@@ -107,10 +110,6 @@
   transition: .5s;
 }
 
-.subscription h4 {
-  padding: 7px 16px;
-}
-
 .subscription i {
   display: none;
 }
@@ -118,10 +117,14 @@
 
 .login {
   margin-top: .6rem;
+  /* width: 120px; */
   width: 95px;
+  
   height: 38px;
   background-color: rgb(0, 0, 0);
   border: 2px solid rgb(218, 153, 12);
+  /* border: 2px solid rgb(63, 12, 218); */
+
   border-radius: 10px;
   color: white;
   text-decoration: none;
@@ -130,11 +133,39 @@
 
 .login:hover {
   background-color: rgb(218, 153, 12);
+  /* background-color: rgb(63, 12, 218); */
   transition: .5s;
 }
 
 .login h4 {
   padding: 4px 30px;
+}
+
+.user-account {
+  display: none;
+  margin-top: .6rem;
+  width: 80px;
+  /* width: 95px; */
+
+  height: 38px;
+  background-color: rgb(0, 0, 0);
+  /* border: 2px solid rgb(218, 153, 12); */
+  border: 2px solid rgb(63, 12, 218);
+
+  border-radius: 10px;
+  color: white;
+  text-decoration: none;
+  transition: .5s;
+}
+
+.user-account:hover {
+  /* background-color: 2px solid rgb(218, 153, 12); */
+  background-color: rgb(63, 12, 218);
+  transition: .5s;
+}
+
+.user-account h4 {
+  padding: 4px 20px;
 }
 
 .login i {
@@ -293,7 +324,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 0;
+    width: 20px;
     height: 30px;
     padding: 16px;
     font-size: larger;
