@@ -94,6 +94,41 @@ const AddingMovieFile = async ({
   );
   return response;
 };
+const EditingMovieFile = async ({
+  movieFileChapter,
+  movieFileEpisode,
+  movieFileDubbing,
+  movieFileIsCensored,
+  movieFileSubtitleURL,
+  id,
+}) => {
+  // const formData = new FormData();
+  // formData.append("MovieFileIsCensored", movieFileIsCensored);
+  //   formData.append("MovieFileSubtitleURL", movieFileSubtitleURL);
+  //   formData.append("MovieFileEpisode", movieFileEpisode);
+  //   formData.append("MovieFileChapter", movieFileChapter);
+  //   formData.append("MovieRef", id);
+  //   formData.append("MovieFileDubbing", movieFileDubbing);
+  const response = await axios.put(
+    `${Url}/MovieFile/Edit/${id}`,
+    JSON.stringify(
+      
+      {
+        "movieFileChapter": movieFileChapter,
+        "movieFileEpisode": movieFileEpisode,
+        "movieFileDubbing": movieFileDubbing,
+        "movieFileIsCensored": movieFileIsCensored,
+        "movieFileSubtitleURL": movieFileSubtitleURL,
+        "movieRef": null
+      }
+    )
+    ,
+    {
+      headers: {'Content-Type':'application/json, text/plain, */*'},
+    }
+  );
+  return response;
+};
 
 
 const RemoveMovieFile = async (props) => {
@@ -127,6 +162,8 @@ const AddingMovieFileDetail = async ({
   return response;
 };
 
+
+
 export {
   FetchCategory,
   FetchGenre,
@@ -139,4 +176,5 @@ export {
   AddingMovieFile,
   AddingMovieFileDetail,
   RemoveMovieFile,
+  EditingMovieFile,
 };

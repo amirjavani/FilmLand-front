@@ -6,7 +6,7 @@ import CustomInput from "../GeneralComponents/CustomInput";
 import "./EpisodesStyle.css";
 import { useParams } from "react-router-dom";
 import { FetchMovieFile } from "../../Utility/SingleMovieAPI";
-import { AddingMovieFile, AddingMovieFileDetail, RemoveMovieFile } from "../../Utility/MovieAPI";
+import { AddingMovieFile, AddingMovieFileDetail, EditingMovieFile, RemoveMovieFile } from "../../Utility/MovieAPI";
 
 const EpisodeManager = ({ movieName }) => {
   const [seasons, setSeasons] = useState([]);
@@ -61,7 +61,26 @@ const EpisodeManager = ({ movieName }) => {
   };
 
   const handleEditEpisodeClose = () => setEditEpisodeShow(false);
-  const handleEditEpisodeShow = () => setEditEpisodeShow(true);
+  const handleEditEpisodeShow =  (e) => {
+    setEpisodeSubtitleUrl(e.movieFileSubtitleURL);
+    setEpisodeDubbe(e.movieFileDubbing);
+    setepIsodeIsCensored(e.movieFileIsCensored);
+    setEpisodeNum(e.movieFileEpisode);
+    setEditEpisodeShow(true);
+  };
+
+  const editingEpisodeFileSubmitt = async ()  => {
+    await EditingMovieFile({
+      movieFileChapter: activSeason.toString(),
+      id: id,
+      movieFileDubbing: episodeDubbe,
+      movieFileEpisode: episodeNum,
+      movieFileIsCensored: episodeIsCensored,
+      movieFileSubtitleURL: episodeSubtitleUrl,
+    });
+    await fetchData();
+    setRemovNotifShow(false);
+  };
 
   const episodeSlideToggle = (index) => {
     $("#episode-slide" + index).fadeToggle("fast");
@@ -207,7 +226,7 @@ const EpisodeManager = ({ movieName }) => {
                           </button>
                           <i
                             className="bi bi-pencil-square btn btn-secondary "
-                            onClick={() => {}}>
+                            onClick={() => handleEditEpisodeShow(episode)}>
                             
                           </i>
                           <i className="btn btn-danger  bi bi-trash3" onClick={()=>handleRemoveNotifShow(episode)}></i>
@@ -300,6 +319,8 @@ const EpisodeManager = ({ movieName }) => {
       <Button className="btn btn-success m-2" onClick={handleAddEpisodeShow}>
         افزودن
       </Button>
+      
+      {/* add modal */}
       <Modal
         className="text-slate-600"
         show={addEpisodeShow}
@@ -365,9 +386,79 @@ const EpisodeManager = ({ movieName }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-
+      
+      
+      {/* edit modal */}
       <Modal
+        className="text-slate-600"
+        show={editEpisodeShow}
+        onHide={handleEditEpisodeClose}>
+        <Modal.Header>
+          <Modal.Title>ویرایش</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="flex flex-row gap-3 justify-evenly items-center">
+            <CustomInput
+              value={episodeNum}
+              setValue={setEpisodeNum}
+              type={"number"}
+              className={"col-2 my-2"}
+              title={"قسمت"}></CustomInput>
+            <label htmlFor="isCensored">سانسور شده:</label>
+            <input
+              id="isCensored"
+              type="checkbox"
+              checked={episodeIsCensored}
+              onChange={(e) => {
+                console.log(episodeIsCensored);
+                setepIsodeIsCensored(!episodeIsCensored);
+              }}></input>
 
+            <label htmlFor="dubbe">دوبله:</label>
+            <select
+              id="dubbe"
+              className="text-sm  col-3 outline-none bg-slate-100 text-center"
+              value={episodeDubbe}
+              onChange={(e) => setEpisodeDubbe(e.target.value)}>
+              <option
+                className="text-sm col-2 outline-none bg-slate-200 text-center hover:bg-slate-300"
+                value="">
+                --
+              </option>
+              <option
+                className="text-sm col-2 outline-none bg-slate-200 text-center"
+                value="dubbed">
+                دوبله فارسی
+              </option>
+              <option
+                className="text-sm  col-2 outline-none bg-slate-200 text-center"
+                value="original">
+                زبان اصلی
+              </option>
+            </select>
+          </div>
+
+          <CustomInput
+            value={episodeSubtitleUrl}
+            setValue={setEpisodeSubtitleUrl}
+            type={"text"}
+            className={"col-12 my-3"}
+            title={"آدرس‌ زیرنویس"}></CustomInput>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="outline-danger" onClick={handleEditEpisodeClose}>
+            لغو
+          </Button>
+          <Button variant="success" onClick={() => {editingEpisodeFileSubmitt()}}>
+            ثبت
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+
+              
+      {/* delete submit modal */}
+      <Modal
         className="text-slate-600"
         show={removNotifShow}
         onHide={handleRemoveNotifClose}>
