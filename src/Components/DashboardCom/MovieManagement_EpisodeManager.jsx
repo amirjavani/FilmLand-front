@@ -10,11 +10,10 @@ import { AddingMovieFile, AddingMovieFileDetail } from "../../Utility/MovieAPI";
 
 const EpisodeManager = ({ movieName }) => {
   const [seasons, setSeasons] = useState([]);
+  const [mood, setMood] = useState("");
   const [activSeason, setActiveSeason] = useState(1);
-  const [name, setmovieName] = useState("");
-  const [episodes, setEpisodes] = useState([
-    
-  ]);
+  const [name, setmovieName] = useState(movieName);
+  const [episodes, setEpisodes] = useState([]);
   const [episodeNum, setEpisodeNum] = useState("");
   const [episodeSubtitleUrl, setEpisodeSubtitleUrl] = useState("");
   const [episodeIsCensored, setepIsodeIsCensored] = useState(false);
@@ -53,8 +52,6 @@ const EpisodeManager = ({ movieName }) => {
   const handleEditEpisodeClose = () => setEditEpisodeShow(false);
   const handleEditEpisodeShow = () => setEditEpisodeShow(true);
 
-
-
   const episodeSlideToggle = (index) => {
     $("#episode-slide" + index).fadeToggle("fast");
   };
@@ -83,56 +80,84 @@ const EpisodeManager = ({ movieName }) => {
         parseInt(episodes[0].movieFileChapter)
       );
 
+      if (maxSeason === 0) {
+        setMood("single");
+        setActiveSeason(0);
+      } else {
+        setMood("series");
+      }
+
       let s = [];
       for (let index = 1; index <= maxSeason; index++) {
         s.push(index);
       }
       setSeasons(s);
-    }else{
+    } else {
       setSeasons([1]);
     }
   }, [episodes]);
 
-  return (
-    <div className="border  border-black bg-white h-full rounded p-4 text-left my-10">
-      {movieName}
-      <div className="flex flex-row gap-2 mb-2">
-        <div className="flex flex-row gap-2 overflow-auto">
-          {seasons &&
-            seasons.map((s, index) => {
-              return (
-                <div
-                  onClick={() => setActiveSeason(s)}
-                  className={`whitespace-nowrap duration-200 border-2 border-slate-500 rounded-xl p-1 cursor-pointer hover:text-white hover:bg-slate-500 ${
-                    s === activSeason ? "text-white bg-slate-500" : ""
-                  }`}>
-                  فصل {s}
-                </div>
-              );
-            })}
-        </div>
-
-        <div
-          onClick={() =>
-            seasons.length <= 1
-              ? null
-              : setSeasons(
-                  seasons.filter((s) => {
-                    return s !== seasons.length;
-                  })
-                )
-          }
-          className={` duration-200 border-2 border-red-500 rounded-xl p-2  cursor-pointer hover:text-white hover:bg-red-500 `}>
-          -{" "}
-        </div>
-        <div
-          onClick={() => setSeasons(seasons.concat(seasons.length + 1))}
-          className={`duration-200 border-2 border-slate-500 rounded-xl  p-2 cursor-pointer hover:text-white hover:bg-slate-500 `}>
-          +{" "}
-        </div>
+  return !mood ? (
+    <div className="mt-10 text-center">
+      لطفا تک قسمتی بودن یا سریالی بودن را مشخص کنید.
+      <div className="flex flex-row gap-1 my-5 justify-center">
+        <button className="btn btn-secondary" onClick={() => setMood("series")}>
+          سریال
+        </button>
+        <button
+          className="btn btn-secondary"
+          onClick={() => {
+            setMood("single");
+            setActiveSeason(0);
+          }}>
+          تک قسمتی
+        </button>
       </div>
+    </div>
+  ) : (
+    <div className="border  border-black bg-white h-full rounded p-4 text-left my-10">
+      {name}
+      {mood === "series" ? (
+        <div className="flex flex-row gap-2 mb-2">
+          <div className="flex flex-row gap-2 overflow-auto">
+            {seasons &&
+              seasons.map((s, index) => {
+                return (
+                  <div
+                    onClick={() => setActiveSeason(s)}
+                    className={`whitespace-nowrap duration-200 border-2 border-slate-500 rounded-xl p-1 cursor-pointer hover:text-white hover:bg-slate-500 ${
+                      s === activSeason ? "text-white bg-slate-500" : ""
+                    }`}>
+                    فصل {s}
+                  </div>
+                );
+              })}
+          </div>
+
+          <div
+            onClick={() =>
+              seasons.length <= 1
+                ? null
+                : setSeasons(
+                    seasons.filter((s) => {
+                      return s !== seasons.length;
+                    })
+                  )
+            }
+            className={` duration-200 border-2 border-red-500 rounded-xl p-2  cursor-pointer hover:text-white hover:bg-red-500 `}>
+            -{" "}
+          </div>
+          <div
+            onClick={() => setSeasons(seasons.concat(seasons.length + 1))}
+            className={`duration-200 border-2 border-slate-500 rounded-xl  p-2 cursor-pointer hover:text-white hover:bg-slate-500 `}>
+            +{" "}
+          </div>
+        </div>
+      ) : (
+        <div className="text-center text-[20px] font-IYbold">تک قسمتی </div>
+      )}
       <hr />
-      <div className="overflow-auto max-h-[440px] ">
+      <div className="mt-2 overflow-auto max-h-[440px] ">
         <table id="episode-table" className="w-full ">
           <thead class="font-IYbold ">
             <tr>
@@ -183,8 +208,10 @@ const EpisodeManager = ({ movieName }) => {
                         <td colSpan="10">
                           <div className="flex flex-column gap-1">
                             {episode.movieFile_MovieURL.length > 0 &&
-                              episode.movieFileQuality.length > 0 &&
-                              episode.movieFile_MovieURL[0]===null?(<>آدرسی وجود ندارد</>):
+                            episode.movieFileQuality.length > 0 &&
+                            episode.movieFile_MovieURL[0] === null ? (
+                              <>آدرسی وجود ندارد</>
+                            ) : (
                               episode.movieFile_MovieURL.map((url, index) => {
                                 return (
                                   <React.Fragment>
@@ -206,7 +233,8 @@ const EpisodeManager = ({ movieName }) => {
                                     <hr></hr>
                                   </React.Fragment>
                                 );
-                              })}
+                              })
+                            )}
                           </div>
 
                           <div className="flex felx-row justify-between items-center mt-1">
@@ -217,7 +245,7 @@ const EpisodeManager = ({ movieName }) => {
                                 آدرس:
                               </label>
                               <input
-                              value={url}
+                                value={url}
                                 onChange={(e) => {
                                   url = e.target.value;
                                 }}
@@ -229,7 +257,7 @@ const EpisodeManager = ({ movieName }) => {
                                 کیفیت:
                               </label>
                               <input
-                              value={quality}
+                                value={quality}
                                 onChange={(e) => {
                                   quality = e.target.value;
                                 }}
@@ -240,8 +268,12 @@ const EpisodeManager = ({ movieName }) => {
                             <div className="">
                               <button
                                 onClick={(e) => {
-                                  AddingMovieFileDetail({id:episode.movieFileId,movieFile_MovieURL:url,movieFileQuality:quality})
-                                  $('.slide-input').val('')
+                                  AddingMovieFileDetail({
+                                    id: episode.movieFileId,
+                                    movieFile_MovieURL: url,
+                                    movieFileQuality: quality,
+                                  });
+                                  $(".slide-input").val("");
                                   fetchData();
                                 }}
                                 className=" btn btn-success">
