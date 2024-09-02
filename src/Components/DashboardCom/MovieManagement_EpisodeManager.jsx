@@ -6,7 +6,7 @@ import CustomInput from "../GeneralComponents/CustomInput";
 import "./EpisodesStyle.css";
 import { useParams } from "react-router-dom";
 import { FetchMovieFile } from "../../Utility/SingleMovieAPI";
-import { AddingMovieFile, AddingMovieFileDetail } from "../../Utility/MovieAPI";
+import { AddingMovieFile, AddingMovieFileDetail, RemoveMovieFile } from "../../Utility/MovieAPI";
 
 const EpisodeManager = ({ movieName }) => {
   const [seasons, setSeasons] = useState([]);
@@ -22,6 +22,7 @@ const EpisodeManager = ({ movieName }) => {
 
   const [addEpisodeShow, setAddEpisodeShow] = useState(false);
   const [removNotifShow, setRemovNotifShow] = useState(false);
+  const [removingEpisode, setRemovingEpisode] = useState();
   const [editEpisodeShow, setEditEpisodeShow] = useState(false);
 
   const handleAddEpisodeClose = () => setAddEpisodeShow(false);
@@ -32,8 +33,9 @@ const EpisodeManager = ({ movieName }) => {
     setEpisodeNum("");
     setAddEpisodeShow(true);
   };
-  const newEpisodeFileSubmitt = () => {
-    AddingMovieFile({
+
+  const newEpisodeFileSubmitt = async () => {
+    await AddingMovieFile({
       movieFileChapter: activSeason.toString(),
       id: id,
       movieFileDubbing: episodeDubbe,
@@ -41,13 +43,22 @@ const EpisodeManager = ({ movieName }) => {
       movieFileIsCensored: episodeIsCensored,
       movieFileSubtitleURL: episodeSubtitleUrl,
     });
-
+    await fetchData();
     setAddEpisodeShow(false);
-    fetchData();
+    
   };
+  
 
   const handleRemoveNotifClose = () => setRemovNotifShow(false);
-  const handleRemoveNotifShow = () => setRemovNotifShow(true);
+  const handleRemoveNotifShow = (e) => {
+    setRemovingEpisode(e);
+    setRemovNotifShow(true);
+  }
+  const removingEpisodeFileSubmitt = async (episodeId)  => {
+    await RemoveMovieFile({id:episodeId});
+    await fetchData();
+    setRemovNotifShow(false);
+  };
 
   const handleEditEpisodeClose = () => setEditEpisodeShow(false);
   const handleEditEpisodeShow = () => setEditEpisodeShow(true);
@@ -188,18 +199,18 @@ const EpisodeManager = ({ movieName }) => {
                                 : "bi-eye"
                             }`}></i>
                         </td>
-                        <td className="text-[13px]">
+                        <td className="text-[13px] flex flex-row gap-1">
                           <button
-                            className="btn btn-secondary text-[13px]"
+                            className="btn btn-primary  text-[13px]"
                             onClick={() => episodeSlideToggle(index)}>
                             آدرس‌ها
                           </button>
-                          <button
-                            className="btn btn-pripery text-[13px]"
+                          <i
+                            className="bi bi-pencil-square btn btn-secondary "
                             onClick={() => {}}>
-                            ویرایش
-                          </button>
-                          <i className="btn text-danger bi bi-trash3"></i>
+                            
+                          </i>
+                          <i className="btn btn-danger  bi bi-trash3" onClick={()=>handleRemoveNotifShow(episode)}></i>
                         </td>
                       </tr>
                       <tr
@@ -215,7 +226,7 @@ const EpisodeManager = ({ movieName }) => {
                               episode.movieFile_MovieURL.map((url, index) => {
                                 return (
                                   <React.Fragment>
-                                    <div className="flex felx-row justify-between">
+                                    <div className="flex felx-row ">
                                       <div className="flex felx-row gap-3 ">
                                         <strong>آدرس:</strong>
                                         <span>{url}</span>
@@ -224,11 +235,7 @@ const EpisodeManager = ({ movieName }) => {
                                           {episode.movieFileQuality[index]}
                                         </span>
                                       </div>
-                                      <div>
-                                        <button className="btn btn-danger text-sm">
-                                          حذف
-                                        </button>
-                                      </div>
+                                      
                                     </div>
                                     <hr></hr>
                                   </React.Fragment>
@@ -358,6 +365,76 @@ const EpisodeManager = ({ movieName }) => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      <Modal
+
+        className="text-slate-600"
+        show={removNotifShow}
+        onHide={handleRemoveNotifClose}>
+        <Modal.Header>
+          <Modal.Title className="text-[20px]">آیا از حذف این قسمت مطمئن هستید؟</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {removingEpisode&&
+          (<React.Fragment >
+                      <tr className=" flex flex-row gap-1">
+                        <strong>قسمت: {removingEpisode.movieFileEpisode}</strong>
+                        <span className="vr"></span>
+                        <strong>آدرس زیرنویس: {removingEpisode.movieFileSubtitleURL}</strong>
+                        <span className="vr"></span>
+                        <strong>دوبله: {removingEpisode.movieFileDubbing}</strong>
+                        <span className="vr"></span>
+                        <strong>
+                          {removingEpisode.movieFileIsCensored?<>سانسور شده</>:<>سانسور نشده</>}  
+                        </strong>
+                      </tr>
+                      <hr/>
+                      <tr>
+                        <td colSpan="10">
+                          <div className="flex flex-column gap-1">
+                            {removingEpisode.movieFile_MovieURL.length > 0 &&
+                              removingEpisode.movieFileQuality.length > 0 &&
+                              removingEpisode.movieFile_MovieURL[0] === null ? (
+                              <>آدرسی وجود ندارد</>
+                            ) : (
+                              removingEpisode.movieFile_MovieURL.map((url, index) => {
+                                return (
+                                  <React.Fragment>
+                                    <div className="flex felx-row ">
+                                      <div className="flex felx-row gap-3 ">
+                                        <strong>آدرس:</strong>
+                                        <span>{url}</span>
+                                        <strong>کیفیت:</strong>
+                                        <span>
+                                          {removingEpisode.movieFileQuality[index]}
+                                        </span>
+                                      </div>
+                                      
+                                    </div>
+                                    <hr></hr>
+                                  </React.Fragment>
+                                );
+                              })
+                            )}
+                          </div>
+
+                        </td>
+                      </tr>
+                    </React.Fragment>)
+          }
+
+          
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={handleRemoveNotifClose}>
+            خیر
+          </Button>
+          <Button variant="success" onClick={() => removingEpisodeFileSubmitt(removingEpisode.movieFileId)}>
+            بله
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
     </div>
   );
 };

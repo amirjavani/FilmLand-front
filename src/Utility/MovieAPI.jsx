@@ -94,6 +94,17 @@ const AddingMovieFile = async ({
   );
   return response;
 };
+
+
+const RemoveMovieFile = async (props) => {
+  
+  const response = await axios.delete(`${Url}/MovieFile/${props.id}`, {
+    headers: {},
+  });
+  return response;
+};
+
+
 const AddingMovieFileDetail = async ({
   
   movieFileQuality,
@@ -101,7 +112,7 @@ const AddingMovieFileDetail = async ({
   id,
 }) => {
   const formData = new FormData();
-  formData.append("MovieFileQuality", movieFileQuality);
+    formData.append("MovieFileQuality", movieFileQuality);
     formData.append("MovieFile_MovieURL", movieFile_MovieURL);
     formData.append("MovieFileRef", id);
    
@@ -127,4 +138,5 @@ export {
   GetOneMovie,
   AddingMovieFile,
   AddingMovieFileDetail,
+  RemoveMovieFile,
 };
