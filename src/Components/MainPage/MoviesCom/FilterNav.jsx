@@ -3,21 +3,17 @@ import "./FilterNav.css";
 import { useNavigate } from "react-router-dom";
 import { FetchCategory, FetchGenre } from "../../../Utility/MovieAPI";
 import { useLocation } from 'react-router-dom';
+import ScrollableMenu from "./ScrollableMenu";
 
 const FilterNav = () => {
-  const [activeFilter, setActiveFilter] = useState("all");
-  const tabMenuRef = useRef(null);
   const dropdownRef = useRef(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeOption, setActiveOption] = useState("all");
+  const [activeFilter, setActiveFilter] = useState("all");
   const navigate = useNavigate();
   const [Categories, setCategories] = useState([]);
   const [Genres, setGenres] = useState([]);
   const location = useLocation();
-
-  const handleClick = (value) => {
-    setActiveFilter(value);
-  };
 
   const fetch = async () => {
     const cat = await FetchCategory();
@@ -35,18 +31,6 @@ const FilterNav = () => {
     toggleMenu(); 
   };
 
-  const scrollRight = () => {
-    if (tabMenuRef.current) {
-      tabMenuRef.current.scrollLeft += 150;
-    }
-  };
-
-  const scrollLeft = () => {
-    if (tabMenuRef.current) {
-      tabMenuRef.current.scrollLeft -= 150;
-    }
-  };
-
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setMenuOpen(false);
@@ -59,11 +43,11 @@ const FilterNav = () => {
   };
 
   useEffect(() => {
-    
     fetch();
     const queryParams = new URLSearchParams(location.search);
     const category = queryParams.get('category');
     setActiveFilter(category);
+    console.log("aaaaa")
     const genre = queryParams.get('genre');
     setActiveOption(genre);
     document.addEventListener('mousedown', handleClickOutside);
@@ -76,23 +60,7 @@ const FilterNav = () => {
   return (
     <div className="filter-nav-container">
       <div className="filter-nav-filters">
-        <div ref={tabMenuRef} className="filter-nav-buttons-container">
-          <i onClick={scrollRight} className="uil uil-angle-right right-btn2"></i>
-
-          <div className="filter-nav-buttons">
-            {Categories.map((category) => (
-              <button
-                key={category.categoryParameter}
-                className={`filter-nav-button ${activeFilter === category.categoryParameter ? "active" : ""}`}
-                onClick={() => handleClick(category.categoryParameter)}
-              >
-                <p>{category.categoryTitle}</p>
-              </button>
-            ))}
-          </div>
-
-          <i onClick={scrollLeft} className="uil uil-angle-left left-btn2"></i>
-        </div>
+        <ScrollableMenu Categories={Categories} SendActiveFilter={setActiveFilter} GetActiveFilter={activeFilter} />
         <div ref={dropdownRef} className="filter-nav-dropdown">
           <div
             className={`filter-nav-select ${menuOpen ? "filter-nav-select-clicked" : ""}`}

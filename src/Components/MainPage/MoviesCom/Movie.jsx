@@ -166,19 +166,19 @@ function Movie() {
     // btnRight.style.display = tabMenu.scrollWidth >= window.innerWidth ? "" : "none";
   };
 
-  window.onresize = function () {
-    btnLeft.style.display =
-      tabMenu.scrollWidth > tabMenu.clientWidth ||
-        tabMenu.scrollWidth >= window.innerWidth
-        ? "block"
-        : "none";
-    btnRight.style.display =
-      tabMenu.scrollWidth >= window.innerWidth ? "" : "none";
+  // window.onresize = function () {
+  //   btnLeft.style.display =
+  //     tabMenu.scrollWidth > tabMenu.clientWidth ||
+  //       tabMenu.scrollWidth >= window.innerWidth
+  //       ? "block"
+  //       : "none";
+  //   btnRight.style.display =
+  //     tabMenu.scrollWidth >= window.innerWidth ? "" : "none";
 
-    let scrollLeftValue = -1 * Math.round(tabMenu.scrollLeft);
+  //   let scrollLeftValue = -1 * Math.round(tabMenu.scrollLeft);
 
-    btnRight.style.display = scrollLeftValue > 0 ? "block" : "none";
-  };
+  //   btnRight.style.display = scrollLeftValue > 0 ? "block" : "none";
+  // };
 
   let activeDrag = false;
 
@@ -257,11 +257,16 @@ function Movie() {
   }
   return (
     <>
-      <div className="top">
-        <div className="container">
+      <div
+        className="top"
+        style={{
+          '--bg-image-url': `url(${Url + singleMovie.cartPicPath})`
+        }}
+      >
+        <div className="container2">
           <div className="internal-container">
             <div className="img">
-              <img src={"/Assets/Movie/panda4-200x300.webp"} alt="" />
+              <img src={Url + singleMovie.cartPicPath} alt="" />
             </div>
             <div className="detail">
               <div className="title">
@@ -270,6 +275,11 @@ function Movie() {
                   {/* دانلود انیمیشن پاندای کونگ فو کار 4 Kung Fu Panda 4 2024 دوبله
                   فارسی */}
                 </h4>
+                <div className="movie2-category">
+                  <h1 className="movie2-category-title">
+                    {singleMovie.categoryTitle}
+                  </h1>
+                </div>
               </div>
               <div className="summary">
                 <div className="summary-title">
@@ -283,7 +293,19 @@ function Movie() {
                     شد، او باید یک جنگجوی اژدها را بیابد و آموزش دهد، در حالی که
                     یک جادوگر شرور قصد دارد همه شر */}
                   </p>
+                  <div className="movie2-genre-container">
+                    {singleMovie.genreTitle && Array.isArray(singleMovie.genreTitle) && singleMovie.genreTitle.length > 0 ? (
+                      singleMovie.genreTitle.map((genre, index) => (
+                        <div className="movie2-genre" key={index}>
+                          {genre}
+                        </div>
+                      ))
+                    ) : (
+                      <div>No genres available</div> // Optionally handle the case where there are no genres
+                    )}
+                  </div>
                 </div>
+
               </div>
               <div className="interest">
                 <div className="like" title="لایک">
@@ -533,7 +555,7 @@ function Movie() {
             <div className="line2"></div>
           </div>
           <div className="downloads">
-            <div className="filter-download">
+            {/* <div className="filter-download">
               <section class="main-container">
                 <div class="tab-nav-bar">
                   <div class="tab-navigation">
@@ -610,7 +632,7 @@ function Movie() {
                   </ul>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div>
               {MovieFile.map((file, index) => (
                 <div key={index} className="download-container">
