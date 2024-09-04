@@ -1,11 +1,12 @@
 import style from "./CustomInputStyle.module.css";
 
-function CustomInput({ className, value, setValue, title, type }) {
+function CustomInput({ className, value, setValue, title, type,id }) {
   const inputType = type;
   return (
     <div className={` ${className} p-1 z-0 `}>
       <div className={`${style.input_group}  w-100`}>
         <input
+          id={id}
           required
           value={value}
           onChange={(e) => setValue(e.target.value)}

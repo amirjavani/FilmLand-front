@@ -8,6 +8,7 @@ import {
   FetchGenre,
   GetOneMovie,
 } from "../../Utility/MovieAPI";
+import AutoComplateInput from "../GeneralComponents/AutoComplateinput";
 
 function AddMovie({ refresh }) {
   const [englishName, setEnglishName] = useState("");
@@ -24,6 +25,9 @@ function AddMovie({ refresh }) {
   const [language, setLanguage] = useState("");
   const [IMDB, setIMDB] = useState("");
   const [movieAuthor, setMovieAuthor] = useState("");
+  const [movieActorsId, setMovieActors] = useState([]);
+  const [movieActorInput, setMovieActorInput] = useState("");
+  const [movieActorInputDisplayed, setMovieActorInputDisplayed] = useState("");
   const [actorIds, setActorIds] = useState([
     "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   ]);
@@ -41,6 +45,21 @@ function AddMovie({ refresh }) {
   const [file, setFile] = useState("");
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   if (movieActorInput === "") return;
+
+  //   const timer = setTimeout(() => {
+  //     console.log(movieActorInput);
+  //   }, 1000);
+
+  //   return () => clearTimeout(timer);
+  // }, [movieActorInput]);
+
+  const onActorInputChange = async (val) =>{
+    console.log(val)
+  }
+  
+
   useEffect(() => {
     fetch();
 
@@ -49,8 +68,6 @@ function AddMovie({ refresh }) {
     } else {
       console.log("not found");
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetch = async () => {
@@ -84,8 +101,8 @@ function AddMovie({ refresh }) {
     setCategory(res.data.categoryId);
     setMovieGenre(res.data.genreIds);
     setAgeCategory(res.data.movieAgeCategory);
-    setMovieAuthor(res.data.movieAuthor)
-    setActorIds(['asdasdasd']);
+    setMovieAuthor(res.data.movieAuthor);
+    setActorIds(["asdasdasd"]);
     //   fetchImage(res);
   };
 
@@ -121,7 +138,7 @@ function AddMovie({ refresh }) {
   };
 
   const Submit = async (event) => {
-    navigate("/dashboard/MovieManagement");
+    //navigate("/dashboard/MovieManagement");
     console.log(JSON.stringify(movieGenre));
     console.log(galleryPics);
     event.preventDefault();
@@ -338,12 +355,24 @@ function AddMovie({ refresh }) {
               type={"number"}></CustomInput>
           </div>
         </div>
-        <CustomInput
-          className={"col-2 ml-auto"}
-          value={movieAuthor}
-          setValue={setMovieAuthor}
-          title={"نویسنده"}
-          type={"text"}></CustomInput>
+        <div className="flex flex-row w-full">
+          <CustomInput
+            className={"col-2 "}
+            value={movieAuthor}
+            setValue={setMovieAuthor}
+            title={"نویسنده"}
+            type={"text"}></CustomInput>
+          <AutoComplateInput
+            className={"col-2 "}
+            onChangeInput={onActorInputChange}
+            suggestions={[
+              { text: "amir", id: "123" },
+              { text: "ali", id: "123" },
+            ]}
+            inputTitle={"بازیگر"}
+            type={"text"}></AutoComplateInput>
+        </div>
+
         <div className="flex flex-row ml-auto w-full">
           <div className="col-1">
             <label className="mb-2 text-lg font-medium text-gray-900 ">
