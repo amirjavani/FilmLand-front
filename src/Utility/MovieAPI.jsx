@@ -102,13 +102,7 @@ const EditingMovieFile = async ({
   movieFileSubtitleURL,
   id,
 }) => {
-  // const formData = new FormData();
-  // formData.append("MovieFileIsCensored", movieFileIsCensored);
-  //   formData.append("MovieFileSubtitleURL", movieFileSubtitleURL);
-  //   formData.append("MovieFileEpisode", movieFileEpisode);
-  //   formData.append("MovieFileChapter", movieFileChapter);
-  //   formData.append("MovieRef", id);
-  //   formData.append("MovieFileDubbing", movieFileDubbing);
+  
   const response = await axios.put(
     `${Url}/MovieFile/Edit/${id}`,
     JSON.stringify(
@@ -163,6 +157,14 @@ const AddingMovieFileDetail = async ({
 };
 
 
+const ActorFilter = async (props) => {
+  
+  const response = await axios.get(`${Url}/Actor/Filter?searchQuery=${props}`, {
+    headers: {},
+  });
+  return response;
+};
+
 
 export {
   FetchCategory,
@@ -177,4 +179,5 @@ export {
   AddingMovieFileDetail,
   RemoveMovieFile,
   EditingMovieFile,
+  ActorFilter,
 };

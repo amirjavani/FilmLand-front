@@ -3,7 +3,7 @@ import style from "./CustomInputStyle.module.css";
 function CustomInput({ className, value, setValue, title, type,id }) {
   const inputType = type;
   return (
-    <div className={` ${className} p-1 z-0 `}>
+    <div className={` ${className} p-1 z-0 text-nowrap `}>
       <div className={`${style.input_group}  w-100`}>
         <input
           id={id}

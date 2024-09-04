@@ -7,6 +7,7 @@ import {
   AddingMovie,
   FetchGenre,
   GetOneMovie,
+  ActorFilter,
 } from "../../Utility/MovieAPI";
 import AutoComplateInput from "../GeneralComponents/AutoComplateinput";
 
@@ -55,10 +56,18 @@ function AddMovie({ refresh }) {
   //   return () => clearTimeout(timer);
   // }, [movieActorInput]);
 
-  const onActorInputChange = async (val) =>{
+  const onActorInputChange = async (val) => {
     console.log(val)
-  }
-  
+    const response = await ActorFilter(val);
+    let FilteredActors=[];
+    response.data.forEach((actor) => {
+      FilteredActors.push({
+        text: actor.actorName,
+        id: actor.actorId,
+      });
+    });
+    setMovieActorInputDisplayed(FilteredActors)
+  };
 
   useEffect(() => {
     fetch();
@@ -186,14 +195,8 @@ function AddMovie({ refresh }) {
     }
   };
 
-  const handleFileChange = (event) => {
-    const f = event.target.files[0];
-    console.log(f);
-    setFile(f);
-  };
-
   return (
-    <div className="flex justify-center m-12">
+    <div className="flex justify-center m-12 ">
       <form
         className=" border-1 border-gray-700 rounded w-100 justify-center items-center flex flex-col gap-2 p-3 m-10"
         onSubmit={Submit}>
@@ -363,12 +366,10 @@ function AddMovie({ refresh }) {
             title={"نویسنده"}
             type={"text"}></CustomInput>
           <AutoComplateInput
+            id={"actor"}
             className={"col-2 "}
             onChangeInput={onActorInputChange}
-            suggestions={[
-              { text: "amir", id: "123" },
-              { text: "ali", id: "123" },
-            ]}
+            suggestions={movieActorInputDisplayed}
             inputTitle={"بازیگر"}
             type={"text"}></AutoComplateInput>
         </div>
