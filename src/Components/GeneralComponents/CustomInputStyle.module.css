@@ -39,6 +39,8 @@ input:valid {
     color: #01060b;
 }
 
+
+
 .input:focus~label {
     transform: translateY(-80%) translateX(30%) scale(0.8);
     background-color: te;

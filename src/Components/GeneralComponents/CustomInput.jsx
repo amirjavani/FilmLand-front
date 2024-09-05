@@ -1,7 +1,13 @@
 import style from "./CustomInputStyle.module.css";
-
-function CustomInput({ className, value, setValue, title, type,id }) {
+import $ from 'jquery'
+function CustomInput({ className, value, setValue, title, type,id ,required }) {
   const inputType = type;
+  
+  if(!required){
+    $(`#${id}`).removeAttr('required');
+  }
+  
+
   return (
     <div className={` ${className} p-1 z-0 text-nowrap `}>
       <div className={`${style.input_group}  w-100`}>

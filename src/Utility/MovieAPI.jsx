@@ -30,10 +30,12 @@ const GetOneMovie = async (props) => {
 };
 
 const AddingMovie = async ({ formData }) => {
-  const response = await axios.post(`${Url}/MovieManagement/Add`, formData, {
+   await axios.post(`${Url}/MovieManagement/Add`, formData, {
     headers: {},
+  }).then(function (response) {
+    return response;
   });
-  return response;
+  
 };
 
 const RemoveMovie = async (props) => {

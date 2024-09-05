@@ -28,11 +28,8 @@ function AddMovie({ refresh }) {
   const [IMDB, setIMDB] = useState("");
   const [movieAuthor, setMovieAuthor] = useState("");
   const [movieActors, setMovieActors] = useState([]);
-  const [movieActorInput, setMovieActorInput] = useState("");
   const [movieActorInputDisplayed, setMovieActorInputDisplayed] = useState("");
-  const [actorIds, setActorIds] = useState([
-    "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  ]);
+
   const [director, setDirector] = useState("");
   const [duration, setDuration] = useState("");
   const [summary, setSummary] = useState("");
@@ -40,27 +37,17 @@ function AddMovie({ refresh }) {
   const [budget, setBudget] = useState("");
   const [cartPic, setCartPic] = useState("");
   const [galleryPics, setGalleryPics] = useState([]);
-
-  const [link, setLink] = useState("");
-  const [imageURL, setImageURL] = useState("");
+  ;
   const { id } = useParams();
-  const [file, setFile] = useState("");
+  
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (movieActorInput === "") return;
-
-  //   const timer = setTimeout(() => {
-  //     console.log(movieActorInput);
-  //   }, 1000);
-
-  //   return () => clearTimeout(timer);
-  // }, [movieActorInput]);
 
   const onSelectActor = ({ id, text }) => {
     if (!movieActors.find((actor) => actor.actorId === id)) {
       setMovieActors([...movieActors, { actorId: id, actorName: text }]);
     }
+    setMovieActorInputDisplayed(null);
   };
 
   const onActorInputChange = async (val) => {
@@ -77,7 +64,6 @@ function AddMovie({ refresh }) {
 
   useEffect(() => {
     fetch();
-
     if (id) {
       get({ id: id });
     } else {
@@ -117,43 +103,11 @@ function AddMovie({ refresh }) {
     setMovieGenre(res.data.genreIds);
     setAgeCategory(res.data.movieAgeCategory);
     setMovieAuthor(res.data.movieAuthor);
-    setActorIds(["asdasdasd"]);
+    setMovieActors(res.data.movieActors);
     //   fetchImage(res);
   };
-
-  const fetchImage = async (res) => {
-    try {
-      const response = await fetch(
-        Url + res.data.filePath + res.data.fileName + res.data.fileExtension,
-        { method: "GET" }
-      );
-
-      const blob = response.blob();
-      console.log(response.ok);
-      const imagefile = new File(
-        [blob],
-        res.data.fileName + res.data.fileExtension,
-        { type: getMimeType(res.data.fileExtension) }
-      );
-
-      setImageURL(URL.createObjectURL(imagefile));
-      console.log(imagefile);
-    } catch (error) {}
-  };
-
-  const getMimeType = (extension) => {
-    const mimeTypes = {
-      ".jpg": "image/jpeg",
-      ".jpeg": "image/jpeg",
-      ".png": "image/png",
-      ".gif": "image/gif",
-      ".pdf": "application/pdf",
-    };
-    return mimeTypes[extension.toLowerCase()] || "application/octet-stream";
-  };
-
+  
   const Submit = async (event) => {
-    //navigate("/dashboard/MovieManagement");
     console.log(JSON.stringify(movieGenre));
     console.log(galleryPics);
     event.preventDefault();
@@ -182,8 +136,8 @@ function AddMovie({ refresh }) {
     for (let i = 0; i < galleryPics.length; i++) {
       formData.append("GalleryPictures", galleryPics[i]);
     }
-    actorIds.forEach((actorId) => {
-      formData.append("ActorIds", actorId);
+    movieActors.forEach((actor) => {
+      formData.append("ActorIds", actor.actorId);
     });
 
     try {
@@ -194,7 +148,9 @@ function AddMovie({ refresh }) {
         //   });
       } else {
         const res = await AddingMovie({ formData: formData });
-        console.log(res.status);
+        if (res) {
+              navigate("/dashboard/MovieManagement");
+        }
       }
     } catch (error) {
       console.error("Error adding menu item:", error);
@@ -380,7 +336,7 @@ function AddMovie({ refresh }) {
             inputTitle={"بازیگر"}
             type={"text"}></AutoComplateInput>
           <div className="col-7 flex flex-row gap-2 flex-wrap">
-            {movieActors.map((actor, index) => {
+            {movieActors && movieActors.map((actor, index) => {
               return (
                 <div
                   onClick={() =>

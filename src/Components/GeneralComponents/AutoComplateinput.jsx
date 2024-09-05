@@ -40,6 +40,7 @@ const AutoComplateInput = ({
   return (
     <div dir="ltr" className={`relative ${className}`}>
       <CustomInput
+        required={false}
         id={`auto-complate-input-${id}`}
         className={`w-full ${inputClassName}`}
         value={input}
@@ -56,7 +57,9 @@ const AutoComplateInput = ({
               return (
                 <li
                   className="hover:bg-slate-700 transition-colors hover:text-white rounded cursor-pointer p-1 "
-                  onClick={() => onSelectValue({ id: sug.id, text: sug.text })}>
+                  onClick={() => {
+                    setInput('')
+                    onSelectValue({ id: sug.id, text: sug.text })}}>
                   {sug.text}
                   <hr></hr>
                 </li>
