@@ -16,26 +16,32 @@ import Register from "./Layouts/MainPage/Register";
 import Login from "./Layouts/MainPage/Login";
 import Subscription from "./Layouts/MainPage/Subscription";
 import Redirect from "./Layouts/MainPage/Redirect";
- 
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Main></Main>,
-    children:[
+    children: [
       {
         path: "",
         element: <Home></Home>,
-        index :true
+        index: true
       },
       {
-        path: "/search",
+        path: "/movies",
         element: <div className=" text-white"><Outlet></Outlet></div>,
-        children:[
+        children: [
           {
             path: "",
             element: <MoviesComponent></MoviesComponent>,
-            index :true
+            index: true
           },
+        ]
+      },
+      {
+        path: "/movie",
+        element: <div className=" text-white"><Outlet></Outlet></div>,
+        children: [
           {
             path: ":id",
             element: <Movie></Movie>
@@ -188,12 +194,12 @@ const router = createBrowserRouter([
     path: "/redirect",
     element: <Redirect></Redirect>,
     index: true
-  },
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  
-    <RouterProvider router={router}></RouterProvider>
-  
+
+  <RouterProvider router={router}></RouterProvider>
+
 );

@@ -116,6 +116,13 @@ const AddingMovieFileDetail = async ({
   return response;
 };
 
+const FetchMovies = async (category, genre) => {
+  const response = await axios.get(`${Url}/Movie/All?category=${category}&genre=${genre}`, {
+    headers: {},
+  });
+  return response;
+};
+
 export {
   FetchCategory,
   FetchGenre,
@@ -127,4 +134,5 @@ export {
   GetOneMovie,
   AddingMovieFile,
   AddingMovieFileDetail,
+  FetchMovies
 };

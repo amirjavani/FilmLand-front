@@ -717,8 +717,16 @@ section {
     align-items: center;
 }
 
+.comments-bottom {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
 .send-comment-container {
     margin-top: 30px;
+    margin-bottom: 30px;
     width: 60%;
     height: auto;
     background-color: #33333d;
@@ -742,7 +750,7 @@ section {
     resize: none;
     overflow: hidden; /* Hide scrollbars */
     box-sizing: border-box;
-    padding: 7px;
+    padding: 10px;
 }
 
 .comment-name {
@@ -760,7 +768,7 @@ section {
 
 .comment-date {
     /* margin-right: auto; */
-    width: 120px;
+    width: 150px;
     height: 40px;
     border-radius: 10px 0 10px 0;
     background-color: rgb(90, 92, 93);
@@ -783,7 +791,67 @@ section {
     align-items: center;
     font-weight: 500;
     font-size: large;
+    cursor: pointer;
 }
+
+.send-comment-container2 {
+    /* margin-top: 30px;
+    margin-bottom: 30px; */
+    width: 60%;
+    background-color: #33333d;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    overflow: hidden; /* Hide the content when collapsed */
+    transition: max-height 0.5s ease-out; /* Smooth transition for height */
+    max-height: 0; /* Initial state, hidden */
+  }
+  
+  .send-comment-container2.open {
+    max-height: 500px; /* Max height when expanded */
+  }
+  
+  .send-comment-container2 textarea {
+    width: 98%;
+    background-color: inherit;
+    outline: 0;
+    font-size: large;
+    font-weight: 300;
+    resize: none;
+    overflow: hidden; /* Hide scrollbars */
+    box-sizing: border-box;
+    padding: 10px;
+  }
+  
+  .comment-name2 {
+    margin-left: auto;
+    width: 100px;
+    height: 40px;
+    border-radius: 0 10px 0 10px;
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: large;
+  }
+  
+  .comment-send2 {
+    width: 100px;
+    height: 40px;
+    margin-right: auto;
+    border-radius: 0 10px 0 10px;
+    background-color: rgb(0, 4, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: large;
+    cursor: pointer;
+  }
+  
 
 .header-comment {
     width: 100%;
@@ -821,7 +889,8 @@ section {
 }
 
 .comment-container {
-    margin-top: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     width: 80%;
     height: auto;
     background-color: #33333d;
@@ -841,11 +910,12 @@ section {
     outline: 0;
     /* font-size: large; */
     font-weight: 200;
-    padding: 7px;
+    padding: 10px;
 }
 
 .reply-container {
-    margin-top: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     margin-right: 10%;
     width: 70%;
     height: auto;

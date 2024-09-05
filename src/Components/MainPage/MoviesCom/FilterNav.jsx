@@ -38,7 +38,7 @@ const FilterNav = () => {
   };
 
   const Send = () => {
-    navigate(`/search?category=${activeFilter}&genre=${activeOption}`);
+    navigate(`/movies?category=${activeFilter}&genre=${activeOption}`);
     window.location.reload();
   };
 
