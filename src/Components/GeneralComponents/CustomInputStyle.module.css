@@ -22,14 +22,15 @@
     transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+
+.input:valid {
+    outline: none;
+    border: 1.5px solid #2b2b2c;
+}
+
 .input:focus {
     outline: none;
     border: 1.5px solid #1a73e8;
-}
-
-input:valid {
-    outline: none;
-    border: 1.5px solid #2b2b2c;
 }
 
 .input:valid~label {

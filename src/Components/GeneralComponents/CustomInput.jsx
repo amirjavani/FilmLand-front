@@ -19,7 +19,7 @@ function CustomInput({ className, value, setValue, title, type,id ,required }) {
           type={inputType}
           className={`${style.input} w-100`}
         />
-        <label className={style.user_label}>{title}</label>
+        <label className={style.user_label+' text-[14px] md:text-[16px]'}>{title}</label>
       </div>
     </div>
   );

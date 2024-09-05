@@ -37,11 +37,9 @@ function AddMovie({ refresh }) {
   const [budget, setBudget] = useState("");
   const [cartPic, setCartPic] = useState("");
   const [galleryPics, setGalleryPics] = useState([]);
-  ;
   const { id } = useParams();
-  
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
 
   const onSelectActor = ({ id, text }) => {
     if (!movieActors.find((actor) => actor.actorId === id)) {
@@ -106,7 +104,7 @@ function AddMovie({ refresh }) {
     setMovieActors(res.data.movieActors);
     //   fetchImage(res);
   };
-  
+
   const Submit = async (event) => {
     console.log(JSON.stringify(movieGenre));
     console.log(galleryPics);
@@ -149,7 +147,7 @@ function AddMovie({ refresh }) {
       } else {
         const res = await AddingMovie({ formData: formData });
         if (res) {
-              navigate("/dashboard/MovieManagement");
+          navigate("/dashboard/MovieManagement");
         }
       }
     } catch (error) {
@@ -336,21 +334,22 @@ function AddMovie({ refresh }) {
             inputTitle={"بازیگر"}
             type={"text"}></AutoComplateInput>
           <div className="col-7 flex flex-row gap-2 flex-wrap">
-            {movieActors && movieActors.map((actor, index) => {
-              return (
-                <div
-                  onClick={() =>
-                    setMovieActors(
-                      movieActors.filter((a) => {
-                        return !a.actorId === actor.actorId;
-                      })
-                    )
-                  }
-                  className="my-auto p-2 cursor-pointer text-nowrap border rounded hover:bg-slate-700 hover:text-white transition-colors">
-                  {actor.actorName}
-                </div>
-              );
-            })}
+            {movieActors &&
+              movieActors.map((actor, index) => {
+                return (
+                  <div
+                    onClick={() =>
+                      setMovieActors(
+                        movieActors.filter((a) => {
+                          return !a.actorId === actor.actorId;
+                        })
+                      )
+                    }
+                    className="my-auto p-2 cursor-pointer text-nowrap border rounded hover:bg-slate-700 hover:text-white transition-colors">
+                    {actor.actorName}
+                  </div>
+                );
+              })}
           </div>
         </div>
 
@@ -425,21 +424,25 @@ function AddMovie({ refresh }) {
             value={summary}
             onChange={(e) => setSummary(e.target.value)}></textarea>
         </div>
-        <div className="flex flex-row border-none">
-          <input
-            className="border-none"
-            type="file"
-            onChange={(f) => setCartPic(f.target.files[0])}
-          />
-          {cartPic && (
-            <img
-              className="w-[120px]"
-              src={URL.createObjectURL(cartPic)}
-              alt="cartpic"
+        <div className="flex flex-row  border-none">
+          <span className="text-[18px] pl-6"> عکس پوستر:</span>
+          <div className="flex flex-col p-2 border">
+            {cartPic && (
+              <img
+                className="w-[120px] p-2"
+                src={URL.createObjectURL(cartPic)}
+                alt="cartpic"
+              />
+            )}
+            <input
+              className="border-none"
+              type="file"
+              onChange={(f) => setCartPic(f.target.files[0])}
             />
-          )}
+          </div>
         </div>
-        <div className="flex flex-row border-none">
+        <div className="flex flex-row flex-wrap ml-auto border-none">
+          <span className="text-[18px]"> عکس های داخل فیلم:</span>
           <input
             className="border-none"
             multiple
@@ -450,7 +453,7 @@ function AddMovie({ refresh }) {
             Array.from(galleryPics).map((pic) => {
               return (
                 <img
-                  className="w-[120px]"
+                  className="w-[140px] p-1"
                   src={URL.createObjectURL(pic)}
                   alt="gallery"
                 />
