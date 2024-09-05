@@ -10,6 +10,7 @@ import {
   ActorFilter,
 } from "../../Utility/MovieAPI";
 import AutoComplateInput from "../GeneralComponents/AutoComplateinput";
+import { GetActorById } from "../../Utility/ActorApi";
 
 function AddMovie({ refresh }) {
   const [englishName, setEnglishName] = useState("");
@@ -26,7 +27,7 @@ function AddMovie({ refresh }) {
   const [language, setLanguage] = useState("");
   const [IMDB, setIMDB] = useState("");
   const [movieAuthor, setMovieAuthor] = useState("");
-  const [movieActorsId, setMovieActors] = useState([]);
+  const [movieActors, setMovieActors] = useState([]);
   const [movieActorInput, setMovieActorInput] = useState("");
   const [movieActorInputDisplayed, setMovieActorInputDisplayed] = useState("");
   const [actorIds, setActorIds] = useState([
@@ -56,17 +57,22 @@ function AddMovie({ refresh }) {
   //   return () => clearTimeout(timer);
   // }, [movieActorInput]);
 
+  const onSelectActor = ({ id, text }) => {
+    if (!movieActors.find((actor) => actor.actorId === id)) {
+      setMovieActors([...movieActors, { actorId: id, actorName: text }]);
+    }
+  };
+
   const onActorInputChange = async (val) => {
-    console.log(val)
     const response = await ActorFilter(val);
-    let FilteredActors=[];
+    let FilteredActors = [];
     response.data.forEach((actor) => {
       FilteredActors.push({
         text: actor.actorName,
         id: actor.actorId,
       });
     });
-    setMovieActorInputDisplayed(FilteredActors)
+    setMovieActorInputDisplayed(FilteredActors);
   };
 
   useEffect(() => {
@@ -196,9 +202,9 @@ function AddMovie({ refresh }) {
   };
 
   return (
-    <div className="flex justify-center m-12 ">
+    <div className="flex justify-center my-12 ">
       <form
-        className=" border-1 border-gray-700 rounded w-100 justify-center items-center flex flex-col gap-2 p-3 m-10"
+        className=" border-1 border-gray-700 rounded w-100 justify-center items-center flex flex-col gap-2 p-3 "
         onSubmit={Submit}>
         <label className="fs-3">{!id ? "افزودن" : "ویرایش"}</label>
         <div className="flex w-100 flex-row ">
@@ -242,7 +248,7 @@ function AddMovie({ refresh }) {
         </div>
         <div className="flex flex-row w-full gap-2">
           <div className="col-2 ">
-            <label className="mb-2 text-lg font-medium text-gray-900 ">
+            <label className="mb-2 text-lg font-medium text-gray-900 text-nowrap">
               دسته بندی
             </label>
             <select
@@ -309,7 +315,7 @@ function AddMovie({ refresh }) {
             </select>
           </div>
           <div className="col-1 ">
-            <label className=" mb-2 text-lg font-medium text-gray-900 ">
+            <label className="text-nowrap mb-2 text-lg font-medium text-gray-900 ">
               رده سنی{" "}
             </label>
             <select
@@ -367,11 +373,29 @@ function AddMovie({ refresh }) {
             type={"text"}></CustomInput>
           <AutoComplateInput
             id={"actor"}
-            className={"col-2 "}
+            className={"col-3 "}
             onChangeInput={onActorInputChange}
+            onSelectValue={onSelectActor}
             suggestions={movieActorInputDisplayed}
             inputTitle={"بازیگر"}
             type={"text"}></AutoComplateInput>
+          <div className="col-7 flex flex-row gap-2 flex-wrap">
+            {movieActors.map((actor, index) => {
+              return (
+                <div
+                  onClick={() =>
+                    setMovieActors(
+                      movieActors.filter((a) => {
+                        return !a.actorId === actor.actorId;
+                      })
+                    )
+                  }
+                  className="my-auto p-2 cursor-pointer text-nowrap border rounded hover:bg-slate-700 hover:text-white transition-colors">
+                  {actor.actorName}
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         <div className="flex flex-row ml-auto w-full">

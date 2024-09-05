@@ -8,8 +8,8 @@ const FetchActorsList = async () => {
   return response;
 };
 
-const GetSliderItem = async (props) => {
-  const response = await axios.get(`${Url}/Slider/${props.id}`, {
+const GetActorById = async (id) => {
+  const response = await axios.get(`${Url}/actor/${id}`, {
     headers: {},
   });
   return response;
@@ -55,8 +55,6 @@ const EditSlide = async (props) => {
 export {
     FetchActorsList,
     AddActor,
-//   RemoveSlide,
-//   ToggelSlide,
-//   EditSlide,
-//   GetSliderItem,
+    GetActorById,
+
 };

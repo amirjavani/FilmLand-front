@@ -2,32 +2,43 @@ import React, { useEffect, useState } from "react";
 import CustomInput from "./CustomInput";
 import $ from "jquery";
 
-const AutoComplateInput = ({ id , suggestions, className, inputClassName, inputTitle, onChangeInput }) => {
+const AutoComplateInput = ({
+  id,
+  suggestions,
+  className,
+  inputClassName,
+  inputTitle,
+  onChangeInput,
+  onSelectValue,
+}) => {
   const [input, setInput] = useState("");
   const [showSug, setShowSug] = useState(false);
-
 
   useEffect(() => {
     if (input === "") return;
 
-    const timer = setTimeout(() => { 
-      onChangeInput(input)
+    const timer = setTimeout(() => {
+      onChangeInput(input);
     }, 1000);
 
     return () => clearTimeout(timer);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input]);
+
+  //   $(`#suggestions-${id}`).hide();
   $(`#auto-complate-input-${id}`).on("focus", function () {
-    setShowSug(true)
-    //$(`#suggestions-${id}`).fadeIn(200)
+    setShowSug(true);
+    // $(`#suggestions-${id}`).fadeIn(200)
   });
   $(`#auto-complate-input-${id}`).on("blur", function () {
-    //$(`#suggestions-${id}`).fadeOut(200)
-    setShowSug(false)
+    setTimeout(() => {
+      setShowSug(false);
+      // $(`#suggestions-${id}`).fadeOut(200)
+    }, 100);
   });
 
   return (
-    <div className={`relative ${className}`}>
+    <div dir="ltr" className={`relative ${className}`}>
       <CustomInput
         id={`auto-complate-input-${id}`}
         className={`w-full ${inputClassName}`}
@@ -35,17 +46,25 @@ const AutoComplateInput = ({ id , suggestions, className, inputClassName, inputT
         setValue={setInput}
         title={inputTitle}
         type={"text"}></CustomInput>
-      <ul id={`suggestions-${id}`} className="absolute w-full bg-white">
-        {suggestions && showSug===true &&
-          (suggestions.length>0
-            ? suggestions.map((sug, index) => {
-                return (
-                  <li className="hover:bg-slate-500 cursor-pointer">
-                    {sug.text}
-                  </li>
-                );
-              })
-            : <strong>موردی پیدا نشد</strong>)}
+      <ul
+        id={`suggestions-${id}`}
+        className="absolute w-full rounded  gap-2 bg-white text-center">
+        {suggestions &&
+          showSug === true &&
+          (suggestions.length > 0 ? (
+            suggestions.map((sug, index) => {
+              return (
+                <li
+                  className="hover:bg-slate-700 transition-colors hover:text-white rounded cursor-pointer p-1 "
+                  onClick={() => onSelectValue({ id: sug.id, text: sug.text })}>
+                  {sug.text}
+                  <hr></hr>
+                </li>
+              );
+            })
+          ) : (
+            <strong>موردی پیدا نشد</strong>
+          ))}
       </ul>
     </div>
   );
