@@ -18,6 +18,7 @@ const EpisodeManager = ({ movieName }) => {
   const [episodeSubtitleUrl, setEpisodeSubtitleUrl] = useState("");
   const [episodeIsCensored, setepIsodeIsCensored] = useState(false);
   const [episodeDubbe, setEpisodeDubbe] = useState("");
+  const [editedEpisodeId, setEditedEpisodeId] = useState();
   const { id } = useParams();
 
   const [addEpisodeShow, setAddEpisodeShow] = useState(false);
@@ -66,20 +67,21 @@ const EpisodeManager = ({ movieName }) => {
     setEpisodeDubbe(e.movieFileDubbing);
     setepIsodeIsCensored(e.movieFileIsCensored);
     setEpisodeNum(e.movieFileEpisode);
+    setEditedEpisodeId(e.movieFileId); 
     setEditEpisodeShow(true);
   };
 
   const editingEpisodeFileSubmitt = async ()  => {
     await EditingMovieFile({
       movieFileChapter: activSeason.toString(),
-      id: id,
+      id: editedEpisodeId,
       movieFileDubbing: episodeDubbe,
       movieFileEpisode: episodeNum,
       movieFileIsCensored: episodeIsCensored,
       movieFileSubtitleURL: episodeSubtitleUrl,
     });
     await fetchData();
-    setRemovNotifShow(false);
+    setEditEpisodeShow(false);
   };
 
   const episodeSlideToggle = (index) => {
@@ -218,7 +220,7 @@ const EpisodeManager = ({ movieName }) => {
                                 : "bi-eye"
                             }`}></i>
                         </td>
-                        <td className="text-[13px] flex flex-row gap-1">
+                        <td className="text-[13px] flex flex-row justify-center gap-1">
                           <button
                             className="btn btn-primary  text-[13px]"
                             onClick={() => episodeSlideToggle(index)}>

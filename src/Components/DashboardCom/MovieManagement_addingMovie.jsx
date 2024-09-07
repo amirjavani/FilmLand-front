@@ -101,7 +101,7 @@ function AddMovie({ refresh }) {
     setMovieGenre(res.data.genreIds);
     setAgeCategory(res.data.movieAgeCategory);
     setMovieAuthor(res.data.movieAuthor);
-    setMovieActors(res.data.movieActors);
+    //setMovieActors(res.data.movieActors);
     //   fetchImage(res);
   };
 
@@ -341,7 +341,7 @@ function AddMovie({ refresh }) {
                     onClick={() =>
                       setMovieActors(
                         movieActors.filter((a) => {
-                          return !a.actorId === actor.actorId;
+                          return !(a.actorId === actor.actorId);
                         })
                       )
                     }
@@ -424,9 +424,9 @@ function AddMovie({ refresh }) {
             value={summary}
             onChange={(e) => setSummary(e.target.value)}></textarea>
         </div>
-        <div className="flex flex-row  border-none">
+        <div className="flex flex-row  w-full justify-between border-none">
           <span className="text-[18px] pl-6"> عکس پوستر:</span>
-          <div className="flex flex-col p-2 border">
+          <div className="flex flex-col p-2">
             {cartPic && (
               <img
                 className="w-[120px] p-2"
@@ -441,7 +441,7 @@ function AddMovie({ refresh }) {
             />
           </div>
         </div>
-        <div className="flex flex-row flex-wrap ml-auto border-none">
+        <div className="flex flex-row flex-wrap w-full justify-between border-none">
           <span className="text-[18px]"> عکس های داخل فیلم:</span>
           <input
             className="border-none"
