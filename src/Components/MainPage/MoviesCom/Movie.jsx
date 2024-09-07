@@ -21,7 +21,7 @@ import { AddComment, GetAllComment } from "../../../Utility/CommentAPI";
 import moment from 'moment-jalaali';
 import { useLocation } from 'react-router-dom';
 import ScrollableMenu from "./ScrollableMenu";
-
+import $ from 'jquery';
 
 
 function Movie() {
@@ -240,10 +240,11 @@ function Movie() {
     };
   }, [id]);
 
-
+  if (MovieFile.filter((episdoe)=>{return((episdoe.movieFileDubbing === activeOption) && (episdoe.movieFileChapter === activeFilter) && (episdoe.movieFileIsCensored === activeOption2))}).length===0){
+    $('#epmty-movie-file').show();
+  }else $('#epmty-movie-file').hide()
+  
   let moreInfo, downloadContainer, comments;
-  const [showMoreInfo, setShowMoreInfo] = useState(true);
-  const [showDownload, setShowDownload] = useState(false);
 
   const handleMoreInfoClick = (event) => {
     event.preventDefault();
@@ -758,7 +759,6 @@ function Movie() {
                   <i id="right" onClick={scrollRight} className="uil uil-angle-right right-btn2"></i>
                 </div>
                 <div className="filter-nav-option2">
-
                   <div ref={dropdownRef} className="filter-nav-dropdown2">
                     <div
                       className={`filter-nav-select ${menuOpen ? "filter-nav-select-clicked" : ""}`}
@@ -806,20 +806,16 @@ function Movie() {
                         </li>
                       ))}
                     </ul>
-                    {/* <div onClick={cccc}>ffffff</div> */}
                   </div>
                 </div>
 
               </div>
 
-              {/* <div className="filter-nav-search">
-                <button onClick={Send}>جستجو</button>
-              </div> */}
             </div>
 
 
             <div id="downloads-film" style={{ display: "none" }}>
-              {MovieFile.map((file, index) => (
+              {MovieFile.length ? MovieFile.map((file, index) => (
                 <div key={index} className="download-container">
                   <div className="part-movie">
                     <h2 className="text-lg font-semibold">
@@ -849,9 +845,12 @@ function Movie() {
                       ))}
                   </div>
                 </div>
-              ))}
+              )):<div className="download-container">قسمتی وجود ندارد.</div>}
             </div>
             <div id="downloads-serial">
+              <div id="epmty-movie-file" className="download-container">
+              <strong className="mx-auto my-auto text-[18px]">قسمتی وجود ندارد.</strong>
+              </div>
               {MovieFile.map((file, index) => (
                 (file.movieFileDubbing === activeOption) && (file.movieFileChapter === activeFilter) && (file.movieFileIsCensored === activeOption2) && (
                   <div key={index} className="download-container">
@@ -886,6 +885,7 @@ function Movie() {
                 )
 
               ))}
+
             </div>
           </div>
         </div>

@@ -216,7 +216,7 @@ body {
 
 .body-middle {
     width: 100%;
-    height: 1500px;
+    
 }
 
 .title-movie {
@@ -437,6 +437,7 @@ body {
     flex-direction: column;
     align-items: center;
     display: none;
+    margin-bottom: 50px;
 }
 
 .filter-download {
@@ -452,7 +453,7 @@ body {
 
 .downloads {
     width: 85%;
-    height: 1000px;
+    
 
     /* background: var(--first-color); */
 }
@@ -709,12 +710,13 @@ section {
 
 .comments {
     width: 100%;
-    height: 1000px;
+    
     /* background-color: rgba(11, 85, 122, 0.268); */
     display: none;
     flex-direction: column;
     /* justify-content: center; */
     align-items: center;
+    margin-bottom: 50px;
 }
 
 .comments-bottom {
