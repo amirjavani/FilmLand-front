@@ -173,4 +173,6 @@ export {
   GetOneMovie,
   AddingMovieFile,
   AddingMovieFileDetail,
+  EditingMovieFile,
+  RemoveMovieFile
 };
