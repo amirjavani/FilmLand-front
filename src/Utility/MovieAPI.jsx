@@ -162,8 +162,6 @@ const AddingMovieFileDetail = async ({
   return response;
 };
 
-
-
 export {
   FetchCategory,
   FetchGenre,
@@ -175,6 +173,4 @@ export {
   GetOneMovie,
   AddingMovieFile,
   AddingMovieFileDetail,
-  RemoveMovieFile,
-  EditingMovieFile,
 };
