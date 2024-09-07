@@ -29,9 +29,11 @@ function Movie() {
   const [error, setError] = useState(false);
   const [singleMovie, setSingleMovie] = useState([]);
   const [MovieFile, setMovieFile] = useState([]);
+  const [seasons, setSeasons] = useState([]);
+  
+
   const [Comments, setCommetns] = useState([]);
-  const [MovieFile2, setMovieFile2] = useState([]);
-  const [IsFilm, setIsFilm] = useState();
+
   const dropdownRef = useRef(null);
   const dropdownRef2 = useRef(null);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -281,6 +283,24 @@ function Movie() {
       filterNavContainer.style.display = "none";
       downloadsSerial.style.display = "none";
       downloadsFilm.style.display = "block";
+    }else{
+      if (MovieFile.length > 0) {
+        const maxSeason = MovieFile.reduce(
+          (max, episode) =>
+            parseInt(episode.movieFileChapter) > max
+              ? parseInt(episode.movieFileChapter)
+              : max,
+          parseInt(MovieFile[0].movieFileChapter)
+        );
+ 
+        let s = [];
+        for (let index = 1; index <= maxSeason; index++) {
+          s.push(String(index));
+        }
+        setSeasons(s);
+      } else {
+        setSeasons(['1']);
+      }
     }
     console.log(MovieFile)
     const element = document.querySelector('.filter-nav-buttons-container2');
@@ -721,20 +741,17 @@ function Movie() {
 
             <div className="filter-nav-container2">
               <div className="filter-nav-filters2">
-                {/* <ScrollableMenu Categories={Categories} SendActiveFilter={setActiveFilter} GetActiveFilter={activeFilter} /> */}
                 <div ref={tabMenuRef} className="filter-nav-buttons-container2">
-                  {/* {MovieFile.length > 4 && (
-                    
-                  )} */}
+                  
                   <i id="left" onClick={scrollLeft} className="uil uil-angle-left left-btn2"></i>
                   <div className="filter-nav-buttons2">
-                    {MovieFile.map((file) => (
+                    {seasons.map((season,index) => (
                       <button
-                        key={file.movieFileChapter}
-                        className={`filter-nav-button2 ${activeFilter === file.movieFileChapter ? "active" : ""}`}
-                        onClick={() => handleClick(file.movieFileChapter)}
+                        key={index}
+                        className={`filter-nav-button2 ${activeFilter === season ? "active" : ""}`}
+                        onClick={() => handleClick(season)}
                       >
-                        <p>فصل {file.movieFileChapter}</p>
+                        <p>فصل {season}</p>
                       </button>
                     ))}
                   </div>

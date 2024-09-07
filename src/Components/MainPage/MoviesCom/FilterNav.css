@@ -48,7 +48,7 @@
   position: absolute;
   padding: 10px;
   cursor: pointer;
-  margin-right: 462px;
+  margin-right: 462px !important;
   font-size: 1.8rem;
   background: linear-gradient(to left, transparent, #142c3d 80%);
   border-top-left-radius: 30px;
@@ -341,7 +341,7 @@
   }
 
   .left-btn2 {
-    margin-right: 262px;
+    margin-right: 262px !important;
   }
 
   .filter-nav-search {
