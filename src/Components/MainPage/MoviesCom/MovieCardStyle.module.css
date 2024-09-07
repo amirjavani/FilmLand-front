@@ -21,7 +21,7 @@
 
 .front, .back {
     position: absolute;
-    width: 100%;
+    width: 100% !important;
     height: 100%;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
@@ -66,7 +66,7 @@
 
 .front_content {
     position: absolute;
-    width: 100%;
+    width: 100% !important;
     height: 100%;
     padding: 10px;
     display: flex;
