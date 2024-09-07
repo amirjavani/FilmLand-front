@@ -13,6 +13,7 @@
     "date-fns": "^3.6.0",
     "jquery": "^3.7.1",
     "js-cookie": "^3.0.5",
+    "main-project": "file:",
     "moment-jalaali": "^0.10.1",
     "persian-tools2": "^1.5.0",
     "react": "^18.3.1",
