@@ -13,32 +13,116 @@ import {
   FetchMovieFile
 } from "../../../Utility/SingleMovieAPI";
 import { Url } from "../../../Utility/URL";
-import { useParams, useNavigate } from 'react-router-dom';
-import NotFoundPage from './NotFoundPage'; // Import your NotFoundPage component
-// import "./Movie.js"
+import { useParams, useNavigate, json } from 'react-router-dom';
+import NotFoundPage from './NotFoundPage';
+import "./FilterNav.css";
+import { FetchCategory, FetchGenre } from "../../../Utility/MovieAPI";
+import { AddComment, GetAllComment } from "../../../Utility/CommentAPI";
+import moment from 'moment-jalaali';
+import { useLocation } from 'react-router-dom';
+import ScrollableMenu from "./ScrollableMenu";
+
+
 
 function Movie() {
-  const actors = [
-    "/Assets/Actors/30148175-l_30NAMA.jpg",
-    "/Assets/Actors/30148655-l_30NAMA.jpg",
-    "/Assets/Actors/30148379-l_30NAMA.jpg",
-    "/Assets/Actors/30200166-l_30NAMA.jpg",
-    "/Assets/Actors/30205507-l_30NAMA.jpg",
-    "/Assets/Actors/30418203-l_30NAMA.jpg",
-    "/Assets/Actors/30424753-l_30NAMA.jpg",
-  ];
-  const pics = [
-    "/Assets/Pictures/Kung-Fu-Panda-4-2024-img1-jpg.webp",
-    "/Assets/Pictures/Kung-Fu-Panda-4-2024-img2-1-jpg.webp",
-    "/Assets/Pictures/Kung-Fu-Panda-4-2024-img3-jpg.webp",
-    "/Assets/Pictures/Kung-Fu-Panda-4-2024-img4-jpg.webp",
-    "/Assets/Pictures/Kung-Fu-Panda-4-2024-img5-jpg.webp",
-  ];
-
   const { id } = useParams();
-  const [error, setError] = useState(false); // State to track if a 400 error occurs
+  const [error, setError] = useState(false);
   const [singleMovie, setSingleMovie] = useState([]);
   const [MovieFile, setMovieFile] = useState([]);
+  const [Comments, setCommetns] = useState([]);
+  const [MovieFile2, setMovieFile2] = useState([]);
+  const [IsFilm, setIsFilm] = useState();
+  const dropdownRef = useRef(null);
+  const dropdownRef2 = useRef(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen2, setMenuOpen2] = useState(false);
+  const [activeOption, setActiveOption] = useState("dubbed");
+  const [activeOption2, setActiveOption2] = useState(true);
+  const [activeFilter, setActiveFilter] = useState("1");
+  const [Categories, setCategories] = useState([]);
+  const [Genres, setGenres] = useState([]);
+  const [commentText, setCommentText] = useState("");
+  const [openIndex, setOpenIndex] = useState(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const dubbing = [
+    {
+      "english": "dubbed",
+      "persian": "دوبله"
+    },
+    {
+      "english": "hard subtitle",
+      "persian": "زیرنویس چسبیده"
+    },
+    {
+      "english": "original",
+      "persian": "زبان اصلی"
+    }
+  ];
+
+  const censore = [
+    {
+      "english": true,
+      "persian": "سانسور شده"
+    },
+    {
+      "english": false,
+      "persian": "سانسور نشده"
+    }
+  ]
+
+  const toPersianDigits = (num) => {
+    const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    return num.toString().replace(/\d/g, (digit) => persianDigits[digit]);
+  };
+
+  const toggleOpen = (index) => {
+    if (openIndex === index) {
+      setOpenIndex(null); // Close if the same comment is clicked again
+    } else {
+      setOpenIndex(index); // Open the clicked comment's reply box
+    }
+  };
+
+  const fetch = async () => {
+    const cat = await FetchCategory();
+    setCategories(cat.data);
+    const genre = await FetchGenre();
+    setGenres(genre.data);
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(prevMenuOpen => !prevMenuOpen);
+  };
+
+  const toggleMenu2 = () => {
+    setMenuOpen2(prevMenuOpen => !prevMenuOpen);
+  };
+
+  const handleOptionClick = (value) => {
+    setActiveOption(value);
+    toggleMenu();
+  };
+
+  const handleOptionClick2 = (value) => {
+    setActiveOption2(value);
+    toggleMenu2();
+  };
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setMenuOpen(false);
+    }
+    if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) {
+      setMenuOpen2(false);
+    }
+  };
+
+  const Send = () => {
+    navigate(`/movies?category=${activeFilter}&genre=${activeOption}`);
+    window.location.reload();
+  };
 
   const fetchData = async () => {
     try {
@@ -55,7 +139,6 @@ function Movie() {
     try {
       const response = await FetchMovieFile({ id });
       setMovieFile(response.data);
-      console.log(MovieFile)
     } catch (error) {
       if (error.response && error.response.status === 400) {
         setError(true); // Set error state to true on 400 error
@@ -63,18 +146,97 @@ function Movie() {
         console.error("Error fetching data:", error);
       }
     }
+
+    try {
+      const response = await GetAllComment({ id });
+      setCommetns(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
-  const Refresh = () => {
-    fetchData();
-  };
+  const SendComment = async () => {
+    var formData = new json();
+    formData = {
+      "commentWriter": "User",
+      "commentText": commentText,
+      "movieRef": id,
+      "replyTo": null
+    }
+    console.log(formData)
+    try {
+
+      const response = await AddComment(formData);
+      window.location.reload();
+
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  const SendComment2 = async (commentId) => {
+    var formData = new json();
+    formData = {
+      "commentWriter": "User",
+      "commentText": commentText,
+      "movieRef": id,
+      "replyTo": commentId
+    }
+    console.log(formData)
+    try {
+
+      const response = await AddComment(formData);
+      window.location.reload();
+
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  const textareaRef = useRef(null);
+  const textareaRef2 = useRef(null);
+  const textareaRef3 = useRef(null);
+
+
+
+  // useEffect(() => {
+
+
+  //   // Cleanup event listener on component unmount
+  //   return () => {
+  //   };
+  // }, []);
 
   useEffect(() => {
+
+    moment.loadPersian({ dialect: 'persian-modern', usePersianDigits: true });
+
+    const textarea = textareaRef.current;
+
+    const resizeTextarea = () => {
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    };
+
+    // Initial resize to fit any pre-filled content
+    // resizeTextarea();
+
+    // Add event listener for input event
+    textarea.addEventListener("input", resizeTextarea);
+
     if (id) {
       fetchData();
     }
-  }, [id]);
+    fetch();
 
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      textarea.removeEventListener("input", resizeTextarea);
+
+    };
+  }, [id]);
 
 
   let moreInfo, downloadContainer, comments;
@@ -111,6 +273,31 @@ function Movie() {
     comments.style.display = "none";
     moreInfo.style.display = "none";
     downloadContainer.style.display = "flex";
+    const isFilm = MovieFile.some(file => file.movieFileChapter === "0");
+    let downloadsFilm = document.getElementById("downloads-film");
+    let downloadsSerial = document.getElementById("downloads-serial");
+    if (isFilm) {
+      let filterNavContainer = document.querySelector(".filter-nav-container2");
+      filterNavContainer.style.display = "none";
+      downloadsSerial.style.display = "none";
+      downloadsFilm.style.display = "block";
+    }
+    console.log(MovieFile)
+    const element = document.querySelector('.filter-nav-buttons-container2');
+    if (element) {
+      const width = element.offsetWidth;
+      let left = document.getElementById("left");
+      let right = document.getElementById("right");
+      if (left) {
+        left.style.marginRight = width - 35 + 'px'; 
+      }
+      if (width > 450) {
+        right.style.display = 'none';
+      }
+      if (width > 450) {
+        left.style.display = 'none';
+      }
+    }
   };
 
   const handleCommentClick = (event) => {
@@ -129,128 +316,23 @@ function Movie() {
     downloadContainer.style.display = "none";
   };
 
-  const btnLeftRef = useRef(null);
-  const btnRightRef = useRef(null);
   const tabMenuRef = useRef(null);
-  let btnLeft, btnRight, tabMenu;
 
-  const IconVisibility = () => {
-    let scrollLeftValue = -1 * Math.ceil(tabMenu.scrollLeft);
-    let scrollableWidth = tabMenu.scrollWidth - tabMenu.clientWidth;
-    console.log(scrollLeftValue);
-    btnRight.style.display = scrollLeftValue > 0 ? "block" : "none";
-    btnLeft.style.display =
-      scrollableWidth > scrollLeftValue ? "block" : "none";
+  const handleClick = (value) => {
+    setActiveFilter(value);
   };
 
-  const handleLeftClick = () => {
-    // tabMenu = document.querySelector(".tab-menu");
-
-    // console.log(tabMenu);
-    tabMenu.scrollLeft -= 150;
-    setTimeout(() => IconVisibility(), 50);
+  const scrollRight = () => {
+    if (tabMenuRef.current) {
+      tabMenuRef.current.scrollLeft += 150;
+    }
   };
 
-  const handleRightClick = () => {
-    tabMenu.scrollLeft += 150;
-    setTimeout(() => IconVisibility(), 50);
+  const scrollLeft = () => {
+    if (tabMenuRef.current) {
+      tabMenuRef.current.scrollLeft -= 150;
+    }
   };
-
-  window.onload = function () {
-    btnLeft = document.querySelector(".left-btn");
-    btnRight = document.querySelector(".right-btn");
-    tabMenu = document.querySelector(".tab-menu");
-    console.log(btnLeft);
-
-    // btnLeft.style.display = tabMenu.scrollWidth > tabMenu.clientWidth || tabMenu.scrollWidth >= window.innerWidth ? "block" : "none";
-    // btnRight.style.display = tabMenu.scrollWidth >= window.innerWidth ? "" : "none";
-  };
-
-  // window.onresize = function () {
-  //   btnLeft.style.display =
-  //     tabMenu.scrollWidth > tabMenu.clientWidth ||
-  //       tabMenu.scrollWidth >= window.innerWidth
-  //       ? "block"
-  //       : "none";
-  //   btnRight.style.display =
-  //     tabMenu.scrollWidth >= window.innerWidth ? "" : "none";
-
-  //   let scrollLeftValue = -1 * Math.round(tabMenu.scrollLeft);
-
-  //   btnRight.style.display = scrollLeftValue > 0 ? "block" : "none";
-  // };
-
-  let activeDrag = false;
-
-  const MouseMoveTabMenu = (drag) => {
-    if (!activeDrag) return;
-    tabMenu.scrollLeft -= drag.movementX;
-    IconVisibility();
-    tabMenu.classList.add("dragging");
-  };
-
-  const MouseUpTabMenu = () => {
-    activeDrag = false;
-    tabMenu.classList.remove("dragging");
-  };
-
-  const MouseDownTabMenu = () => {
-    activeDrag = true;
-  };
-
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("دوبله");
-  const [activeOption, setActiveOption] = useState("دوبله");
-
-  const toggleMenu = () => {
-    setMenuOpen((prevMenuOpen) => !prevMenuOpen);
-  };
-
-  const handleOptionClick = (option) => {
-    setSelectedOption(option);
-    setMenuOpen(false);
-    setActiveOption(option);
-  };
-
-  const options = ["دوبله", "زیرنویس چسبیده", "زبان اصلی"];
-
-  const [menuOpen2, setMenuOpen2] = useState(false);
-  const [selectedOption2, setSelectedOption2] = useState("سانسور شده");
-  const [activeOption2, setActiveOption2] = useState("سانسور شده");
-
-  const toggleMenu2 = () => {
-    setMenuOpen2((prevMenuOpen2) => !prevMenuOpen2);
-  };
-
-  const handleOptionClick2 = (option2) => {
-    setSelectedOption2(option2);
-    setMenuOpen2(false);
-    setActiveOption2(option2);
-  };
-
-  const options2 = ["سانسور شده", "سانسور نشده"];
-
-  const textareaRef = useRef(null);
-
-  useEffect(() => {
-    const textarea = textareaRef.current;
-
-    const resizeTextarea = () => {
-      textarea.style.height = "auto";
-      textarea.style.height = `${textarea.scrollHeight}px`;
-    };
-
-    // Initial resize to fit any pre-filled content
-    // resizeTextarea();
-
-    // Add event listener for input event
-    textarea.addEventListener("input", resizeTextarea);
-
-    // Cleanup event listener on component unmount
-    return () => {
-      textarea.removeEventListener("input", resizeTextarea);
-    };
-  }, []);
 
   if (error) {
     return <NotFoundPage />; // Render NotFoundPage component on 400 error
@@ -633,7 +715,93 @@ function Movie() {
                 </div>
               </div>
             </div> */}
-            <div>
+            {/* <p>{IsFilm.toString()}</p> */}
+
+
+
+            <div className="filter-nav-container2">
+              <div className="filter-nav-filters2">
+                {/* <ScrollableMenu Categories={Categories} SendActiveFilter={setActiveFilter} GetActiveFilter={activeFilter} /> */}
+                <div ref={tabMenuRef} className="filter-nav-buttons-container2">
+                  {/* {MovieFile.length > 4 && (
+                    
+                  )} */}
+                  <i id="left" onClick={scrollLeft} className="uil uil-angle-left left-btn2"></i>
+                  <div className="filter-nav-buttons2">
+                    {MovieFile.map((file) => (
+                      <button
+                        key={file.movieFileChapter}
+                        className={`filter-nav-button2 ${activeFilter === file.movieFileChapter ? "active" : ""}`}
+                        onClick={() => handleClick(file.movieFileChapter)}
+                      >
+                        <p>فصل {file.movieFileChapter}</p>
+                      </button>
+                    ))}
+                  </div>
+                  <i id="right" onClick={scrollRight} className="uil uil-angle-right right-btn2"></i>
+                </div>
+                <div className="filter-nav-option2">
+
+                  <div ref={dropdownRef} className="filter-nav-dropdown2">
+                    <div
+                      className={`filter-nav-select ${menuOpen ? "filter-nav-select-clicked" : ""}`}
+                      onClick={toggleMenu}
+                    >
+                      {dubbing.map((d) => (
+                        (d.english === activeOption) && (
+                          <p key={d.persian}>{d.persian}</p>
+                        )
+                      ))}
+                      <div className={`filter-nav-caret ${menuOpen ? "filter-nav-caret-rotate" : ""}`}></div>
+                    </div>
+                    <ul className={`filter-nav-menu2 ${menuOpen ? "filter-nav-menu-open2" : ""}`}>
+                      {dubbing.map((d) => (
+                        <li
+                          key={d.persian}
+                          className={d.english === activeOption ? "filter-nav-active" : ""}
+                          onClick={() => handleOptionClick(d.english)}
+                        >
+                          {d.persian}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div ref={dropdownRef2} className="filter-nav-dropdown2">
+                    <div
+                      className={`filter-nav-select ${menuOpen2 ? "filter-nav-select-clicked" : ""}`}
+                      onClick={toggleMenu2}
+                    >
+                      {censore.map((c) => (
+                        (c.english === activeOption2) && (
+                          <p key={c.persian}>{c.persian}</p>
+                        )
+                      ))}
+                      <div className={`filter-nav-caret ${menuOpen2 ? "filter-nav-caret-rotate" : ""}`}></div>
+                    </div>
+                    <ul className={`filter-nav-menu2 ${menuOpen2 ? "filter-nav-menu-open2" : ""}`}>
+                      {censore.map((c) => (
+                        <li
+                          key={c.persian}
+                          className={c.english === activeOption2 ? "filter-nav-active" : ""}
+                          onClick={() => handleOptionClick2(c.english)}
+                        >
+                          {c.persian}
+                        </li>
+                      ))}
+                    </ul>
+                    {/* <div onClick={cccc}>ffffff</div> */}
+                  </div>
+                </div>
+
+              </div>
+
+              {/* <div className="filter-nav-search">
+                <button onClick={Send}>جستجو</button>
+              </div> */}
+            </div>
+
+
+            <div id="downloads-film" style={{ display: "none" }}>
               {MovieFile.map((file, index) => (
                 <div key={index} className="download-container">
                   <div className="part-movie">
@@ -662,260 +830,143 @@ function Movie() {
                           </div>
                         </a>
                       ))}
-                    {/* {file.movieFileQuality == 1080 && (
-                      <div className="download">
-                        <i className="fa fa-download" aria-hidden="true"></i>
-                        <a href={file.movieFile_MovieURL}>
-                          <p className="text-sm mr-1">دانلود {file.movieFileQuality}</p>
-                        </a>
-                      </div>
-                    )}
-                    {file.movieFileQuality == 720 && (
-                      <div className="download">
-                        <i className="fa fa-download" aria-hidden="true"></i>
-                        <a href={file.movieFile_MovieURL}>
-                          <p className="text-sm mr-1">دانلود {file.movieFileQuality}</p>
-                        </a>
-                      </div>
-                    )}
-                    {file.movieFileQuality == 480 && (
-                      <div className="download">
-                        <i className="fa fa-download" aria-hidden="true"></i>
-                        <a href={file.movieFile_MovieURL}>
-                          <p className="text-sm mr-1">دانلود {file.movieFileQuality}</p>
-                        </a>
-                      </div>
-                    )} */}
                   </div>
                 </div>
               ))}
             </div>
-            {/* <div className="download-container">
-              <div className="part-movie">
-                <h2 className="text-lg font-semibold">قسمت اول</h2>
-              </div>
-              <div className="download-div">
-                <div className="subtitle">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">زیرنویس</p>
-                </div>
-                <div className="download">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">دانلود 1080</p>
-                </div>
-                <div className="download">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">دانلود 720</p>
-                </div>
-                <div className="download">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">دانلود 480</p>
-                </div>
-              </div>
-            </div> */}
-            {/* <div className="download-container">
-              <div className="part-movie">
-                <h2 className="text-lg font-semibold">قسمت دوم</h2>
-              </div>
-              <div className="download-div">
-                <div className="subtitle">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">زیرنویس</p>
-                </div>
-                <div className="download">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">دانلود 1080</p>
-                </div>
-                <div className="download">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">دانلود 720</p>
-                </div>
-                <div className="download">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">دانلود 480</p>
-                </div>
-              </div>
+            <div id="downloads-serial">
+              {MovieFile.map((file, index) => (
+                (file.movieFileDubbing === activeOption) && (file.movieFileChapter === activeFilter) && (file.movieFileIsCensored === activeOption2) && (
+                  <div key={index} className="download-container">
+                    <div className="part-movie">
+                      <h2 className="text-lg font-semibold">
+                        قسمت {file.movieFileEpisode}
+                      </h2>
+                    </div>
+                    <div className="download-div">
+                      {file.movieFileSubtitleURL && (
+                        <div className="subtitle">
+                          <i className="fa fa-download" aria-hidden="true"></i>
+                          <p className="text-sm mr-1">{file.movieFileSubtitleURL}</p>
+                        </div>
+                      )}
+                      {file.movieFile_MovieURL
+                        .map((movieURL, index) => ({
+                          movieURL,
+                          quality: file.movieFileQuality[index],
+                        }))
+                        .sort((a, b) => a.quality - b.quality) // Sorting in increasing order of quality
+                        .map((fileObj, index2) => (
+                          <a href={fileObj.movieURL} key={index2}>
+                            <div className="download">
+                              <i className="fa fa-download" aria-hidden="true"></i>
+                              <p className="text-sm mr-1">دانلود {fileObj.quality}</p>
+                            </div>
+                          </a>
+                        ))}
+                    </div>
+                  </div>
+                )
+
+              ))}
             </div>
-            <div className="download-container">
-              <div className="part-movie">
-                <h2 className="text-lg font-semibold">قسمت سوم</h2>
-              </div>
-              <div className="download-div">
-                <div className="subtitle">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">زیرنویس</p>
-                </div>
-                <div className="download">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">دانلود 1080</p>
-                </div>
-                <div className="download">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">دانلود 720</p>
-                </div>
-                <div className="download">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">دانلود 480</p>
-                </div>
-              </div>
-            </div>
-            <div className="download-container">
-              <div className="part-movie">
-                <h2 className="text-lg font-semibold">قسمت چهارم</h2>
-              </div>
-              <div className="download-div">
-                <div className="subtitle">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">زیرنویس</p>
-                </div>
-                <div className="download">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">دانلود 1080</p>
-                </div>
-                <div className="download">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">دانلود 720</p>
-                </div>
-                <div className="download">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">دانلود 480</p>
-                </div>
-              </div>
-            </div>
-            <div className="download-container">
-              <div className="part-movie">
-                <h2 className="text-lg font-semibold">قسمت پنجم</h2>
-              </div>
-              <div className="download-div">
-                <div className="subtitle">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">زیرنویس</p>
-                </div>
-                <div className="download">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">دانلود 1080</p>
-                </div>
-                <div className="download">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">دانلود 720</p>
-                </div>
-                <div className="download">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">دانلود 480</p>
-                </div>
-              </div>
-            </div>
-            <div className="download-container">
-              <div className="part-movie">
-                <h2 className="text-lg font-semibold">قسمت ششم</h2>
-              </div>
-              <div className="download-div">
-                <div className="subtitle">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">زیرنویس</p>
-                </div>
-                <div className="download">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">دانلود 1080</p>
-                </div>
-                <div className="download">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">دانلود 720</p>
-                </div>
-                <div className="download">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  <p className="text-sm mr-1">دانلود 480</p>
-                </div>
-              </div>
-            </div> */}
           </div>
         </div>
+
         <div className="comments">
+
           <div className="info-head">
             <h2 className="fs-3 ml-8 mr-2 font-bold">کامنت ها</h2>
             <div className="line2"></div>
           </div>
           <div className="send-comment-container">
             <div className="comment-name">
-              <h2>Mahdi</h2>
+              <h2>User</h2>
             </div>
             <textarea
               id="auto-resizing-textarea"
               ref={textareaRef}
-              placeholder="کامنت شما"></textarea>
-            <div className="comment-send">
+              placeholder="کامنت شما"
+              onChange={(e) => setCommentText(e.target.value)}>
+            </textarea>
+            <div className="comment-send" onClick={SendComment}>
               <h2>ارسال</h2>
             </div>
           </div>
-          <div className="comment-container">
-            <div className="header-comment">
-              <div className="comment-name">
-                <h2>Mahdi1</h2>
+          {Comments.map((comment, index) => (
+            (comment.replyTo == "00000000-0000-0000-0000-000000000000" && (
+              <div className="comments-bottom">
+                <div className="comment-container">
+                  <div className="header-comment">
+                    <div className="comment-name">
+                      <h2>{comment.commentWriter}</h2>
+                    </div>
+                    <div className="comment-date">
+                      <h2>{moment(comment.commentCreateDate).format('jD jMMMM jYYYY HH:mm')}</h2>
+                    </div>
+                  </div>
+                  <div className="comment">
+                    <p>
+                      {comment.commentText}
+                    </p>
+                  </div>
+                  <div className="footer-comment">
+                    <div className="comment-reactions">
+                      <i class="fa-regular fa-thumbs-up"></i>
+                      <p>{toPersianDigits(comment.commentLike)}</p>
+                      <i class="fa-regular fa-thumbs-down"></i>
+                      <p>{toPersianDigits(comment.commentDisLike)}</p>
+                    </div>
+                    <div className="comment-send" onClick={() => toggleOpen(index)}>
+                      <h2>پاسخ</h2>
+                    </div>
+                  </div>
+                </div>
+                <div className={`send-comment-container2 ${openIndex === index ? 'open' : ''}`}
+                  style={{ maxHeight: openIndex === index ? '500px' : '0px' }}>
+                  <div className="comment-name2">
+                    <h2>User</h2>
+                  </div>
+                  <textarea
+                    id="auto-resizing-textarea"
+                    ref={textareaRef2}
+                    placeholder="کامنت شما"
+                    onChange={(e) => setCommentText(e.target.value)}></textarea>
+                  <div className="comment-send2" onClick={() => SendComment2(comment.commentId)}>
+                    <h2>ارسال</h2>
+                  </div>
+                </div>
+                {Comments.map((comment2, index) => (
+                  (comment2.replyTo === comment.commentId && (
+                    <div className="reply-container">
+                      <div className="header-comment">
+                        <div className="comment-name">
+                          <h2>User</h2>
+                        </div>
+                        <div className="comment-date">
+                          <h2>{moment(comment2.commentCreateDate).format('jD jMMMM jYYYY HH:mm')}</h2>
+                        </div>
+                      </div>
+                      <div className="comment">
+                        <p>
+                          {comment2.commentText}
+                        </p>
+                      </div>
+                      <div className="footer-comment">
+                        <div className="comment-reactions">
+                          <i class="fa-regular fa-thumbs-up"></i>
+                          <p>{toPersianDigits(comment2.commentLike)}</p>
+                          <i class="fa-regular fa-thumbs-down"></i>
+                          <p>{toPersianDigits(comment2.commentDisLike)}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ))}
               </div>
-              <div className="comment-date">
-                <h2>۵ آذر ۱۴۰۲ ۰۰:۲۰</h2>
-              </div>
-            </div>
-            <div className="comment">
-              <p>
-                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
-                استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله
-                در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد
-                نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد،
-                کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان
-                جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را
-                برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در
-                زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و
-                دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و
-                زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات
-                پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
-              </p>
-            </div>
-            <div className="footer-comment">
-              <div className="comment-reactions">
-                <i class="fa-regular fa-thumbs-up"></i>
-                <p>۰</p>
-                <i class="fa-regular fa-thumbs-down"></i>
-                <p>۰</p>
-              </div>
-              <div className="comment-send">
-                <h2>پاسخ</h2>
-              </div>
-            </div>
-          </div>
-          <div className="reply-container">
-            <div className="header-comment">
-              <div className="comment-name">
-                <h2>Mahdi1</h2>
-              </div>
-              <div className="comment-date">
-                <h2>۵ آذر ۱۴۰۲ ۰۰:۲۰</h2>
-              </div>
-            </div>
-            <div className="comment">
-              <p>
-                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
-                استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله
-                در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد
-                نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد،
-                کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان
-                جامعه و متخصصان را می طلبد.
-              </p>
-            </div>
-            <div className="footer-comment">
-              <div className="comment-reactions">
-                <i class="fa-regular fa-thumbs-up"></i>
-                <p>۰</p>
-                <i class="fa-regular fa-thumbs-down"></i>
-                <p>۰</p>
-              </div>
-              <div className="comment-send">
-                <h2>پاسخ</h2>
-              </div>
-            </div>
-          </div>
+            ))
+          ))}
         </div>
-        {/* )} */}
       </div>
     </>
   );

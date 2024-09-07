@@ -1,74 +1,35 @@
-import React from 'react'
+import React, { useState, useRef, useEffect } from "react";
 
 import FilterNav from './FilterNav';
 import MovieCard from './MovieCard';
-import "./MoviesStyle.css"
-
-const movies = [
-  {
-    id: 1,
-    title: "پاندای کونگ فو کار ",
-    description: "This is the description for film 1",
-    posterUrl: "/Assets/Carts/Dune.jpg",
-    bookmark: true,
-  },
-  {
-    id: "1689c946-6552-4aa5-923f-182900a05395",
-    title: "Film Title 2",
-    description: "This is the description for film 2",
-    posterUrl: "/Assets/Movie/panda4-200x300.webp",
-    bookmark: false,
-  },
-  {
-    id: 2,
-    title: "Film Title 2",
-    description: "This is the description for film 2",
-    posterUrl: "/Assets/Carts/Forrest Gump.jpg",
-    bookmark: true,
-  },
-  {
-    id: 2,
-    title: "Film Title 2",
-    description: "This is the description for film 2",
-    posterUrl: "/Assets/Carts/Forrest Gump.jpg",
-    bookmark: false,
-  },
-  {
-    id: 2,
-    title: "Film Title 2",
-    description: "This is the description for film 2",
-    posterUrl: "/Assets/Carts/Forrest Gump.jpg",
-    bookmark: true,
-  },
-  {
-    id: 2,
-    title: "Film Title 2",
-    description: "This is the description for film 2",
-    posterUrl: "/Assets/Carts/Forrest Gump.jpg",
-    bookmark: true,
-  },
-  {
-    id: 2,
-    title: "Film Title 2",
-    description: "This is the description for film 2",
-    posterUrl: "/Assets/Carts/Forrest Gump.jpg",
-    bookmark: true,
-  },
-  {
-    id: 2,
-    title: "Film Title 2",
-    description: "This is the description for film 2",
-    posterUrl: "/Assets/Carts/Forrest Gump.jpg",
-    bookmark: true,
-  },
-
-];
+import "./MoviesStyle.css";
+import { FetchMovies } from "../../../Utility/MovieAPI";
+import { useLocation } from 'react-router-dom';
 
 function MoviesComponent() {
+  const [movies, setMovies] = useState([]);
+  const location = useLocation();
 
-  const fetchMovies = () => {
+  const queryParams = new URLSearchParams(location.search);
+  const category = queryParams.get('category');
+  const genre = queryParams.get('genre');
+  
 
-  }
+  const fetchData = async () => {
+    try {
+      const response = await FetchMovies(category, genre );
+      setMovies(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+
+    return () => {
+    };
+  }, [location.search]);
 
 
   return (
@@ -81,14 +42,13 @@ function MoviesComponent() {
         </div>
         <div className="movies-carts-container">
           {movies.map((movie) => (
-            <div key={movie.id} className="movies-cart">
+            <div key={movie.movieId} className="movies-cart">
               <div className="movie_cart_title">
-                Kung Fu Panda 4
+              {movie.movieEnglishName}
               </div>
               <MovieCard mov={movie} />
               
             </div>
-            
           ))}
         </div>
       </div>

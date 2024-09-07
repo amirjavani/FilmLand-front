@@ -2,35 +2,32 @@ import React, { useState } from "react";
 import style from "./MovieCardStyle.module.css";
 import { useNavigate } from "react-router-dom";
 import imdb from "../../../Assets/4373222_imdb_logo_logos_icon.png"
+import { Url } from "../../../Utility/URL";
 const MovieCard = ({ mov }) => {
   const [movie, setMovie] = useState(mov);
-  const navigator = useNavigate();
-
-  const continues = () => {
-    navigator('/movie/' + movie.id)
-  }
+  
 
 
   return (
-    <div className={`${style.movie_card}`}>
+    <a className={`${style.movie_card}`} href={`/movie/${movie.movieId}`}>
 
       <div className={`${style.movie_card_content}`}>
         <div className={`${style.back}`}>
           <div className={`${style.back_content}`}>
-            <img className=" " src={movie.posterUrl} alt={movie.title} />
+            <img className=" " src={Url + movie.uploadFilePath} alt={movie.moviePersionName} />
           </div>
         </div>
         <div className={`${style.front}`}>
 
           <div className={`${style.front_img}`}>
-            <img className=" " src={movie.posterUrl} alt={movie.title} />
+            <img className=" " src={Url + movie.uploadFilePath} alt={movie.moviePersionName} />
           </div>
           <div className={`${style.front_content} justify-between`}>
-            <small className={`badge mt-2 text-sm ${style.front_title}`} >{movie.title}</small>
+            <small className={`badge mt-2 text-sm ${style.front_title}`} >{movie.moviePersionName}</small>
             <div className="flex flex-row justify-between">
               <div className="flex flex-col" style={{ fontSize: '12px' }}>
-                <span className={`${style.movie_cart_product_year}`}>سال تولید: 2008</span>
-                <span className={`${style.movie_cart_country}`}>کشور:آمریکا</span>
+                <span className={`${style.movie_cart_product_year}`}>سال تولید: {movie.movieReleaseDate}</span>
+                <span className={`${style.movie_cart_country}`}>کشور: {movie.movieCountryProduct}</span>
               </div>
 
             </div>
@@ -40,11 +37,7 @@ const MovieCard = ({ mov }) => {
                 خلاصه:
               </span>
               <p className={`${style.description}`}>
-                داستان فیلم دوم به بررسی سفر اسطوره‌ای دوک پل اتریدیز می‌پردازد.
-                او با قدرت‌های روشن‌بینی خود می‌تواند بشریت را به آینده‌ای بهتر
-                هدایت کند. پل در حال حاضر با چانی و فرمن متحد شده‌است تا در مسیر
-                جنگ انتقام از توطئه‌گرانی قرار بگیرد که خانواده‌اش را نابود
-                کرده‌اند.
+                {movie.movieSummary}
               </p>
             </div>
 
@@ -62,7 +55,7 @@ const MovieCard = ({ mov }) => {
               </i>
               <div className={`${style.movie_cart_imdb_container}`}>
 
-                <p className={`${style.movie_cart_imdb}`}>9.2</p>
+                <p className={`${style.movie_cart_imdb}`}>{movie.movieIMDBScore}</p>
                 <img className={`${style.movie_cart_imdb_icon}`} src={imdb} alt="" />
               </div>
 
@@ -70,7 +63,7 @@ const MovieCard = ({ mov }) => {
           </div>
         </div>
       </div>
-    </div>
+    </a>
   );
 };
 

@@ -158,6 +158,12 @@ const AddingMovieFileDetail = async ({
   return response;
 };
 
+const FetchMovies = async (category, genre) => {
+  const response = await axios.get(`${Url}/Movie/All?category=${category}&genre=${genre}`, {
+    headers: {},
+  });
+  return response;
+};
 
 const ActorFilter = async (props) => {
   
@@ -166,6 +172,7 @@ const ActorFilter = async (props) => {
   });
   return response;
 };
+
 
 
 export {
@@ -179,7 +186,8 @@ export {
   GetOneMovie,
   AddingMovieFile,
   AddingMovieFileDetail,
-  RemoveMovieFile,
   EditingMovieFile,
+  RemoveMovieFile,
+  FetchMovies,
   ActorFilter,
 };
