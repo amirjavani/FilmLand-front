@@ -35,7 +35,7 @@ function Slider() {
   useEffect(() => {
     FetchingMinibanners();
     FetchingSlides();
-    return () => {};
+    return () => { };
   }, []);
 
   return (
@@ -67,6 +67,10 @@ function Slider() {
                           slide.fileExtension
                         }
                         alt={slide.sliderName}></img>
+                      <div className="slide-text">
+                        <h2>دانلود فیلم تلماسه 2 قسمت دوم Dune Part Two 2024 دوبله و زیرنویس فارسی</h2>
+                        <p>محصول کشور gambia و در ژانر اکشن، درام می‌باشد و به کارگردانی Denis Villeneuve در سال 2024 ساخته شده است</p>
+                      </div>
                     </Link>
                   </SwiperSlide>
                 )
@@ -78,7 +82,7 @@ function Slider() {
       {minibanners.length > 0 && (
         <div className="minibanners">
           <div className="horizontal-minibanner">
-          {minibanners[0] && minibanners[0].miniBannerIsStatus && (
+            {minibanners[0] && minibanners[0].miniBannerIsStatus && (
               <div className="minibanner">
                 <img
                   alt={minibanners[0].sliderName}
@@ -107,7 +111,7 @@ function Slider() {
             )}
           </div>
           <div className="horizontal-minibanner2">
-          {minibanners[2] && minibanners[2].miniBannerIsStatus && (
+            {minibanners[2] && minibanners[2].miniBannerIsStatus && (
               <div className="minibanner">
                 <img
                   alt={minibanners[2].sliderName}
