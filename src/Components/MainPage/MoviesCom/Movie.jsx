@@ -17,7 +17,7 @@ import { useParams, useNavigate, json } from 'react-router-dom';
 import NotFoundPage from './NotFoundPage';
 import "./FilterNav.css";
 import { FetchCategory, FetchGenre } from "../../../Utility/MovieAPI";
-import { AddComment, GetAllComment } from "../../../Utility/CommentAPI";
+import { AddComment, GetAllComment, CheckProfanity } from "../../../Utility/CommentAPI";
 import moment from 'moment-jalaali';
 import { useLocation } from 'react-router-dom';
 import ScrollableMenu from "./ScrollableMenu";
@@ -157,13 +157,31 @@ function Movie() {
     }
   };
 
+
+
   const SendComment = async () => {
+    try {
+      var response = await CheckProfanity({"text": commentText});
+      // console.log(response.data['profanity_detected'])
+      if (response.data['profanity_detected'] === true){
+        alert("پس از تایید ادمین کامنت شما ثبت میشود")
+      }
+      else{
+        alert("کامنت شما ثبت شد")
+      }
+
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+    
+
     var formData = new json();
     formData = {
       "commentWriter": "User",
       "commentText": commentText,
       "movieRef": id,
-      "replyTo": null
+      "replyTo": null,
+      "isProfanity": response.data['profanity_detected']
     }
     console.log(formData)
     try {
@@ -177,12 +195,27 @@ function Movie() {
   }
 
   const SendComment2 = async (commentId) => {
+    try {
+      var response = await CheckProfanity({"text": commentText});
+      // console.log(response.data['profanity_detected'])
+      if (response.data['profanity_detected'] === true){
+        alert("پس از تایید ادمین کامنت شما ثبت میشود")
+      }
+      else{
+        alert("کامنت شما ثبت شد")
+      }
+
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+
     var formData = new json();
     formData = {
       "commentWriter": "User",
       "commentText": commentText,
       "movieRef": id,
-      "replyTo": commentId
+      "replyTo": commentId,
+      "isProfanity": response.data['profanity_detected']
     }
     console.log(formData)
     try {
