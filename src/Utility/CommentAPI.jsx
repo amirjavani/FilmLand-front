@@ -30,10 +30,20 @@ const GetAllComment = async (props) => {
     });
     return response;
   };
+  const CheckFeeling = async (data) => {
+
+    const response = await axios.post(`${Url2}/check_sense/`, data, {
+      headers: {
+        "Content-Type": "application/json", // Set Content-Type to application/json
+      },
+    });
+    return response;
+  };
   
 
 export {
     AddComment,
     GetAllComment,
-    CheckProfanity
+    CheckProfanity,
+    CheckFeeling
 };
