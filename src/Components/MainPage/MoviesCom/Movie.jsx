@@ -181,7 +181,8 @@ function Movie() {
       "commentText": commentText,
       "movieRef": id,
       "replyTo": null,
-      "isProfanity": response.data['profanity_detected']
+      "isProfanity": response.data['profanity_detected'],
+      ""
     }
     console.log(formData)
     try {

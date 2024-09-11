@@ -257,8 +257,10 @@ function AddObject(props) {
           id: id,
           formData: formData,
         });
+        window.location.reload();
       } else {
         await AddMiniBanner({ formData: formData });
+        window.location.reload();
       }
     } catch (error) {
       console.error("Error adding menu item:", error);

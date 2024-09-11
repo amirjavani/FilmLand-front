@@ -1,7 +1,7 @@
 .slider-and-cart {
     display: flex;
     justify-content: center;
-    margin-top: 10%;
+    margin-top: 6%;
   }
   
   
@@ -44,7 +44,7 @@
     margin: 10px;
     width: 300px;
     height: 150px;
-    background-color: #40D3DC;
+    /* background-color: #40D3DC; */
     border-radius: 10px;
   }
   
@@ -68,18 +68,40 @@
     background-color: rgba(0, 0, 0, 0.5);
     padding: 10px;
     border-radius: 5px;
+    margin-bottom: 10px;
+  }
+
+  .slide-text2 {
+    position: absolute;
+    margin-top: 100px;
+    margin-right: 20px;
+    /* bottom: 20px;
+    right: 20px; */
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
   }
   
+  .slide-text h2 {
+    white-space: nowrap; /* جلوگیری از شکستن خط */
+    overflow: hidden; /* جلوگیری از نمایش متن اضافی */
+    text-overflow: ellipsis; /* نمایش سه نقطه برای متون طولانی */
+    max-width: 600px; /* حداکثر عرض برای متن */
+}
 
   
 
 @media (max-width: 1200px) {
 
   
+  
 
     .minibanner {
-      width: 200px;
-      height: 100px;
+      /* margin-top: 10px; */
+      width: 220px;
+      height: 118px;
     }
   
     .slider {
@@ -92,9 +114,36 @@
       height: 270px;
     }
 
+    .slide-text {
+      position: absolute;
+      bottom: 15px;
+      right: 10px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 8px;
+      font-size: 12px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .slide-text2 {
+      position: absolute;
+      margin-top: 80px;
+      margin-right: 10px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 8px;
+      font-size: 12px;
+
+      border-radius: 5px;
+    }
   }
   
   @media (max-width: 992px) {
+
+    .minibanners {
+      margin-top: 50px;
+    }
     .slider-and-cart {
       display: flex;
       flex-direction: column;
@@ -137,9 +186,73 @@
       width: 400PX;
       height: 200PX;
     }
+
+    .slide-text {
+      position: absolute;
+      bottom: 15px;
+      right: 10px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 8px;
+      font-size: 14px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .slide-text2 {
+      position: absolute;
+      margin-top: 150px;
+      margin-right: 10px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 8px;
+      font-size: 14px;
+
+      border-radius: 5px;
+    }
+    
   }
   
   @media (max-width: 768px) {
+    
+  
+    .slider-and-cart {
+      margin-top: 15%;
+    }
+  
+    .minibanner {
+      width: 280px;
+      height: 150px;
+    }
+
+    .slide-text {
+      position: absolute;
+      bottom: 15px;
+      right: 10px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 8px;
+      font-size: 14px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .slide-text2 {
+      position: absolute;
+      margin-top: 110px;
+      margin-right: 10px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 8px;
+      font-size: 14px;
+
+      border-radius: 5px;
+    }
+  }
+  
+
+  @media (max-width: 468px) {
+    
   
     .slider-and-cart {
       margin-top: 15%;
@@ -147,7 +260,30 @@
   
     .minibanner {
       width: 150px;
-      height: 75px;
+      height: 90px;
+    }
+
+    .slide-text {
+      position: absolute;
+      bottom: 15px;
+      right: 10px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 8px;
+      font-size: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .slide-text2 {
+      position: absolute;
+      margin-top: 55px;
+      margin-right: 10px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 8px;
+      font-size: 8px;
+
+      border-radius: 5px;
     }
   }
-  

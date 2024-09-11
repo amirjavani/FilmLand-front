@@ -8,8 +8,9 @@
 .slide-container {
     max-width: 1320px;
     width: 100%;
-    padding: 40px 0;
+    padding: 40px 20px;
     font-family: iransans;
+    /* margin: 4px; */
 }
 
 
@@ -108,7 +109,7 @@
 .swiper-navBtn {
     color: rgb(230, 56, 56);
     transition: color 0.3 ease;
-    margin-top: 15px;
+    margin-top: 30px;
 }
 
 .swiper-navBtn:hover {
@@ -121,11 +122,11 @@
 }
 
 .swiper-button-next {
-    right: 0;
+    right: 30px;
 }
 
 .swiper-button-prev {
-    left: 0;
+    left: 30px;
 }
 
 .swiper-pagination-bullet {
@@ -155,13 +156,22 @@
     background-color: rgb(218, 153, 12);
 }
 
-
+.movie_cart_title2 {
+    position: relative;
+    display: flex;
+    height: 40px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 600;
+}
 
 @media screen and (max-width: 768px) {
-    .slide-content {
-        margin: 0 10px;
-    }
-    .swiper-navBtn {
+        /* .slide-content {
+            margin: 0 10px;
+        } */
+    /* .swiper-navBtn {
         display: none;
-    }
+    } */
 }
