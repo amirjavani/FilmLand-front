@@ -13,6 +13,18 @@ const AddCardGroup = async (formData) => {
         throw error;
     }
 };
+const AddCardToGroup = async (formData) => {
+    try {
+        const response = await axios.post(`${Url}/Cart/AddSingle`, formData, {
+            headers: {
+                "Content-Type": "application/json", // Set Content-Type to application/json
+            },
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
 
 
 const GetGroupCardMovies = async (filter) => {
@@ -37,5 +49,6 @@ export {
     AddCardGroup,
     GetGroupCardMovies,
     GetGroupCardTitles,
+    AddCardToGroup,
 
 };

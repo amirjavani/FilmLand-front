@@ -1,57 +1,83 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, Route, Routes, Outlet } from "react-router-dom";
 import {
-  useNavigate,
-  Route,
-  Routes,
-  Outlet,
-
-} from "react-router-dom";
-import { AddCardGroup,
+  AddCardGroup,
+  AddCardToGroup,
   GetGroupCardMovies,
-  GetGroupCardTitles, } from "../../Utility/GroupCardAPI";
+  GetGroupCardTitles,
+} from "../../Utility/GroupCardAPI";
 import { Button, Modal } from "react-bootstrap";
 import CustomInput from "../GeneralComponents/CustomInput";
 import AutoComplateInput from "../GeneralComponents/AutoComplateinput";
 
-
 function GroupCardsManagement() {
   const [cardList, setCardList] = useState([]);
 
-  const [groupTitleFilter, setGroupTitleFilter] = useState('');
+  const [groupTitleFilter, setGroupTitleFilter] = useState("");
   const [groupTitles, setGroupTitles] = useState([]);
   const navigate = useNavigate();
 
-
   const [newGroupModalShow, setNewGroupModalShow] = useState(false);
-  const [addNewGroupInput, setAddNewGroupInput] = useState('');
+  const [addNewGroupInput, setAddNewGroupInput] = useState("");
 
+  // const [searchMovieInput, setSearchMovieInput] = useState("");
+  const [foundedMovieList, setFoundedMovieList] = useState([]);
 
   const handleNewGroupModalClose = () => setNewGroupModalShow(false);
   const handleNewGroupModalShow = () => {
-    setAddNewGroupInput('')
+    setAddNewGroupInput("");
     setNewGroupModalShow(true);
-    
   };
   const submitAddNewGroup = async () => {
-    if(addNewGroupInput===''){
-      console.log('empty title')
-      return;}
-    else{
+    if (addNewGroupInput === "") {
+      console.log("empty title");
+      return;
+    } else {
+      await AddCardGroup({
+        cartTitle: addNewGroupInput,
+      });
+
+      await Refresh();
+      setNewGroupModalShow(false);
+    }
+  };
+
+  const handelSearchInput = async (text) => {
+    try {
+      const response = await GetGroupCardMovies(text);
+      let filteredMovie = [];
+      response.data.forEach((movie) => {
+        filteredMovie.push({
+          text: movie.movieEnglishName,
+          id: movie.movieId,
+        });
+      });
+      setFoundedMovieList(filteredMovie);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  
+  const onSelectMovie = async ({id,text}) => {
+    try {
+      const response = await AddCardToGroup({
+        "cartMovie_MovieRef": id,
+        "cartMovie_CartRef": groupTitleFilter
+      });
       
-       await AddCardGroup({
-        "cartTitle": addNewGroupInput
-      })
       
-      await Refresh()
-      setNewGroupModalShow(false)
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
   };
 
   const fetchTitles = async () => {
     try {
       const response = await GetGroupCardTitles();
-      setGroupTitles(response.data)
-      groupTitleFilter===''?setGroupTitleFilter(response.data[0].cartId):setGroupTitleFilter(groupTitleFilter)
+      setGroupTitles(response.data);
+      groupTitleFilter === ""
+        ? setGroupTitleFilter(response.data[0].cartId)
+        : setGroupTitleFilter(groupTitleFilter);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -59,7 +85,7 @@ function GroupCardsManagement() {
   const fetchData = async () => {
     try {
       const response = await GetGroupCardTitles();
-      setGroupTitles(response.data)
+      setGroupTitles(response.data);
       //setCardList([{movieName:'kong fo panda',id:'1',}]);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -72,21 +98,30 @@ function GroupCardsManagement() {
 
   useEffect(() => {
     fetchTitles();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     //fetchData();
-    console.log(groupTitleFilter)
+    console.log(groupTitleFilter);
   }, [groupTitleFilter]);
 
   return (
     <div>
       <p className="fs-2">دسته کارت</p>
       <div className="flex justify-between items-center border p-1 ">
-      <button className="btn btn-success mx-2" onClick={handleNewGroupModalShow} >افزودن دسته</button>
+        <button
+          className="btn btn-success mx-2"
+          onClick={handleNewGroupModalShow}>
+          افزودن دسته
+        </button>
 
-      <AutoComplateInput inputTitle='فیلم'></AutoComplateInput>
+        <AutoComplateInput
+          id={"movieFilter"}
+          inputTitle="فیلم"
+          suggestions={foundedMovieList}
+          onChangeInput={handelSearchInput}
+          onSelectValue={onSelectMovie}></AutoComplateInput>
         <div className="border p-2 rounded">
           <label className="text-[18px] mx-1">نام دسته :</label>
           <select
@@ -94,12 +129,12 @@ function GroupCardsManagement() {
             onChange={(e) => {
               setGroupTitleFilter(e.target.value);
             }}>
-            {groupTitles && (groupTitles.map((title)=>{
-              return(<option value={title.cartId}>{title.cartTitle}</option>)
-            }))}
+            {groupTitles &&
+              groupTitles.map((title) => {
+                return <option value={title.cartId}>{title.cartTitle}</option>;
+              })}
           </select>
         </div>
-
       </div>
 
       <Outlet></Outlet>
@@ -190,7 +225,7 @@ function GroupCardsManagement() {
                                 : "مثبت"}
                             </td>
                             <td className="px-2  text-nowrap py-3 border-l border-neutral-500">
-                              {obj.isAnswered?'باپاسخ':'بی‌پاسخ'}
+                              {obj.isAnswered ? "باپاسخ" : "بی‌پاسخ"}
                             </td>
                             <td className="px-2 text-nowrap py-3 border-l border-neutral-500">
                               {obj.commentCreateDate}
@@ -212,7 +247,7 @@ function GroupCardsManagement() {
                                   //await EditProfanity(obj.commentId);
                                   Refresh();
                                 }}>
-                                 پاسخ دادن
+                                پاسخ دادن
                               </button>
                               <button
                                 className="btn btn-danger"
@@ -236,18 +271,16 @@ function GroupCardsManagement() {
                 </Modal.Header>
                 <Modal.Body>
                   <CustomInput
-                  className={'col-6 mx-auto'}
-                  title="نام دسته"
-                    
+                    className={"col-6 mx-auto"}
+                    title="نام دسته"
                     setValue={setAddNewGroupInput}
-                    value={addNewGroupInput}
-                   ></CustomInput>
+                    value={addNewGroupInput}></CustomInput>
                 </Modal.Body>
                 <Modal.Footer>
                   <Button variant="danger" onClick={handleNewGroupModalClose}>
                     لغو
                   </Button>
-                  <Button variant="success" onClick={()=>submitAddNewGroup()}>
+                  <Button variant="success" onClick={() => submitAddNewGroup()}>
                     افزودن
                   </Button>
                 </Modal.Footer>
