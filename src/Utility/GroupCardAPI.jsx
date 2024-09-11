@@ -42,6 +42,13 @@ const GetGroupCardTitles = async () => {
     return response;
   };
 
+  const GetGroupCardsAll = async () => {
+    const response = await axios.get(`${Url}/Cart/GetSingles`, {
+      headers: {},
+    });
+    return response;
+  };
+
   
   
 
@@ -50,5 +57,6 @@ export {
     GetGroupCardMovies,
     GetGroupCardTitles,
     AddCardToGroup,
+    GetGroupCardsAll
 
 };
