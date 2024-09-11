@@ -17,7 +17,7 @@ import { useParams, useNavigate, json } from 'react-router-dom';
 import NotFoundPage from './NotFoundPage';
 import "./FilterNav.css";
 import { FetchCategory, FetchGenre } from "../../../Utility/MovieAPI";
-import { AddComment, GetAllComment, CheckProfanity, CheckFeeling } from "../../../Utility/CommentAPI";
+import { AddComment, GetAllComment, CheckProfanity, CheckFeeling, GetMovieComments } from "../../../Utility/CommentAPI";
 import moment from 'moment-jalaali';
 import { useLocation } from 'react-router-dom';
 import ScrollableMenu from "./ScrollableMenu";
@@ -153,7 +153,7 @@ function Movie() {
     }
 
     try {
-      const response = await GetAllComment({ id });
+      const response = await GetMovieComments( id );
       setCommetns(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -1011,7 +1011,7 @@ function Movie() {
                 <div className={`send-comment-container2 ${openIndex === index ? 'open' : ''}`}
                   style={{ maxHeight: openIndex === index ? '500px' : '0px' }}>
                   <div className="comment-name2">
-                    <h2>User</h2>
+                  <h2>{comment.commentWriter}</h2>
                   </div>
                   <textarea
                     id="auto-resizing-textarea"
@@ -1024,10 +1024,10 @@ function Movie() {
                 </div>
                 {Comments.map((comment2, index) => (
                   (comment2.replyTo === comment.commentId && (
-                    <div className="reply-container">
+                    <div className={`reply-container  ${comment2.feeling==='0'?'bg-red-300':comment2.feeling==='1'?'':'bg-green-200'} bg-opacity-40`}>
                       <div className="header-comment">
                         <div className="comment-name">
-                          <h2>User</h2>
+                        <h2>{comment2.commentWriter}</h2>
                         </div>
                         <div className="comment-date">
                           <h2>{moment(comment2.commentCreateDate).format('jD jMMMM jYYYY HH:mm')}</h2>
