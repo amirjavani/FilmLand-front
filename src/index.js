@@ -16,6 +16,9 @@ import Register from "./Layouts/MainPage/Register";
 import Login from "./Layouts/MainPage/Login";
 import Subscription from "./Layouts/MainPage/Subscription";
 import Redirect from "./Layouts/MainPage/Redirect";
+import CommentManagement from "./Components/DashboardCom/NewCommentManagement";
+import NewCommentManagement from "./Components/DashboardCom/NewCommentManagement";
+import SuspiciousCommentsManagement from "./Components/DashboardCom/suspiciousCommentManagement";
 
 const router = createBrowserRouter([
   {
@@ -161,6 +164,34 @@ const router = createBrowserRouter([
           {
             path: "*",
             element: <div>SMNotfound</div>,
+          },
+          {
+            path: "",
+            element: <></>,
+          },
+        ],
+      },
+      {
+        path: "newCommentsManagement",
+        element: <NewCommentManagement></NewCommentManagement>,
+        children: [
+          {
+            path: "*",
+            element: <div>CMNotfound</div>,
+          },
+          {
+            path: "",
+            element: <></>,
+          },
+        ],
+      },
+      {
+        path: "suspiciousCommentManagement",
+        element: <SuspiciousCommentsManagement></SuspiciousCommentsManagement>,
+        children: [
+          {
+            path: "*",
+            element: <div>CMNotfound</div>,
           },
           {
             path: "",
