@@ -8,7 +8,12 @@ import {
   Link,
 } from "react-router-dom";
 import { Url } from "../../Utility/URL";
-import { GetAllComment } from "../../Utility/CommentAPI";
+import {
+    DeleteComment,
+  EditProfanity,
+  GetAllComment,
+  GetAllProfanityComments,
+} from "../../Utility/CommentAPI";
 
 function SuspiciousCommentsManagement() {
   const [commentList, setCommentList] = useState([]);
@@ -17,7 +22,7 @@ function SuspiciousCommentsManagement() {
 
   const fetchData = async () => {
     try {
-      const response = await GetAllComment('1689c946-6552-4aa5-923f-182900a05395');
+      const response = await GetAllProfanityComments();
       setCommentList(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -51,7 +56,6 @@ function SuspiciousCommentsManagement() {
       <p className="fs-2">کامنت‌های مشکوک</p>
       <Outlet></Outlet>
       <Routes>
-
         <Route
           path=""
           element={
@@ -63,7 +67,6 @@ function SuspiciousCommentsManagement() {
                   <tr className="sticky top-0 bg-slate-400 border-b ">
                     <th
                       scope="col"
-
                       className="col-1 px-6 py-3 border-l border-neutral-500">
                       ردیف
                     </th>
@@ -77,11 +80,12 @@ function SuspiciousCommentsManagement() {
                       className="col-2 px-6 py-3 border-l border-neutral-500">
                       کاربر
                     </th>
-                    
-                    
+
                     <th
                       scope="col"
-                      className=" px-6 py-2 border-l border-neutral-500"> تاریخ ایجاد
+                      className=" px-6 py-2 border-l border-neutral-500">
+                      {" "}
+                      تاریخ ایجاد
                     </th>
                     {/* <th
                       scope="col"
@@ -89,9 +93,7 @@ function SuspiciousCommentsManagement() {
                       فیلم
                     </th> */}
 
-                    <th scope="col" className="col-2 w-10 text-center">
-                      
-                    </th>
+                    <th scope="col" className="col-2 w-10 text-center"></th>
                   </tr>
                 </thead>
                 {commentList && (
@@ -113,7 +115,7 @@ function SuspiciousCommentsManagement() {
                             <td className="px-6 py-4 border-l border-neutral-500">
                               {obj.commentWriter}
                             </td>
-                            
+
                             <td className="px-2 text-nowrap py-3 border-l border-neutral-500">
                               {obj.commentCreateDate}
                             </td>
@@ -121,13 +123,18 @@ function SuspiciousCommentsManagement() {
                                 <button className="btn btn-primary text-nowrap" onClick={()=>navigate('/movie/'+obj.movieRef)} >صفحه فیلم</button>
                             </td> */}
                             <td className="text-nowrap py-3  px-2">
-                              <button className="mx-1 btn btn-success"> 
-                                تایید                               
+                              <button
+                                className="mx-1 btn btn-success"
+                                onClick={async () => {
+                                  await EditProfanity(obj.commentId);
+                                  Refresh();
+                                }}>
+                                بدون مشکل
                               </button>
-                              <button className="btn btn-danger"> 
-                                رد                               
-                              </button>
-                              
+                              <button className="btn btn-danger" onClick={async () => {
+                                  await DeleteComment(obj.commentId);
+                                  Refresh();
+                                }}>حذف</button>
                             </td>
                           </tr>
                         );

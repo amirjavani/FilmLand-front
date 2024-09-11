@@ -14,8 +14,14 @@ const AddComment = async (formData) => {
     }
 };
 
-const GetAllComment = async (id) => {
+const GetAllComment = async () => {
     const response = await axios.get(`${Url}/Comment/All`, {
+      headers: {},
+    });
+    return response;
+  };
+const GetAllProfanityComments = async () => {
+    const response = await axios.get(`${Url}/Comment/AllProfanity`, {
       headers: {},
     });
     return response;
@@ -23,6 +29,23 @@ const GetAllComment = async (id) => {
 const GetMovieComments = async (id) => {
     const response = await axios.get(`${Url}/Comment/${id}`, {
       headers: {},
+    });
+    return response;
+  };
+
+  const DeleteComment = async (id) => {
+    const response = await axios.delete(`${Url}/Comment/${id}`, {
+      headers: {
+        "Content-Type": "application/json", // Set Content-Type to application/json
+      },
+    });
+    return response;
+  };
+  const EditProfanity = async (id) => {
+    const response = await axios.put(`${Url}/Comment/EditProfanity/${id}`, {
+      headers: {
+        "Content-Type": "application/json", // Set Content-Type to application/json
+      },
     });
     return response;
   };
@@ -45,6 +68,8 @@ const GetMovieComments = async (id) => {
     });
     return response;
   };
+
+  
   
 
 export {
@@ -52,5 +77,8 @@ export {
     GetAllComment,
     CheckProfanity,
     CheckFeeling,
-    GetMovieComments
+    GetMovieComments,
+    GetAllProfanityComments,
+    EditProfanity,
+    DeleteComment
 };
