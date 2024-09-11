@@ -17,7 +17,7 @@ import { useParams, useNavigate, json } from 'react-router-dom';
 import NotFoundPage from './NotFoundPage';
 import "./FilterNav.css";
 import { FetchCategory, FetchGenre } from "../../../Utility/MovieAPI";
-import { AddComment, GetAllComment, CheckProfanity } from "../../../Utility/CommentAPI";
+import { AddComment, GetAllComment, CheckProfanity, CheckFeeling } from "../../../Utility/CommentAPI";
 import moment from 'moment-jalaali';
 import { useLocation } from 'react-router-dom';
 import ScrollableMenu from "./ScrollableMenu";
@@ -159,11 +159,11 @@ function Movie() {
 
 
 
-  const SendComment = async () => {
+  const SendComment = async (commentId) => {
     try {
-      var response = await CheckProfanity({"text": commentText});
+      var profanityRes = await CheckProfanity({"text": commentText});
       // console.log(response.data['profanity_detected'])
-      if (response.data['profanity_detected'] === true){
+      if (profanityRes.data['profanity_detected'] === true){
         alert("پس از تایید ادمین کامنت شما ثبت میشود")
       }
       else{
@@ -173,6 +173,14 @@ function Movie() {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+    try {
+      var feelingRes = await CheckFeeling({"text": commentText});
+      console.log(feelingRes.data)
+
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+    
     
 
     var formData = new json();
@@ -180,43 +188,9 @@ function Movie() {
       "commentWriter": "User",
       "commentText": commentText,
       "movieRef": id,
-      "replyTo": null,
-      "isProfanity": response.data['profanity_detected'],
-      ""
-    }
-    console.log(formData)
-    try {
-
-      const response = await AddComment(formData);
-      window.location.reload();
-
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
-
-  const SendComment2 = async (commentId) => {
-    try {
-      var response = await CheckProfanity({"text": commentText});
-      // console.log(response.data['profanity_detected'])
-      if (response.data['profanity_detected'] === true){
-        alert("پس از تایید ادمین کامنت شما ثبت میشود")
-      }
-      else{
-        alert("کامنت شما ثبت شد")
-      }
-
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-
-    var formData = new json();
-    formData = {
-      "commentWriter": "User",
-      "commentText": commentText,
-      "movieRef": id,
       "replyTo": commentId,
-      "isProfanity": response.data['profanity_detected']
+      "isProfanity": profanityRes.data['profanity_detected'],
+      "feeling": String(feelingRes.data['sentiment'])
     }
     console.log(formData)
     try {
@@ -228,6 +202,40 @@ function Movie() {
       console.error("Error fetching data:", error);
     }
   }
+
+  // const SendComment2 = async (commentId) => {
+  //   try {
+  //     var response = await CheckProfanity({"text": commentText});
+  //     // console.log(response.data['profanity_detected'])
+  //     if (response.data['profanity_detected'] === true){
+  //       alert("پس از تایید ادمین کامنت شما ثبت میشود")
+  //     }
+  //     else{
+  //       alert("کامنت شما ثبت شد")
+  //     }
+
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+
+  //   var formData = new json();
+  //   formData = {
+  //     "commentWriter": "User",
+  //     "commentText": commentText,
+  //     "movieRef": id,
+  //     "replyTo": commentId,
+  //     "isProfanity": response.data['profanity_detected']
+  //   }
+  //   console.log(formData)
+  //   try {
+
+  //     const response = await AddComment(formData);
+  //     window.location.reload();
+
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // }
 
   const textareaRef = useRef(null);
   const textareaRef2 = useRef(null);
@@ -940,14 +948,14 @@ function Movie() {
               placeholder="کامنت شما"
               onChange={(e) => setCommentText(e.target.value)}>
             </textarea>
-            <div className="comment-send" onClick={SendComment}>
+            <div className="comment-send" onClick={()=>SendComment(null)}>
               <h2>ارسال</h2>
             </div>
           </div>
           {Comments.map((comment, index) => (
             (comment.replyTo == "00000000-0000-0000-0000-000000000000" && (
               <div className="comments-bottom">
-                <div className="comment-container">
+                <div className={`comment-container ${comment.feeling==='0'?'bg-red-300':comment.feeling==='1'?'':'bg-green-200'} bg-opacity-40`}>
                   <div className="header-comment">
                     <div className="comment-name">
                       <h2>{comment.commentWriter}</h2>
@@ -983,7 +991,7 @@ function Movie() {
                     ref={textareaRef2}
                     placeholder="کامنت شما"
                     onChange={(e) => setCommentText(e.target.value)}></textarea>
-                  <div className="comment-send2" onClick={() => SendComment2(comment.commentId)}>
+                  <div className="comment-send2" onClick={() => SendComment(comment.commentId)}>
                     <h2>ارسال</h2>
                   </div>
                 </div>

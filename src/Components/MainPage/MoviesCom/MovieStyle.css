@@ -895,7 +895,7 @@ section {
     margin-bottom: 20px;
     width: 80%;
     height: auto;
-    background-color: #33333d;
+    /* background-color: #33333d; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
