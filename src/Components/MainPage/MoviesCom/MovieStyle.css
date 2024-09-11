@@ -890,6 +890,20 @@ section {
     margin-bottom: 5px;
 }
 
+.movie-download-without-sub {
+    width: 1000px;
+    height: 100px;
+    /* background-color: #210fc0; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.movie-download-without-sub h2{
+    font-size: 30px;
+    font-weight: 900;
+    color: rgb(230, 56, 56);
+}
 .comment-container {
     margin-top: 20px;
     margin-bottom: 20px;

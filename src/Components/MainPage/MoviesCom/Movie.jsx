@@ -22,6 +22,7 @@ import moment from 'moment-jalaali';
 import { useLocation } from 'react-router-dom';
 import ScrollableMenu from "./ScrollableMenu";
 import $ from 'jquery';
+import Cookies from 'js-cookie';
 
 
 function Movie() {
@@ -40,6 +41,8 @@ function Movie() {
   const [menuOpen2, setMenuOpen2] = useState(false);
   const [activeOption, setActiveOption] = useState("dubbed");
   const [activeOption2, setActiveOption2] = useState(true);
+  const [idLogin, setIdLogin] = useState(false);
+
   const [activeFilter, setActiveFilter] = useState("1");
   const [Categories, setCategories] = useState([]);
   const [Genres, setGenres] = useState([]);
@@ -257,6 +260,19 @@ function Movie() {
     moment.loadPersian({ dialect: 'persian-modern', usePersianDigits: true });
 
     const textarea = textareaRef.current;
+    const idCooky = Cookies.get('id');
+
+    if (idCooky != null) {
+      setIdLogin(true)
+      
+    }
+    else {
+      
+      let downloads = document.querySelector(".downloads");
+      downloads.style.display = "none";
+      let sendCommentContainer = document.querySelector(".send-comment-container");
+      sendCommentContainer.style.display = "none";
+    }
 
     const resizeTextarea = () => {
       textarea.style.height = "auto";
@@ -700,6 +716,11 @@ function Movie() {
             <h2 className="fs-3 ml-8 mr-4 font-bold">دانلود</h2>
             <div className="line2"></div>
           </div>
+          {!idLogin && (
+            <div className="movie-download-without-sub">
+              <h2>برای دانلود باید اشتراک خریداری کرده باشید</h2>
+            </div>
+          )}
           <div className="downloads">
             {/* <div className="filter-download">
               <section class="main-container">
@@ -939,6 +960,11 @@ function Movie() {
             <h2 className="fs-3 ml-8 mr-2 font-bold">کامنت ها</h2>
             <div className="line2"></div>
           </div>
+          {!idLogin && (
+            <div className="movie-download-without-sub">
+              <h2>برای ارسال دیدگاه باید وارد شوید</h2>
+            </div>
+          )}
           <div className="send-comment-container">
             <div className="comment-name">
               <h2>User</h2>
