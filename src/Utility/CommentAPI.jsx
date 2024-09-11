@@ -14,6 +14,15 @@ const AddComment = async (formData) => {
     }
 };
 
+const AnswerComment = async (id) => {
+  const response = await axios.put(`${Url}/Comment/Answer/${id}`, {
+    headers: {
+      "Content-Type": "application/json", // Set Content-Type to application/json
+    },
+  });
+  return response;
+};
+
 const GetAllComment = async (filter) => {
     const response = await axios.get(`${Url}/Comment/All?filter=${filter}`, {
       headers: {},
@@ -80,5 +89,6 @@ export {
     GetMovieComments,
     GetAllProfanityComments,
     EditProfanity,
-    DeleteComment
+    DeleteComment,
+    AnswerComment,
 };

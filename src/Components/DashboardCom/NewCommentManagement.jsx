@@ -9,42 +9,45 @@ import {
   json,
 } from "react-router-dom";
 import { Url } from "../../Utility/URL";
-import { AddComment, DeleteComment, GetAllComment } from "../../Utility/CommentAPI";
+import { AddComment, AnswerComment, DeleteComment, GetAllComment } from "../../Utility/CommentAPI";
 import { Button, Modal } from "react-bootstrap";
 import CustomInput from "../GeneralComponents/CustomInput";
 
 function NewCommentManagement() {
   const [commentList, setCommentList] = useState([]);
-  const [awnserInput, setAwnserInput] = useState("");
-  const [awnserComment, setAwnserComment] = useState();
+  const [answerInput, setAnswerInput] = useState("");
+  const [answerComment, setAnswerComment] = useState();
   const [filter, setFilter] = useState("day");
   const navigate = useNavigate();
 
-  const [awnserModalShow, setAwnserModalShow] = useState(false);
+  const [answerModalShow, setAnswerModalShow] = useState(false);
 
-  const handleAwnserModalClose = () => setAwnserModalShow(false);
-  const handleAwnserModalShow = (comment) => {
-    setAwnserInput('')
-    setAwnserModalShow(true);
-    setAwnserComment(comment)
+  const handleAnswerModalClose = () => setAnswerModalShow(false);
+  const handleAnswerModalShow = (comment) => {
+    setAnswerInput('')
+    setAnswerModalShow(true);
+    setAnswerComment(comment)
+    
   };
-  const submitAwnserModal = async () => {
-    if(awnserInput===''){
+  const submitAnswerModal = async () => {
+    if(answerInput===''){
       console.log('empty comment')
       return;}
     else{
       var formData = new json();
       formData = {
         "commentWriter": "Admin",
-        "commentText": awnserInput,
-        "movieRef": awnserComment.movieRef,
-        "replyTo": awnserComment.commentId,
-        "isProfanity": null,
-        "feeling": null,
+        "commentText": answerInput,
+        "movieRef": answerComment.movieRef,
+        "replyTo": answerComment.commentId,
+        "isProfanity": false,
+        "feeling": '1',
         "isAnswered": null
       }
       await AddComment(formData)
-
+      await AnswerComment(answerComment.commentId)
+      await Refresh()
+      setAnswerModalShow(false)
     }
   };
 
@@ -185,7 +188,7 @@ function NewCommentManagement() {
                               <button
                                 className="mx-1 btn btn-secondary"
                                 onClick={async () => {
-                                  handleAwnserModalShow(obj.commentId);
+                                  handleAnswerModalShow(obj);
                                 }}>
                                 پاسخ دادن
                               </button>
@@ -205,25 +208,25 @@ function NewCommentManagement() {
                   </tbody>
                 )}
               </table>
-              <Modal show={awnserModalShow} onHide={handleAwnserModalClose}>
+              <Modal show={answerModalShow} onHide={handleAnswerModalClose}>
                 <Modal.Header>
                   <Modal.Title className="text-black">پاسخ</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <textarea
-                  maxLength={10}
+                  maxLength={250}
                   placeholder="پاسخ"
                   className="p-2 rounded w-full outline-none border bg-slate-200 text-black"
                     rows='3'
-                    onChange={(e)=>setAwnserInput(e.target.value)}
-                    value={awnserInput}
+                    onChange={(e)=>setAnswerInput(e.target.value)}
+                    value={answerInput}
                    ></textarea>
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button variant="danger" onClick={handleAwnserModalClose}>
+                  <Button variant="danger" onClick={handleAnswerModalClose}>
                     لغو
                   </Button>
-                  <Button variant="success" onClick={()=>submitAwnserModal()}>
+                  <Button variant="success" onClick={()=>submitAnswerModal()}>
                     ثبت
                   </Button>
                 </Modal.Footer>
