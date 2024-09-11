@@ -1,24 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  useNavigate,
+
   Route,
   Routes,
   Outlet,
-  useParams,
-  Link,
+
 } from "react-router-dom";
-import { Url } from "../../Utility/URL";
 import {
     DeleteComment,
   EditProfanity,
-  GetAllComment,
   GetAllProfanityComments,
 } from "../../Utility/CommentAPI";
 
 function SuspiciousCommentsManagement() {
   const [commentList, setCommentList] = useState([]);
-  const navigate = useNavigate();
-  const url = Url;
+
 
   const fetchData = async () => {
     try {
@@ -37,19 +33,7 @@ function SuspiciousCommentsManagement() {
     fetchData();
   }, []);
 
-  const statusToggel = async (objID) => {
-    // await ToggelSlide({ id: objID });
-    // Refresh();
-  };
 
-  const deleting = async (objID) => {
-    // try {
-    //   await RemoveSlide({ id: objID });
-    //   Refresh();
-    // } catch (error) {
-    //   console.error("Error deleting item:", error);
-    // }
-  };
 
   return (
     <div>
@@ -87,19 +71,15 @@ function SuspiciousCommentsManagement() {
                       {" "}
                       تاریخ ایجاد
                     </th>
-                    {/* <th
-                      scope="col"
-                      className=" px-6 py-3 border-l border-neutral-500">
-                      فیلم
-                    </th> */}
+                    
 
                     <th scope="col" className="col-2 w-10 text-center"></th>
                   </tr>
                 </thead>
-                {commentList && (
+                {commentList.length>0 ? (
                   <tbody>
                     {commentList.map((obj, index) => {
-                      if (!obj.actorIsDelete) {
+                     
                         return (
                           <tr
                             key={index}
@@ -119,9 +99,7 @@ function SuspiciousCommentsManagement() {
                             <td className="px-2 text-nowrap py-3 border-l border-neutral-500">
                               {obj.commentCreateDate}
                             </td>
-                            {/* <td className="col-1 px-6 py-3 border-l border-neutral-500">
-                                <button className="btn btn-primary text-nowrap" onClick={()=>navigate('/movie/'+obj.movieRef)} >صفحه فیلم</button>
-                            </td> */}
+                           
                             <td className="text-nowrap py-3  px-2">
                               <button
                                 className="mx-1 btn btn-success"
@@ -138,10 +116,10 @@ function SuspiciousCommentsManagement() {
                             </td>
                           </tr>
                         );
-                      } else return null;
+                      
                     })}
                   </tbody>
-                )}
+                ):(<td colSpan="5" className=" text-center py-10">در حال حاضر کامنت مشکوکی وجود ندارد</td>)}
               </table>
             </div>
           }
