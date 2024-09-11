@@ -15,7 +15,13 @@ const AddComment = async (formData) => {
 };
 
 const GetAllComment = async (id) => {
-    const response = await axios.get(`${Url}/Comment/All/${id}`, {
+    const response = await axios.get(`${Url}/Comment/All`, {
+      headers: {},
+    });
+    return response;
+  };
+const GetMovieComments = async (id) => {
+    const response = await axios.get(`${Url}/Comment/${id}`, {
       headers: {},
     });
     return response;
@@ -45,5 +51,6 @@ export {
     AddComment,
     GetAllComment,
     CheckProfanity,
-    CheckFeeling
+    CheckFeeling,
+    GetMovieComments
 };

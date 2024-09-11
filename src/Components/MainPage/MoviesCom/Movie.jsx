@@ -17,7 +17,7 @@ import { useParams, useNavigate, json } from 'react-router-dom';
 import NotFoundPage from './NotFoundPage';
 import "./FilterNav.css";
 import { FetchCategory, FetchGenre } from "../../../Utility/MovieAPI";
-import { AddComment, GetAllComment, CheckProfanity, CheckFeeling } from "../../../Utility/CommentAPI";
+import { AddComment, GetAllComment, CheckProfanity, CheckFeeling, GetMovieComments } from "../../../Utility/CommentAPI";
 import moment from 'moment-jalaali';
 import { useLocation } from 'react-router-dom';
 import ScrollableMenu from "./ScrollableMenu";
@@ -150,7 +150,7 @@ function Movie() {
     }
 
     try {
-      const response = await GetAllComment({ id });
+      const response = await GetMovieComments( id );
       setCommetns(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
