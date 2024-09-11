@@ -14,8 +14,8 @@ const AddComment = async (formData) => {
     }
 };
 
-const GetAllComment = async (props) => {
-    const response = await axios.get(`${Url}/Comment/All/${props.id}`, {
+const GetAllComment = async (id) => {
+    const response = await axios.get(`${Url}/Comment/All/${id}`, {
       headers: {},
     });
     return response;

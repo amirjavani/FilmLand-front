@@ -17,7 +17,7 @@ function SuspiciousCommentsManagement() {
 
   const fetchData = async () => {
     try {
-      const response = await GetAllComment();
+      const response = await GetAllComment('1689c946-6552-4aa5-923f-182900a05395');
       setCommentList(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -69,18 +69,28 @@ function SuspiciousCommentsManagement() {
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 border-l border-neutral-500">
-                      نام
+                      className=" px-6 py-3 border-l border-neutral-500">
+                      متن
                     </th>
+                    <th
+                      scope="col"
+                      className="col-2 px-6 py-3 border-l border-neutral-500">
+                      کاربر
+                    </th>
+                    
+                    
+                    <th
+                      scope="col"
+                      className=" px-6 py-2 border-l border-neutral-500"> تاریخ ایجاد
+                    </th>
+                    {/* <th
+                      scope="col"
+                      className=" px-6 py-3 border-l border-neutral-500">
+                      فیلم
+                    </th> */}
 
-                    <th scope="col" className="w-10 text-center">
-                      <button
-                        onClick={() => {
-                        //   navigate("/dashboard/actorManagement/add");
-                        }}
-                        className="bi bi-plus btn btn-success">
-                        {" "}
-                      </button>
+                    <th scope="col" className="col-2 w-10 text-center">
+                      
                     </th>
                   </tr>
                 </thead>
@@ -94,31 +104,30 @@ function SuspiciousCommentsManagement() {
                             className="bg-white text-black border-b border-black">
                             <th
                               scope="row"
-                              className="px-6 py-4 font-bold text-gray-900 whitespace-nowrap border-l border-neutral-500 ">
+                              className="px-6 py-3 font-bold text-gray-900 whitespace-nowrap border-l border-neutral-500 ">
                               {index + 1}
                             </th>
+                            <td className="text-wrap px-4 py-3 min-w-52 border-l border-neutral-500">
+                              {obj.commentText}
+                            </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.actorName}
+                              {obj.commentWriter}
                             </td>
                             
-                            
-                            
-                            <td className="flex flex-col p-1 w-20">
-                              <button
-                                onClick={() => statusToggel(obj.actorId)}
-                                className={`btn ${
-                                  obj.actorIsStatus
-                                    ? "btn-success"
-                                    : "btn-danger"
-                                } py-1`}>
-                                {obj.actorIsStatus ? "فعال" : "غیرفعال"}
+                            <td className="px-2 text-nowrap py-3 border-l border-neutral-500">
+                              {obj.commentCreateDate}
+                            </td>
+                            {/* <td className="col-1 px-6 py-3 border-l border-neutral-500">
+                                <button className="btn btn-primary text-nowrap" onClick={()=>navigate('/movie/'+obj.movieRef)} >صفحه فیلم</button>
+                            </td> */}
+                            <td className="text-nowrap py-3  px-2">
+                              <button className="mx-1 btn btn-success"> 
+                                تایید                               
                               </button>
-                              <Link
-                                to={`/dashboard/actorManagement/${obj.actorId}`}
-                                className="bi bi-pencil-square btn btn-secondary py-1 my-1"></Link>
-                              <i
-                                className="bi bi-trash btn btn-danger py-1 my"
-                                onClick={() => deleting(obj.actorId)}></i>
+                              <button className="btn btn-danger"> 
+                                رد                               
+                              </button>
+                              
                             </td>
                           </tr>
                         );
