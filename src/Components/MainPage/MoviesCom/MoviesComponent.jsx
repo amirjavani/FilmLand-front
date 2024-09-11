@@ -22,7 +22,10 @@ function MoviesComponent() {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+    console.log(movies)
   };
+
+  
 
   useEffect(() => {
     fetchData();
@@ -34,6 +37,7 @@ function MoviesComponent() {
 
   return (
     <div className="movies-container">
+
       <FilterNav />
       <div className="movies-inner-container">
         <div className="movies-inner-title-container">

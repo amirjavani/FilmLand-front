@@ -38,10 +38,10 @@ const Carts = () => {
         }}
         breakpoints={{
           0: {
-            slidesPerView: 1,
-          },
-          520: {
             slidesPerView: 2,
+          },
+          480: {
+            slidesPerView: 3,
           },
           920: {
             slidesPerView: 5,
@@ -51,7 +51,12 @@ const Carts = () => {
       >
         {movies.map((movie, index) => (
           <SwiperSlide key={index} className="cart">
-            <img src={movie} alt={movie.split('.')[0]} />
+              <div className="movie_cart_title2">
+              asdsadasd
+              </div>
+              <img src={movie} alt={movie.split('.')[0]} />
+
+              
           </SwiperSlide>
         ))}
       </Swiper>

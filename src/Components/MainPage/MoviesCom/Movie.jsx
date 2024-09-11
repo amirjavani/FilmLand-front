@@ -190,7 +190,8 @@ function Movie() {
       "movieRef": id,
       "replyTo": commentId,
       "isProfanity": profanityRes.data['profanity_detected'],
-      "feeling": String(feelingRes.data['sentiment'])
+      "feeling": String(feelingRes.data['sentiment']),
+      "isAnswered": false
     }
     console.log(formData)
     try {

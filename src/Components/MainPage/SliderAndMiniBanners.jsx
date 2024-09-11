@@ -68,8 +68,7 @@ function Slider() {
                         }
                         alt={slide.sliderName}></img>
                       <div className="slide-text">
-                        <h2>دانلود فیلم تلماسه 2 قسمت دوم Dune Part Two 2024 دوبله و زیرنویس فارسی</h2>
-                        <p>محصول کشور gambia و در ژانر اکشن، درام می‌باشد و به کارگردانی Denis Villeneuve در سال 2024 ساخته شده است</p>
+                        <h2>{slide.sliderName}</h2>
                       </div>
                     </Link>
                   </SwiperSlide>
@@ -93,6 +92,9 @@ function Slider() {
                     minibanners[0].fileExtension
                   }
                 />
+                <div className="slide-text2">
+                        <h2>{minibanners[0].miniBannerName}</h2>
+                      </div>
               </div>
             )}
 
@@ -107,6 +109,9 @@ function Slider() {
                     minibanners[1].fileExtension
                   }
                 />
+                <div className="slide-text2">
+                        <h2>{minibanners[1].miniBannerName}</h2>
+                  </div>
               </div>
             )}
           </div>
@@ -122,6 +127,9 @@ function Slider() {
                     minibanners[2].fileExtension
                   }
                 />
+                <div className="slide-text2">
+                        <h2>{minibanners[2].miniBannerName}</h2>
+                  </div>
               </div>
             )}
             {minibanners[3] && minibanners[3].miniBannerIsStatus && (
@@ -135,6 +143,9 @@ function Slider() {
                     minibanners[3].fileExtension
                   }
                 />
+                <div className="slide-text2">
+                        <h2>{minibanners[3].miniBannerName}</h2>
+                  </div>
               </div>
             )}
           </div>
