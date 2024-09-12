@@ -167,11 +167,38 @@
     font-weight: 600;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 900px) {
+    /* .slide-content {
+        margin: 0 10px;
+    } */
+/* .swiper-navBtn {
+    display: none;
+} */
+.movie_cart_title2 {
+    font-size: 12px;
+}
+}
+
+@media screen and (max-width: 500px) {
         /* .slide-content {
             margin: 0 10px;
         } */
     /* .swiper-navBtn {
         display: none;
     } */
+    .movie_cart_title2 {
+        font-size: 10px;
+    }
+
+    .slide-container {
+        max-width: 1320px;
+        width: 100%;
+        padding: 20px 10px;
+        font-family: iransans;
+        /* margin: 4px; */
+    }
+    .swiper-navBtn::before,
+.swiper-navBtn::after {
+    font-size: 30px;
+}
 }

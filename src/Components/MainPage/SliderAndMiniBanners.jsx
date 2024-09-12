@@ -91,6 +91,7 @@ function Slider() {
                     minibanners[0].fileName +
                     minibanners[0].fileExtension
                   }
+                  style={{ cursor: "pointer" }}
                 />
                 <div className="slide-text2">
                         <h2>{minibanners[0].miniBannerName}</h2>
@@ -108,6 +109,7 @@ function Slider() {
                     minibanners[1].fileName +
                     minibanners[1].fileExtension
                   }
+                  style={{ cursor: "pointer" }}
                 />
                 <div className="slide-text2">
                         <h2>{minibanners[1].miniBannerName}</h2>
@@ -126,6 +128,7 @@ function Slider() {
                     minibanners[2].fileName +
                     minibanners[2].fileExtension
                   }
+                  style={{ cursor: "pointer" }}
                 />
                 <div className="slide-text2">
                         <h2>{minibanners[2].miniBannerName}</h2>
@@ -142,6 +145,7 @@ function Slider() {
                     minibanners[3].fileName +
                     minibanners[3].fileExtension
                   }
+                  style={{ cursor: "pointer" }}
                 />
                 <div className="slide-text2">
                         <h2>{minibanners[3].miniBannerName}</h2>
