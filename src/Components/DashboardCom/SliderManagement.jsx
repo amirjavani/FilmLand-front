@@ -190,7 +190,7 @@ function AddObject(props) {
   const [link, setLink] = useState("");
   const [imageURL, setImageURL] = useState("");
   const { id } = useParams();
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState(null);
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -207,37 +207,9 @@ function AddObject(props) {
     setName(res.data.sliderName);
     setLink(res.data.sliderUrl);
     setSort(res.data.sliderSort);
-    fetchImage(res);
-  };
-  const fetchImage = async (res) => {
-    try {
-      const response = await fetch(
-        Url + res.data.filePath + res.data.fileName + res.data.fileExtension,
-        { method: "GET"}
-      );
-
-      const blob = response.blob();
-      console.log(response.ok);
-      const imagefile = new File(
-        [blob],
-        res.data.fileName + res.data.fileExtension,
-        { type: getMimeType(res.data.fileExtension) }
-      );
-      
-      setImageURL(URL.createObjectURL(imagefile));
-      console.log(imagefile);
-    } catch (error) {}
-  };
-
-  const getMimeType = (extension) => {
-    const mimeTypes = {
-      ".jpg": "image/jpeg",
-      ".jpeg": "image/jpeg",
-      ".png": "image/png",
-      ".gif": "image/gif",
-      ".pdf": "application/pdf",
-    };
-    return mimeTypes[extension.toLowerCase()] || "application/octet-stream";
+    setImageURL(
+      Url + res.data.filePath + res.data.fileName + res.data.fileExtension
+    );
   };
 
   const navigate = useNavigate();
@@ -256,11 +228,10 @@ function AddObject(props) {
           id: id,
           formData: formData,
         });
-    window.location.reload();
-
+        window.location.reload();
       } else {
-         await AddSlide({ formData: formData });
-         window.location.reload();
+        await AddSlide({ formData: formData });
+        window.location.reload();
       }
     } catch (error) {
       console.error("Error adding menu item:", error);

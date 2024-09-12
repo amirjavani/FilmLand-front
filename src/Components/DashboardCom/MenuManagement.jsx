@@ -195,8 +195,10 @@ function AddObject(props) {
           sort: sort,
           link: link,
         });
+        window.location.reload();
       } else {
         await AddMenuItem({ name: name, sort: sort, link: link });
+        window.location.reload();
       }
     } catch (error) {
       console.error("Error adding menu item:", error);
