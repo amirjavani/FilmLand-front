@@ -208,38 +208,10 @@ function AddObject(props) {
     setName(res.data.miniBannerName);
     setLink(res.data.miniBannerUrl);
     setSort(res.data.miniBannerSort);
-    fetchImage(res);
+    setImageURL(Url + res.data.filePath + res.data.fileName + res.data.fileExtension);
   };
-  const fetchImage = async (res) => {
-    try {
-      const response = await fetch(
-        Url + res.data.filePath + res.data.fileName + res.data.fileExtension,
-        { method: "GET" }
-      );
+ 
 
-      const blob = response.blob();
-      console.log(response.ok);
-      const imagefile = new File(
-        [blob],
-        res.data.fileName + res.data.fileExtension,
-        { type: getMimeType(res.data.fileExtension) }
-      );
-
-      setImageURL(URL.createObjectURL(imagefile));
-      console.log(imagefile);
-    } catch (error) {}
-  };
-
-  const getMimeType = (extension) => {
-    const mimeTypes = {
-      ".jpg": "image/jpeg",
-      ".jpeg": "image/jpeg",
-      ".png": "image/png",
-      ".gif": "image/gif",
-      ".pdf": "application/pdf",
-    };
-    return mimeTypes[extension.toLowerCase()] || "application/octet-stream";
-  };
 
   const navigate = useNavigate();
   const Submit = async (event) => {
