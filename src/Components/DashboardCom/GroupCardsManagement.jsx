@@ -3,6 +3,8 @@ import { useNavigate, Route, Routes, Outlet } from "react-router-dom";
 import {
   AddCardGroup,
   AddCardToGroup,
+  DeleteGroupCard,
+  DeleteGroupCardMovie,
   GetGroupCardMovies,
   GetGroupCardsAll,
   GetGroupCardTitles,
@@ -10,8 +12,10 @@ import {
 import { Button, Modal } from "react-bootstrap";
 import CustomInput from "../GeneralComponents/CustomInput";
 import AutoComplateInput from "../GeneralComponents/AutoComplateinput";
+import { Url } from "../../Utility/URL";
 
 function GroupCardsManagement() {
+  const url = Url;
   const [groupList, setGroupList] = useState([]);
 
   const [groupTitleFilter, setGroupTitleFilter] = useState("");
@@ -38,7 +42,7 @@ function GroupCardsManagement() {
         cartTitle: addNewGroupInput,
       });
 
-      await Refresh();
+      window.location.reload();
       setNewGroupModalShow(false);
     }
   };
@@ -104,13 +108,12 @@ function GroupCardsManagement() {
 
   useEffect(() => {
     fetchData();
-    console.log(groupTitleFilter);
   }, [groupTitleFilter]);
 
   return (
     <div>
       <p className="fs-2">دسته کارت</p>
-      <div className="flex justify-between items-center border p-1 ">
+      <div className="text-nowrap flex justify-between  sm:flex-row gep-2 flex-col items-center border p-1 ">
         <button
           className="btn btn-success mx-2"
           onClick={handleNewGroupModalShow}>
@@ -118,15 +121,16 @@ function GroupCardsManagement() {
         </button>
 
         <AutoComplateInput
+          className={'min-w-60 '}
           id={"movieFilter"}
           inputTitle="فیلم"
           suggestions={foundedMovieList}
           onChangeInput={handelSearchInput}
           onSelectValue={onSelectMovie}></AutoComplateInput>
         <div className="border p-2 rounded">
-          <label className="text-[18px] mx-1">نام دسته :</label>
+          <label className="text-[15px] md:text-[18px] mx-1">نام دسته :</label>
           <select
-            className="w-20 bg-slate-400 rounded p-2"
+            className="text-[15px] md:text-[18px] w-20 bg-slate-400 rounded p-2"
             onChange={(e) => {
               setGroupTitleFilter(e.target.value);
             }}>
@@ -148,7 +152,7 @@ function GroupCardsManagement() {
               style={{ maxHeight: "60vh" }}>
               <table className="w-full text-sm text-left rtl:text-right  ">
                 <thead className="text-xs text-gray-900  border-b ">
-                  <tr className="sticky top-0 bg-slate-400 border-b ">
+                  <tr className="text-nowrap sticky top-0 bg-slate-400 border-b ">
                     <th
                       scope="col"
                       className="w-10 px-3 py-3 border-l border-neutral-500">
@@ -167,10 +171,20 @@ function GroupCardsManagement() {
                     <th
                       scope="col"
                       className=" px-6 py-3 border-l border-neutral-500">
+                      تصویر
+                    </th>
+                    <th
+                      scope="col"
+                      className=" px-6 py-3 border-l border-neutral-500">
                       فیلم
                     </th>
+                    <th scope="col" className="p-1 col-2 w-10 text-center">
+                    <button className=" btn btn-danger" onClick={async () => {
+                                    await DeleteGroupCard(groupTitleFilter);
+                                    window.location.reload();
+                                  }}>همه <i className="bi bi-trash"></i></button>
 
-                    <th scope="col" className="col-2 w-10 text-center"></th>
+                    </th>
                   </tr>
                 </thead>
                 {groupList && (
@@ -195,6 +209,9 @@ function GroupCardsManagement() {
                               <td className="px-6 py-4 border-l border-neutral-500">
                                 {movieCard.movieEnglishName}
                               </td>
+                              <td className="px-1 py-1 border-l border-neutral-500">
+                                <img className="max-h-20 w-auto mx-auto" alt="" src={url+movieCard.uploadFilePath}></img> 
+                              </td>
 
                               <td className="col-1 px-6 py-3 border-l border-neutral-500">
                                 <button
@@ -205,12 +222,11 @@ function GroupCardsManagement() {
                                   صفحه فیلم
                                 </button>
                               </td>
-                              <td className="text-nowrap py-3 px-2">
-                                
+                              <td className=" text-nowrap py-3 ">
                                 <button
-                                  className="btn btn-danger"
+                                  className="btn btn-danger mx-auto"
                                   onClick={async () => {
-                                    // await DeleteComment(obj.commentId);
+                                    await DeleteGroupCardMovie(movieCard.cartMovieId);
                                     Refresh();
                                   }}>
                                   حذف
