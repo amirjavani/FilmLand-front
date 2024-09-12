@@ -19,6 +19,7 @@ import Redirect from "./Layouts/MainPage/Redirect";
 import CommentManagement from "./Components/DashboardCom/NewCommentManagement";
 import NewCommentManagement from "./Components/DashboardCom/NewCommentManagement";
 import SuspiciousCommentsManagement from "./Components/DashboardCom/suspiciousCommentManagement";
+import GroupCardsManagement from "./Components/DashboardCom/GroupCardsManagement";
 
 const router = createBrowserRouter([
   {
@@ -192,6 +193,20 @@ const router = createBrowserRouter([
           {
             path: "*",
             element: <div>CMNotfound</div>,
+          },
+          {
+            path: "",
+            element: <></>,
+          },
+        ],
+      },
+      {
+        path: "groupCardsManagement",
+        element: <GroupCardsManagement></GroupCardsManagement>,
+        children: [
+          {
+            path: "*",
+            element: <div>GCM Notfound</div>,
           },
           {
             path: "",

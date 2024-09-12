@@ -6,15 +6,52 @@ import {
   Outlet,
   useParams,
   Link,
+  json,
 } from "react-router-dom";
 import { Url } from "../../Utility/URL";
-import { DeleteComment, GetAllComment } from "../../Utility/CommentAPI";
+import { AddComment, AnswerComment, DeleteComment, GetAllComment } from "../../Utility/CommentAPI";
+import { Button, Modal } from "react-bootstrap";
+import CustomInput from "../GeneralComponents/CustomInput";
 
 function NewCommentManagement() {
   const [commentList, setCommentList] = useState([]);
+  const [answerInput, setAnswerInput] = useState("");
+  const [answerComment, setAnswerComment] = useState();
   const [filter, setFilter] = useState("day");
   const navigate = useNavigate();
-  const url = Url;
+
+  const [answerModalShow, setAnswerModalShow] = useState(false);
+
+  const handleAnswerModalClose = () => setAnswerModalShow(false);
+  const handleAnswerModalShow = (comment) => {
+    setAnswerInput('')
+    setAnswerModalShow(true);
+    setAnswerComment(comment)
+    
+  };
+  const submitAnswerModal = async () => {
+    if(answerInput===''){
+      console.log('empty comment')
+      return;}
+    else{
+      var formData = new json();
+      formData = {
+        "commentWriter": "Admin",
+        "commentText": answerInput,
+        "movieRef": answerComment.movieRef,
+        "replyTo": answerComment.commentId,
+        "isProfanity": false,
+        "feeling": '1',
+        "isAnswered": null
+      }
+      await AddComment(formData)
+      await AnswerComment(answerComment.commentId)
+      await Refresh()
+      setAnswerModalShow(false)
+    }
+  };
+
+
 
   const fetchData = async () => {
     try {
@@ -83,12 +120,7 @@ function NewCommentManagement() {
                       {" "}
                       حس
                     </th>
-                    <th
-                      scope="col"
-                      className=" px-6 py-2 border-l border-neutral-500">
-                      {" "}
-                      پاسخ
-                    </th>
+
                     <th
                       scope="col"
                       className=" px-6 py-2 border-l border-neutral-500">
@@ -138,9 +170,7 @@ function NewCommentManagement() {
                                 ? "خنثی"
                                 : "مثبت"}
                             </td>
-                            <td className="px-2  text-nowrap py-3 border-l border-neutral-500">
-                              {obj.isAnswered?'باپاسخ':'بی‌پاسخ'}
-                            </td>
+
                             <td className="px-2 text-nowrap py-3 border-l border-neutral-500">
                               {obj.commentCreateDate}
                             </td>
@@ -158,10 +188,9 @@ function NewCommentManagement() {
                               <button
                                 className="mx-1 btn btn-secondary"
                                 onClick={async () => {
-                                  //await EditProfanity(obj.commentId);
-                                  Refresh();
+                                  handleAnswerModalShow(obj);
                                 }}>
-                                 پاسخ دادن
+                                پاسخ دادن
                               </button>
                               <button
                                 className="btn btn-danger"
@@ -179,6 +208,29 @@ function NewCommentManagement() {
                   </tbody>
                 )}
               </table>
+              <Modal show={answerModalShow} onHide={handleAnswerModalClose}>
+                <Modal.Header>
+                  <Modal.Title className="text-black">پاسخ</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <textarea
+                  maxLength={250}
+                  placeholder="پاسخ"
+                  className="p-2 rounded w-full outline-none border bg-slate-200 text-black"
+                    rows='3'
+                    onChange={(e)=>setAnswerInput(e.target.value)}
+                    value={answerInput}
+                   ></textarea>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="danger" onClick={handleAnswerModalClose}>
+                    لغو
+                  </Button>
+                  <Button variant="success" onClick={()=>submitAnswerModal()}>
+                    ثبت
+                  </Button>
+                </Modal.Footer>
+              </Modal>
             </div>
           }
         />

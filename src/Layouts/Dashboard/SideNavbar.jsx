@@ -38,6 +38,12 @@ function SideNavbar(props) {
           <span>مینی بنر</span>
           <i class="bx bx-square-rounded text-[18px] p-1"></i>
         </NavLink>
+        <NavLink
+          className="my-1 flex text-[16px] flex-row justify-between text-white p-2 rounded hover:bg-slate-800   [&.active]:bg-slate-800"
+          to="/dashboard/groupCardsManagement">
+          <span>دسته کارت</span>
+          <i class="bx bx-columns text-[18px] p-1"></i>
+        </NavLink>
         <p className="bg-slate-600 text-white ml-auto p-1 rounded" >فیلم</p>
         <NavLink
           className="my-1 text-[16px] flex flex-row justify-between text-white p-2 rounded hover:bg-slate-800   [&.active]:bg-slate-800"
