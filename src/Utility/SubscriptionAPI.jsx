@@ -22,8 +22,17 @@ const FetchSubscription = async (props) => {
     return response;
 };
 
+const CheckSubscription = async (props) => {
+    console.log(props)
+    const response = await axios.get(`${Url}/Subscription/Check/${props}`, {
+        headers: {},
+        });
+    return response;
+};
+
 export {
     FetchAllSubscription,
     BuySubscription,
-    FetchSubscription
+    FetchSubscription,
+    CheckSubscription
 };

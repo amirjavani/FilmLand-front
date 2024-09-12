@@ -18,6 +18,7 @@ import NotFoundPage from './NotFoundPage';
 import "./FilterNav.css";
 import { FetchCategory, FetchGenre } from "../../../Utility/MovieAPI";
 import { AddComment, GetAllComment, CheckProfanity, CheckFeeling, GetMovieComments } from "../../../Utility/CommentAPI";
+import { CheckSubscription } from "../../../Utility/SubscriptionAPI";
 import moment from 'moment-jalaali';
 import { useLocation } from 'react-router-dom';
 import ScrollableMenu from "./ScrollableMenu";
@@ -31,7 +32,7 @@ function Movie() {
   const [singleMovie, setSingleMovie] = useState([]);
   const [MovieFile, setMovieFile] = useState([]);
   const [seasons, setSeasons] = useState([]);
-  
+
 
   const [Comments, setCommetns] = useState([]);
 
@@ -40,6 +41,8 @@ function Movie() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuOpen2, setMenuOpen2] = useState(false);
   const [activeOption, setActiveOption] = useState("dubbed");
+  const [checkSub, setCheckSub] = useState(false);
+
   const [activeOption2, setActiveOption2] = useState(true);
   const [idLogin, setIdLogin] = useState(false);
 
@@ -153,23 +156,25 @@ function Movie() {
     }
 
     try {
-      const response = await GetMovieComments( id );
+      const response = await GetMovieComments(id);
       setCommetns(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+
+
   };
 
 
 
   const SendComment = async (commentId) => {
     try {
-      var profanityRes = await CheckProfanity({"text": commentText});
+      var profanityRes = await CheckProfanity({ "text": commentText });
       // console.log(response.data['profanity_detected'])
-      if (profanityRes.data['profanity_detected'] === true){
+      if (profanityRes.data['profanity_detected'] === true) {
         alert("پس از تایید ادمین کامنت شما ثبت میشود")
       }
-      else{
+      else {
         alert("کامنت شما ثبت شد")
       }
 
@@ -177,14 +182,14 @@ function Movie() {
       console.error("Error fetching data:", error);
     }
     try {
-      var feelingRes = await CheckFeeling({"text": commentText});
+      var feelingRes = await CheckFeeling({ "text": commentText });
       console.log(feelingRes.data)
 
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-    
-    
+
+
 
     var formData = new json();
     formData = {
@@ -245,7 +250,21 @@ function Movie() {
   const textareaRef2 = useRef(null);
   const textareaRef3 = useRef(null);
 
+  const CheckSubscription2 = async (idCooky) => {
+    try {
+      const response = await CheckSubscription(idCooky);
+      console.log(response.data)
 
+      setCheckSub(response.data);
+      if (response.data == false){
+        let downloads = document.querySelector(".downloads");
+      downloads.style.display = "none";
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+
+  }
 
   // useEffect(() => {
 
@@ -261,17 +280,24 @@ function Movie() {
 
     const textarea = textareaRef.current;
     const idCooky = Cookies.get('id');
+    console.log(idCooky)
 
     if (idCooky != null) {
       setIdLogin(true)
-      
+      CheckSubscription2(idCooky)
     }
     else {
-      
+
       let downloads = document.querySelector(".downloads");
       downloads.style.display = "none";
       let sendCommentContainer = document.querySelector(".send-comment-container");
       sendCommentContainer.style.display = "none";
+      const commentSendElements = document.querySelectorAll(".comment-send");
+
+      // اعمال style به تمام المان‌ها
+      commentSendElements.forEach(element => {
+        element.style.display = "none";
+      });
     }
 
     const resizeTextarea = () => {
@@ -299,10 +325,10 @@ function Movie() {
     };
   }, [id]);
 
-  if (MovieFile.filter((episdoe)=>{return((episdoe.movieFileDubbing === activeOption) && (episdoe.movieFileChapter === activeFilter) && (episdoe.movieFileIsCensored === activeOption2))}).length===0){
+  if (MovieFile.filter((episdoe) => { return ((episdoe.movieFileDubbing === activeOption) && (episdoe.movieFileChapter === activeFilter) && (episdoe.movieFileIsCensored === activeOption2)) }).length === 0) {
     $('#epmty-movie-file').show();
-  }else $('#epmty-movie-file').hide()
-  
+  } else $('#epmty-movie-file').hide()
+
   let moreInfo, downloadContainer, comments;
 
   const handleMoreInfoClick = (event) => {
@@ -343,7 +369,7 @@ function Movie() {
       filterNavContainer.style.display = "none";
       downloadsSerial.style.display = "none";
       downloadsFilm.style.display = "block";
-    }else{
+    } else {
       if (MovieFile.length > 0) {
         const maxSeason = MovieFile.reduce(
           (max, episode) =>
@@ -352,7 +378,7 @@ function Movie() {
               : max,
           parseInt(MovieFile[0].movieFileChapter)
         );
- 
+
         let s = [];
         for (let index = 1; index <= maxSeason; index++) {
           s.push(String(index));
@@ -369,7 +395,7 @@ function Movie() {
       let left = document.getElementById("left");
       let right = document.getElementById("right");
       if (left) {
-        left.style.marginRight = width - 35 + 'px'; 
+        left.style.marginRight = width - 35 + 'px';
       }
       if (width > 450) {
         right.style.display = 'none';
@@ -716,7 +742,7 @@ function Movie() {
             <h2 className="fs-3 ml-8 mr-4 font-bold">دانلود</h2>
             <div className="line2"></div>
           </div>
-          {!idLogin && (
+          {checkSub == false && (
             <div className="movie-download-without-sub">
               <h2>برای دانلود باید اشتراک خریداری کرده باشید</h2>
             </div>
@@ -807,10 +833,10 @@ function Movie() {
             <div className="filter-nav-container2">
               <div className="filter-nav-filters2">
                 <div ref={tabMenuRef} className="filter-nav-buttons-container2">
-                  
+
                   <i id="left" onClick={scrollLeft} className="uil uil-angle-left left-btn2"></i>
                   <div className="filter-nav-buttons2">
-                    {seasons.map((season,index) => (
+                    {seasons.map((season, index) => (
                       <button
                         key={index}
                         className={`filter-nav-button2 ${activeFilter === season ? "active" : ""}`}
@@ -909,11 +935,11 @@ function Movie() {
                       ))}
                   </div>
                 </div>
-              )):<div className="download-container">قسمتی وجود ندارد.</div>}
+              )) : <div className="download-container">قسمتی وجود ندارد.</div>}
             </div>
             <div id="downloads-serial">
               <div id="epmty-movie-file" className="download-container">
-              <strong className="mx-auto my-auto text-[18px]">قسمتی وجود ندارد.</strong>
+                <strong className="mx-auto my-auto text-[18px]">قسمتی وجود ندارد.</strong>
               </div>
               {MovieFile.map((file, index) => (
                 (file.movieFileDubbing === activeOption) && (file.movieFileChapter === activeFilter) && (file.movieFileIsCensored === activeOption2) && (
@@ -975,14 +1001,14 @@ function Movie() {
               placeholder="کامنت شما"
               onChange={(e) => setCommentText(e.target.value)}>
             </textarea>
-            <div className="comment-send" onClick={()=>SendComment(null)}>
+            <div className="comment-send" onClick={() => SendComment(null)}>
               <h2>ارسال</h2>
             </div>
           </div>
           {Comments.map((comment, index) => (
             (comment.replyTo == "00000000-0000-0000-0000-000000000000" && (
               <div className="comments-bottom">
-                <div className={`comment-container ${comment.feeling==='0'?'bg-red-300':comment.feeling==='1'?'':'bg-green-200'} bg-opacity-40`}>
+                <div className={`comment-container ${comment.feeling === '0' ? 'bg-red-300' : comment.feeling === '1' ? '' : 'bg-green-200'} bg-opacity-40`}>
                   <div className="header-comment">
                     <div className="comment-name">
                       <h2>{comment.commentWriter}</h2>
@@ -1011,7 +1037,7 @@ function Movie() {
                 <div className={`send-comment-container2 ${openIndex === index ? 'open' : ''}`}
                   style={{ maxHeight: openIndex === index ? '500px' : '0px' }}>
                   <div className="comment-name2">
-                  <h2>{comment.commentWriter}</h2>
+                    <h2>{comment.commentWriter}</h2>
                   </div>
                   <textarea
                     id="auto-resizing-textarea"
@@ -1024,10 +1050,10 @@ function Movie() {
                 </div>
                 {Comments.map((comment2, index) => (
                   (comment2.replyTo === comment.commentId && (
-                    <div className={`reply-container  ${comment2.feeling==='0'?'bg-red-300':comment2.feeling==='1'?'':'bg-green-200'} bg-opacity-40`}>
+                    <div className={`reply-container  ${comment2.feeling === '0' ? 'bg-red-300' : comment2.feeling === '1' ? '' : 'bg-green-200'} bg-opacity-40`}>
                       <div className="header-comment">
                         <div className="comment-name">
-                        <h2>{comment2.commentWriter}</h2>
+                          <h2>{comment2.commentWriter}</h2>
                         </div>
                         <div className="comment-date">
                           <h2>{moment(comment2.commentCreateDate).format('jD jMMMM jYYYY HH:mm')}</h2>
