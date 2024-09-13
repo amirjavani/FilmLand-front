@@ -71,6 +71,13 @@ function SideNavbar(props) {
           <span>کامنت‌های مشکوک </span>
           <i class='bx bx-comment-error text-[18px] p-1' ></i>
         </NavLink>
+        <br></br>
+        <NavLink
+          className="my-1 text-[16px] flex flex-row justify-between text-white p-2 rounded hover:bg-slate-800   [&.active]:bg-slate-800"
+          to="/dashboard/reports">
+          <span>گزارش </span>
+          <i class='bx bx-comment-error text-[18px] p-1' ></i>
+        </NavLink>
       </nav>
     </div>
   );

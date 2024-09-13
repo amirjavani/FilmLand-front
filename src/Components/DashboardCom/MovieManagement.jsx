@@ -98,11 +98,7 @@ function MovieManagement() {
                       className="px-6 py-3 border-l border-neutral-500">
                       ژانر
                     </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 border-l border-neutral-500">
-                      قسمت ها{" "}
-                    </th>
+                    
                     <th scope="col" className="w-10 text-center">
                       <button
                         onClick={() => {
@@ -143,27 +139,17 @@ function MovieManagement() {
                                   })
                                 : "خالی"}
                             </td>
-                            <td className="h-full p-1 border-l border-neutral-500">
-                              <button
-                                className="btn  bg-slate-500 w-full min-h-[100px]"
+                            
+                            <td className="flex flex-col p-1 w-20">
+                            <button
+                                className="btn  btn-primary px-1"
                                 onClick={() => {
                                   setMovieName(obj.movieEnglishName)
                                   navigate(
                                     `/dashboard/movieManagement/episodeManager/${obj.movieId}`
                                   );
                                 }}>
-                                قسمت
-                              </button>
-                            </td>
-                            <td className="flex flex-col p-1 w-20">
-                              <button
-                                onClick={() => statusToggel(obj.movieId)}
-                                className={`btn ${
-                                  obj.movieIsStatus
-                                    ? "btn-success"
-                                    : "btn-danger"
-                                } py-1`}>
-                                {obj.movieIsStatus ? "فعال" : "غیرفعال"}
+                                قسمت‌ها
                               </button>
                               <Link
                                 to={`/dashboard/movieManagement/${obj.movieId}`}

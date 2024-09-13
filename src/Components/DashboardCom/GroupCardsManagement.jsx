@@ -217,12 +217,12 @@ function GroupCardsManagement() {
                                 <button
                                   className="btn btn-primary text-nowrap"
                                   onClick={() =>
-                                    navigate("/movie/" + movieCard.movieRef)
+                                    navigate("/movie/" + movieCard.movieId)
                                   }>
                                   صفحه فیلم
                                 </button>
                               </td>
-                              <td className=" text-nowrap py-3 ">
+                              <td className="px-3 text-nowrap py-3 ">
                                 <button
                                   className="btn btn-danger mx-auto"
                                   onClick={async () => {
