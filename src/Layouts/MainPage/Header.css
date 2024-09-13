@@ -91,7 +91,7 @@
 
 
 .subscription {
-  margin-top: .6rem;
+  margin-top: .3rem;
   width: 120px;
   height: 40px;
   background-color: rgb(230, 56, 56);
@@ -116,7 +116,7 @@
 
 
 .login {
-  margin-top: .6rem;
+  margin-top: .3rem;
   /* width: 120px; */
   width: 95px;
   
@@ -143,7 +143,7 @@
 
 .user-account {
   display: none;
-  margin-top: .6rem;
+  margin-top: .3rem;
   width: 80px;
   /* width: 95px; */
 
@@ -156,6 +156,11 @@
   color: white;
   text-decoration: none;
   transition: .5s;
+}
+
+.user-account img{
+  height: 18px;
+  display: none;
 }
 
 .user-account:hover {
@@ -191,7 +196,7 @@
 @media (max-width: 1200px) {
 
 
-
+  
 
 
   .navigation-manual {
@@ -317,6 +322,8 @@
 
   .subscription i {
     display: block;
+    margin-top: 4px;
+
   }
 
   .login {
@@ -330,13 +337,32 @@
     font-size: larger;
   }
 
+  .user-account {
+    margin: auto;
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 30px;
+    font-size: larger;
+  }
+  .user-account h4{
+    display: none;
+  }
+
+  .user-account img{
+    display: block;
+  }
+
   .login h4 {
     display: none;
   }
 
   .login i {
     display: block;
-    margin-top: 2px;
+    margin-top: 4px;
+    margin-right: 4px;
+
   }
 
   .search-icon {

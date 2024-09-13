@@ -618,7 +618,7 @@ function Movie() {
                       <h2>بودجه</h2>
                     </div>
                     <div className="info-item-body">
-                      <h2>${singleMovie.movieBudget}</h2>
+                      <h2>${singleMovie.movieBudget},000,000</h2>
                     </div>
                   </li>
                   <li>
@@ -627,7 +627,7 @@ function Movie() {
                       <h2>مدت زمان</h2>
                     </div>
                     <div className="info-item-body">
-                      <h2>{singleMovie.movieDuration}</h2>
+                      <h2>{singleMovie.movieDuration} دقیقه</h2>
                     </div>
                   </li>
                   <li>
@@ -926,11 +926,11 @@ function Movie() {
                       }))
                       .sort((a, b) => a.quality - b.quality) // Sorting in increasing order of quality
                       .map((fileObj, index2) => (
-                        <a href={fileObj.movieURL} key={index2}>
-                          <div className="download">
+                        <a href={fileObj.movieURL} key={index2} className="download">
+                          {/* <div className="download"> */}
                             <i className="fa fa-download" aria-hidden="true"></i>
                             <p className="text-sm mr-1">دانلود {fileObj.quality}</p>
-                          </div>
+                          {/* </div> */}
                         </a>
                       ))}
                   </div>
@@ -963,11 +963,11 @@ function Movie() {
                         }))
                         .sort((a, b) => a.quality - b.quality) // Sorting in increasing order of quality
                         .map((fileObj, index2) => (
-                          <a href={fileObj.movieURL} key={index2}>
-                            <div className="download">
+                          <a href={fileObj.movieURL} key={index2} className="download">
+                            {/* <div className="download"> */}
                               <i className="fa fa-download" aria-hidden="true"></i>
                               <p className="text-sm mr-1">دانلود {fileObj.quality}</p>
-                            </div>
+                            {/* </div> */}
                           </a>
                         ))}
                     </div>

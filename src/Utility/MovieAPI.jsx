@@ -158,8 +158,8 @@ const AddingMovieFileDetail = async ({
   return response;
 };
 
-const FetchMovies = async (category, genre) => {
-  const response = await axios.get(`${Url}/Movie/All?category=${category}&genre=${genre}`, {
+const FetchMovies = async (category, genre, seaech) => {
+  const response = await axios.get(`${Url}/Movie/All?category=${category}&genre=${genre}&search=${seaech}`, {
     headers: {},
   });
   return response;

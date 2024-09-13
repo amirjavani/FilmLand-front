@@ -26,7 +26,7 @@ const Footer = (props) => {
             
           </div>
         </div>
-        <a href="/" className="footer-about">
+        <a href="/about" className="footer-about">
           درباره ما
         </a>
       </div>

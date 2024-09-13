@@ -6,6 +6,7 @@ import "./MoviesStyle.css";
 import { FetchMovies } from "../../../Utility/MovieAPI";
 import { useLocation } from 'react-router-dom';
 
+
 function MoviesComponent() {
   const [movies, setMovies] = useState([]);
   const location = useLocation();
@@ -13,11 +14,13 @@ function MoviesComponent() {
   const queryParams = new URLSearchParams(location.search);
   const category = queryParams.get('category');
   const genre = queryParams.get('genre');
+  const search = queryParams.get('search');
+
   
 
   const fetchData = async () => {
     try {
-      const response = await FetchMovies(category, genre );
+      const response = await FetchMovies(category, genre, search );
       setMovies(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
