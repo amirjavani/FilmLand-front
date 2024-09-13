@@ -1,6 +1,5 @@
 .filter-nav-container {
   display: flex;
-  width: 85%;
   justify-content: space-between;
   align-items: center;
   background-color: #142c3d;
@@ -95,7 +94,8 @@
 }
 
 .filter-nav-dropdown {
-  margin-right: 40px;
+  margin-right: 30px;
+  margin-left: 30px;
   min-width: 10em;
   padding: 0 10px;
   position: relative;
@@ -190,6 +190,7 @@
   background-color: rgb(230, 56, 56);
   border: none;
   color: white;
+  margin: 2px;
   padding: 16px 30px;
   border-radius: 40px;
   cursor: pointer;
@@ -288,11 +289,12 @@
 }
 
 .search-icon {
-  width: 20px;
+  width: 18px;
   margin-right: 10px;
 }
 
 .filter-input-container{
+  margin-left: 40px;
   padding: 18px;
   border-radius: 30px;
   background-color: #15202b;
@@ -353,11 +355,26 @@
 }
 
 @media (max-width: 1150px) {
-  .filter-nav-buttons-container {
-    max-width: 300px;
+
+  .filter-input-container {
+    margin-left: 0px;
   }
-  .filter-nav-dropdown {
-    margin-right: 10px;
+
+  .filter-input-container input {
+    width: 175px;
+  }
+
+  .filter-nav-search {
+    margin-top: 20px;
+  }
+
+  .filter-nav-container {
+    display: flex;
+    flex-direction: column;
+    
+  }
+  .filter-nav-buttons-container {
+    max-width: 250px;
   }
 
   .filter-nav-search {
@@ -365,7 +382,7 @@
   }
 
   .left-btn2 {
-    margin-right: 262px !important;
+    margin-right: 212px !important;
   }
 
   .filter-nav-search {
@@ -401,6 +418,25 @@
 }
 
 @media (max-width: 700px) {
+
+  .filter-input-container {
+    margin-top: 10px;
+    padding: 13px;
+  }
+
+  .search-icon {
+    width: 14px;
+  }
+
+  .filter-nav-dropdown {
+    margin-left: 0;
+  } 
+
+  .filter-input-container input {
+    font-size: 12px;
+    width: 135px;
+  }
+
   .filter-nav-filters {
     display: flex;
     flex-direction: column;

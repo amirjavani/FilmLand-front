@@ -178,16 +178,7 @@
 }
 
 
-.search-icon {
-  color: white;
-  border-radius: .5rem;
-  transition: .5s;
-}
 
-.search-icon:hover {
-  background-color: #ffffff2c;
-  transition: .5s;
-}
 
 .nav-left {
   display: flex;
@@ -363,15 +354,6 @@
     margin-top: 4px;
     margin-right: 4px;
 
-  }
-
-  .search-icon {
-    color: white;
-    font-size: larger;
-    margin: 0.5rem 1rem 0.5rem 0rem;
-    padding: .3rem .5rem 0rem .5rem;
-    border-radius: 2rem;
-    transition: .5s;
   }
 
 }
