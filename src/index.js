@@ -27,7 +27,12 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Main></Main>,
-    children: [
+    children: [,
+      {
+        path: "/about",
+        element: <About></About>,
+        index: true,
+      },
       {
         path: "",
         element: <Home></Home>,
@@ -269,12 +274,7 @@ const router = createBrowserRouter([
     path: "/redirect",
     element: <Redirect></Redirect>,
     index: true,
-  },
-  {
-    path: "/about",
-    element: <About></About>,
-    index: true,
-  },
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

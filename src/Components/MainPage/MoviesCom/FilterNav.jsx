@@ -91,14 +91,16 @@ const FilterNav = () => {
           <input
             type="text"
             value={activeSearch}
+            placeholder="جستجو"
             onChange={(e) => setActiveSearch(e.target.value)} />
           <img className="search-icon" src={searchIcon}></img>
         </div>
-        <div onClick={Send} className="filter-nav-search">
+        
+      </div>
+      <div onClick={Send} className="filter-nav-search">
           <button>جستجو</button>
           {/* <i className="bi bi-search block md:hidden"></i> */}
         </div>
-      </div>
 
     </div>
   );

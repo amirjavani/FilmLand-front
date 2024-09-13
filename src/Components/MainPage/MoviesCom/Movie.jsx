@@ -256,9 +256,9 @@ function Movie() {
       console.log(response.data)
 
       setCheckSub(response.data);
-      if (response.data == false){
+      if (response.data == false) {
         let downloads = document.querySelector(".downloads");
-      downloads.style.display = "none";
+        downloads.style.display = "none";
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -928,8 +928,8 @@ function Movie() {
                       .map((fileObj, index2) => (
                         <a href={fileObj.movieURL} key={index2} className="download">
                           {/* <div className="download"> */}
-                            <i className="fa fa-download" aria-hidden="true"></i>
-                            <p className="text-sm mr-1">دانلود {fileObj.quality}</p>
+                          <i className="fa fa-download" aria-hidden="true"></i>
+                          <p className="text-sm mr-1">دانلود {fileObj.quality}</p>
                           {/* </div> */}
                         </a>
                       ))}
@@ -965,8 +965,8 @@ function Movie() {
                         .map((fileObj, index2) => (
                           <a href={fileObj.movieURL} key={index2} className="download">
                             {/* <div className="download"> */}
-                              <i className="fa fa-download" aria-hidden="true"></i>
-                              <p className="text-sm mr-1">دانلود {fileObj.quality}</p>
+                            <i className="fa fa-download" aria-hidden="true"></i>
+                            <p className="text-sm mr-1">دانلود {fileObj.quality}</p>
                             {/* </div> */}
                           </a>
                         ))}
@@ -1029,9 +1029,12 @@ function Movie() {
                       <i class="fa-regular fa-thumbs-down"></i>
                       <p>{toPersianDigits(comment.commentDisLike)}</p>
                     </div>
-                    <div className="comment-send" onClick={() => toggleOpen(index)}>
-                      <h2>پاسخ</h2>
-                    </div>
+                    {idLogin && (
+                      <div className="comment-send" onClick={() => toggleOpen(index)}>
+                        <h2>پاسخ</h2>
+                      </div>
+                    )}
+
                   </div>
                 </div>
                 <div className={`send-comment-container2 ${openIndex === index ? 'open' : ''}`}
