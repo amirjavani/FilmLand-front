@@ -58,7 +58,7 @@ function Carts() {
           <div key={index} className={`slide-container swiper`}>
             <div className="head">
               <div className="short-line"></div>
-              <h2 className="fs-3">{cart.cartTitle}</h2>
+              <h2>{cart.cartTitle}</h2>
             </div>
             <Swiper
               modules={[Pagination, Navigation]}

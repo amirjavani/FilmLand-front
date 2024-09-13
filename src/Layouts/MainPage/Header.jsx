@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../index.css";
 import "./Header.css";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { FetchListMenu } from "../../Utility/MainMenuAPi";
+import { FetchListMenuHeader } from "../../Utility/MainMenuAPi";
 import { FetchSubscription } from "../../Utility/SubscriptionAPI"
 import { addMonths, differenceInDays } from 'date-fns';
 import logo from "../../Assets/Header/logo.png";
@@ -16,7 +16,7 @@ function Header() {
   const id = Cookies.get('id');
 
   const fetchData = async () => {
-    const res = await FetchListMenu();
+    const res = await FetchListMenuHeader();
     // console.log(res.data);
     setMenuList(res.data);
     if (id != null) {

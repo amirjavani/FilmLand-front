@@ -8,6 +8,13 @@ const FetchListMenu = async () => {
   return response;
 };
 
+const FetchListMenuHeader = async () => {
+  const response = await axios.get(`${Url}/SiteMenu/Header`, {
+    headers: {},
+  });
+  return response;
+};
+
 const GetListMenuItem = async (props) => {
   const response = await axios.get(`${Url}/SiteMenu/${props.id}`, {
     headers: {},
@@ -62,6 +69,7 @@ const EditMenuItem = async (props) => {
 
 export {
   FetchListMenu,
+  FetchListMenuHeader,
   AddMenuItem,
   RemoveMenuItem,
   ToggelMenuItem,

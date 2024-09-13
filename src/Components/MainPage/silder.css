@@ -11,6 +11,7 @@
     height: 335px;
     border-radius: 10px;
     overflow: hidden;
+    padding: 15px;
   }
   
   
@@ -20,6 +21,10 @@
     object-fit: cover;
   }
   
+  .swiper {
+    border-radius: 10px;
+     
+  }
   .minibanner {
     display: flex;
     flex-direction: column;
@@ -79,8 +84,8 @@
     right: 20px; */
     color: white;
     background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px;
-    font-size: 14px;
+    padding: 8px;
+    font-size: 12px;
     border-radius: 5px;
   }
   
@@ -133,7 +138,7 @@
       color: white;
       background-color: rgba(0, 0, 0, 0.5);
       padding: 8px;
-      font-size: 12px;
+    font-size: 12px;
 
       border-radius: 5px;
     }
@@ -141,9 +146,6 @@
   
   @media (max-width: 992px) {
 
-    .minibanners {
-      margin-top: 50px;
-    }
     .slider-and-cart {
       display: flex;
       flex-direction: column;
@@ -163,7 +165,6 @@
       display: flex;
       flex-direction: column;
       /* margin-top: 100px; */
-      margin-right: 5px;
       justify-content: center;
       /* background-color: antiquewhite; */
     }
@@ -183,6 +184,7 @@
   
   
     .minibanner {
+      margin-top: 0;
       width: 400PX;
       height: 200PX;
     }
@@ -206,7 +208,7 @@
       color: white;
       background-color: rgba(0, 0, 0, 0.5);
       padding: 8px;
-      font-size: 12px;
+    font-size: 12px;
 
       border-radius: 5px;
     }
@@ -216,11 +218,9 @@
   @media (max-width: 768px) {
     
   
-    .slider-and-cart {
-      margin-top: 15%;
-    }
   
     .minibanner {
+      margin-top: 0;
       width: 280px;
       height: 150px;
     }
@@ -248,18 +248,32 @@
 
       border-radius: 5px;
     }
+    .slider {
+      padding: 15px;
+    }
+    
+    
+    
+    .swiper {
+      border-radius: 10px;
+       
+    }
   }
   
 
   @media (max-width: 468px) {
-    
+    .slider {
+      margin-top: 0;
+    }
   
     .slider-and-cart {
-      margin-top: 15%;
+      margin-top: 10%;
     }
   
     .minibanner {
-      width: 150px;
+      margin-top: 0;
+
+      /* width: 150px; */
       height: 90px;
     }
 
@@ -277,12 +291,12 @@
 
     .slide-text2 {
       position: absolute;
-      margin-top: 55px;
+      margin-top: 65px;
       margin-right: 10px;
       color: white;
       background-color: rgba(0, 0, 0, 0.5);
-      padding: 8px;
-      font-size: 8px;
+      padding: 6px;
+      font-size: 7px;
 
       border-radius: 5px;
     }

@@ -1,0 +1,136 @@
+.footer-main {
+    width: 500px;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-color: aqua; */
+
+}
+
+.footer-bottom {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    
+}
+
+.footer {
+    background-color: #15202b;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-copyright-container {
+    border-radius: 10px;
+    width: 400px;
+    height: 30px;
+    background-color: rgb(230, 56, 56);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+}
+
+.footer-logo-container {
+    width: 50%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.footer-logo-container img{
+    height: 40px;
+    cursor: pointer;
+}
+
+.footer-main-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+}
+
+.footer-social-media-container img {
+    height: 30px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.footer-about {
+    margin-top: 10px;
+    background-color: rgb(63, 12, 218);
+    width: 100%;
+    height: 35px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 900;
+}
+
+.footer-social-media-container {
+    width: 50%;
+    height: 50px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+}
+
+@media (max-width: 768px) {
+    .footer-main {
+        width: 100%;
+        height: 70%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* background-color: aqua; */
+    
+    }
+
+    .footer-copyright-container {
+        border-radius: 20px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .footer-main-container {
+        display: flex;
+        flex-direction: column-reverse;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .footer-bottom {
+        width: 100%;
+        
+    }
+    .footer {
+        background-color: #15202b;
+        height: 280px;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        align-items: center;
+    }
+    .footer-about {
+        width: 80%;
+    }
+    .footer-logo-container {
+        margin-bottom: 10px;
+    }
+
+    .footer-social-media-container {
+        justify-content: center;
+    
+    }
+  }

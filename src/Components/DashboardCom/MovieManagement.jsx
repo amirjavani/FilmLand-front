@@ -131,7 +131,7 @@ function MovieManagement() {
                               {obj.movieEnglishName}
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
-                              {obj.movieModifiedDate}
+                              {obj.movieCreateDate}
                             </td>
                             <td className="px-6 py-4 border-l border-neutral-500">
                               {obj.categoryTitle ? obj.categoryTitle : "خالی"}
