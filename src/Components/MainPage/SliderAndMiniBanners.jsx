@@ -82,7 +82,7 @@ function Slider() {
         <div className="minibanners">
           <div className="horizontal-minibanner">
             {minibanners[0] && minibanners[0].miniBannerIsStatus && (
-              <div className="minibanner">
+              <Link className="minibanner" to={minibanners[0].miniBannerUrl}>
                 <img
                   alt={minibanners[0].sliderName}
                   src={
@@ -96,11 +96,11 @@ function Slider() {
                 <div className="slide-text2">
                         <h2>{minibanners[0].miniBannerName}</h2>
                       </div>
-              </div>
+              </Link>
             )}
 
             {minibanners[1] && minibanners[1].miniBannerIsStatus && (
-              <div className="minibanner">
+              <Link className="minibanner" to={minibanners[1].miniBannerUrl}>
                 <img
                   alt={minibanners[1].sliderName}
                   src={
@@ -114,12 +114,12 @@ function Slider() {
                 <div className="slide-text2">
                         <h2>{minibanners[1].miniBannerName}</h2>
                   </div>
-              </div>
+              </Link>
             )}
           </div>
           <div className="horizontal-minibanner2">
             {minibanners[2] && minibanners[2].miniBannerIsStatus && (
-              <div className="minibanner">
+              <Link className="minibanner" to={minibanners[2].miniBannerUrl}>
                 <img
                   alt={minibanners[2].sliderName}
                   src={
@@ -133,10 +133,10 @@ function Slider() {
                 <div className="slide-text2">
                         <h2>{minibanners[2].miniBannerName}</h2>
                   </div>
-              </div>
+              </Link>
             )}
             {minibanners[3] && minibanners[3].miniBannerIsStatus && (
-              <div className="minibanner">
+              <Link className="minibanner" to={minibanners[3].miniBannerUrl}>
                 <img
                   alt={minibanners[3].sliderName}
                   src={
@@ -150,7 +150,7 @@ function Slider() {
                 <div className="slide-text2">
                         <h2>{minibanners[3].miniBannerName}</h2>
                   </div>
-              </div>
+              </Link>
             )}
           </div>
         </div>

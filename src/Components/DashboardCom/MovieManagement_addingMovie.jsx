@@ -145,14 +145,17 @@ function AddMovie({ refresh }) {
         //     formData: formData,
         //   });
       } else {
-        const res = await AddingMovie({ formData: formData });
-        if (res) {
-          navigate("/dashboard/MovieManagement");
-        }
+        await AddingMovie({ formData: formData });
+        
       }
     } catch (error) {
       console.error("Error adding menu item:", error);
+      alert('فیلم به درستی افزوده نشد')
+      return;
     }
+    
+    navigate("/dashboard/MovieManagement");
+    window.location.reload()
   };
 
   return (

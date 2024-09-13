@@ -241,7 +241,7 @@
 
   #check:checked~.navbar {
     visibility: visible;
-    height: 22.7rem;
+    height: 300px;
   }
 
   .navbar a {

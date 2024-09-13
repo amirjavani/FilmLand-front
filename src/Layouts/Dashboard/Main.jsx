@@ -4,7 +4,7 @@ import Header from './Header'
 import {  Outlet, Route, Routes } from 'react-router-dom'
 
 function MainDashboard() {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
 
     function toggel(){
         setIsOpen(!isOpen)

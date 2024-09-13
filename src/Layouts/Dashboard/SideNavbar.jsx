@@ -3,7 +3,7 @@ import "../../../src/index";
 import { NavLink } from "react-router-dom";
 
 function SideNavbar(props) {
-  const [sidebarVisible, setSidebarVisible] = useState(false);
+  const [sidebarVisible, setSidebarVisible] = useState(true);
 
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);

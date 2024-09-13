@@ -48,7 +48,7 @@ const GetGroupCardsAll = async () => {
 };
 
 const DeleteGroupCard = async (id) => {
-  const response = await axios.delete(`${Url}/Cart/${id}`, {
+  const response = await axios.delete(`${Url}/Cart/DeleteCart/${id}`, {
     headers: {
       "Content-Type": "application/json", // Set Content-Type to application/json
     },
