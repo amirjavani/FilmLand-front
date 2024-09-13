@@ -4,12 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { FetchCategory, FetchGenre } from "../../../Utility/MovieAPI";
 import { useLocation } from 'react-router-dom';
 import ScrollableMenu from "./ScrollableMenu";
+import searchIcon from "../../../Assets/search-solid.svg";
 
 const FilterNav = () => {
   const dropdownRef = useRef(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeOption, setActiveOption] = useState("all");
   const [activeFilter, setActiveFilter] = useState("all");
+  const [activeSearch, setActiveSearch] = useState("");
   const navigate = useNavigate();
   const [Categories, setCategories] = useState([]);
   const [Genres, setGenres] = useState([]);
@@ -28,7 +30,7 @@ const FilterNav = () => {
 
   const handleOptionClick = (value) => {
     setActiveOption(value);
-    toggleMenu(); 
+    toggleMenu();
   };
 
   const handleClickOutside = (event) => {
@@ -38,7 +40,7 @@ const FilterNav = () => {
   };
 
   const Send = () => {
-    navigate(`/movies?category=${activeFilter}&genre=${activeOption}`);
+    navigate(`/movies?category=${activeFilter}&genre=${activeOption}&search=${activeSearch}`);
     window.location.reload();
   };
 
@@ -50,6 +52,8 @@ const FilterNav = () => {
     console.log("aaaaa")
     const genre = queryParams.get('genre');
     setActiveOption(genre);
+    const search = queryParams.get('search');
+    setActiveSearch(search);
     document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
@@ -83,12 +87,19 @@ const FilterNav = () => {
             ))}
           </ul>
         </div>
+        <div className="filter-input-container">
+          <input
+            type="text"
+            value={activeSearch}
+            onChange={(e) => setActiveSearch(e.target.value)} />
+          <img className="search-icon" src={searchIcon}></img>
+        </div>
+        <div onClick={Send} className="filter-nav-search">
+          <button>جستجو</button>
+          {/* <i className="bi bi-search block md:hidden"></i> */}
+        </div>
       </div>
-      
-      <div className="filter-nav-search">
-        <button onClick={Send}>جستجو</button>
-        {/* <i className="bi bi-search block md:hidden"></i> */}
-      </div>
+
     </div>
   );
 };

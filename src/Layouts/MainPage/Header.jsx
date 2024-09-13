@@ -3,9 +3,10 @@ import "../../index.css";
 import "./Header.css";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FetchListMenuHeader } from "../../Utility/MainMenuAPi";
-import { FetchSubscription } from "../../Utility/SubscriptionAPI"
+import { FetchSubscription } from "../../Utility/SubscriptionAPI";
 import { addMonths, differenceInDays } from 'date-fns';
 import logo from "../../Assets/Header/logo.png";
+import logout from "../../Assets/arrow-right-from-bracket-solid.svg";
 import Cookies from 'js-cookie';
 
 function Header() {
@@ -20,7 +21,7 @@ function Header() {
     // console.log(res.data);
     setMenuList(res.data);
     if (id != null) {
-      const subscription = await FetchSubscription({id});
+      const subscription = await FetchSubscription({ id });
       if (subscription.status == 200) {
         console.log(subscription)
         const initialDate = subscription.data.subscriptionDate;
@@ -28,7 +29,7 @@ function Header() {
         const x = subscription.data.subscriptionMonthNumber;
         const newDate = addMonths(initialDate, x);
         const difference = differenceInDays(newDate, currentDate);
-        setSubscriptionTitle(convertToPersianNumber(difference) +" روز")
+        setSubscriptionTitle(convertToPersianNumber(difference) + " روز")
       }
     }
 
@@ -69,7 +70,7 @@ function Header() {
       const headerUserAccount = document.getElementById('header-user-account');
 
       headerLogin.style.display = 'none';
-      headerUserAccount.style.display = 'block';
+      headerUserAccount.style.display = 'flex';
     }
     fetchData();
     return () => { };
@@ -94,7 +95,14 @@ function Header() {
         </nav>
       </div>
       <div className="nav-left">
-        <Link className="subscription py-1" onClick={subscription}>
+        <Link id="header-subscription" className="subscription py-1" onClick={(e) => {
+          const id = Cookies.get('id');
+          if (id == null) {
+            subscription();
+          } else {
+            e.preventDefault(); // جلوگیری از کلیک در صورت نال نبودن id
+          }
+        }}>
           <h4>{subscriptiontitle}</h4>
           <i className="bi bi-cart" aria-hidden="true" />
         </Link>
@@ -104,15 +112,16 @@ function Header() {
         </Link>
         <Link id="header-user-account" className="user-account py-1" onClick={exit}>
           <h4>خروج</h4>
+          <img src={logout} alt="" />
           {/* <i className="bi bi-box-arrow-in-right" aria-hidden="true" /> */}
         </Link>
-        <div className="my-auto transition-all">
+        {/* <div className="my-auto transition-all">
           <input type="text" className={`${searchShow ? 'w-60 opacity-100' : 'w-0 invisible opacity-0'} bg-transparent border-1  border-slate-300 rounded-lg p-1 text-white `} style={{ transition: '.4s', }} placeholder="جست و جو..."></input>
           <i
             className="bi bi-search p-1 m-1 search-icon fs-4"
             onClick={() => setSearchShow(!searchShow)}
           />
-        </div>
+        </div> */}
       </div>
     </header>
   );

@@ -21,6 +21,7 @@ import NewCommentManagement from "./Components/DashboardCom/NewCommentManagement
 import SuspiciousCommentsManagement from "./Components/DashboardCom/suspiciousCommentManagement";
 import GroupCardsManagement from "./Components/DashboardCom/GroupCardsManagement";
 import Reports from "./Components/DashboardCom/Reports";
+import About from "./Components/MainPage/About";
 
 const router = createBrowserRouter([
   {
@@ -267,6 +268,11 @@ const router = createBrowserRouter([
   {
     path: "/redirect",
     element: <Redirect></Redirect>,
+    index: true,
+  },
+  {
+    path: "/about",
+    element: <About></About>,
     index: true,
   },
 ]);
