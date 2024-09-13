@@ -27,9 +27,7 @@ function ActorManagement() {
     }
   };
 
-  const Refresh = () => {
-    fetchData();
-  };
+
 
   useEffect(() => {
     fetchData();
@@ -109,15 +107,7 @@ function ActorManagement() {
                             
                             
                             <td className="flex flex-col p-1 w-20">
-                              <button
-                                onClick={() => statusToggel(obj.actorId)}
-                                className={`btn ${
-                                  obj.actorIsStatus
-                                    ? "btn-success"
-                                    : "btn-danger"
-                                } py-1`}>
-                                {obj.actorIsStatus ? "فعال" : "غیرفعال"}
-                              </button>
+                              
                               <Link
                                 to={`/dashboard/actorManagement/${obj.actorId}`}
                                 className="bi bi-pencil-square btn btn-secondary py-1 my-1"></Link>
@@ -218,7 +208,8 @@ function AddObject(props) {
         // });
       } else {
          await AddActor({ formData: formData });
-         navigate("/dashboard/actorManagement");
+         //window.location.reload()
+         //navigate("/dashboard/actorManagement");
       }
     } catch (error) {
       console.error("Error adding menu item:", error);

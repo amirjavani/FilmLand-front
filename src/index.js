@@ -20,6 +20,7 @@ import CommentManagement from "./Components/DashboardCom/NewCommentManagement";
 import NewCommentManagement from "./Components/DashboardCom/NewCommentManagement";
 import SuspiciousCommentsManagement from "./Components/DashboardCom/suspiciousCommentManagement";
 import GroupCardsManagement from "./Components/DashboardCom/GroupCardsManagement";
+import Reports from "./Components/DashboardCom/Reports";
 
 const router = createBrowserRouter([
   {
@@ -29,30 +30,38 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <Home></Home>,
-        index: true
+        index: true,
       },
       {
         path: "/movies",
-        element: <div className=" text-white"><Outlet></Outlet></div>,
+        element: (
+          <div className=" text-white">
+            <Outlet></Outlet>
+          </div>
+        ),
         children: [
           {
             path: "",
             element: <MoviesComponent></MoviesComponent>,
-            index: true
+            index: true,
           },
-        ]
+        ],
       },
       {
         path: "/movie",
-        element: <div className=" text-white"><Outlet></Outlet></div>,
+        element: (
+          <div className=" text-white">
+            <Outlet></Outlet>
+          </div>
+        ),
         children: [
           {
             path: ":id",
-            element: <Movie></Movie>
-          }
-        ]
-      }
-    ]
+            element: <Movie></Movie>,
+          },
+        ],
+      },
+    ],
   },
   {
     path: "/dashboard/*",
@@ -214,38 +223,53 @@ const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: "reports",
+        element: <Reports></Reports>,
+        children: [
+          {
+            path: "*",
+            element: <div>RCM Notfound</div>,
+          },
+          {
+            path: "",
+            element: <></>,
+          },
+        ],
+      },
 
       {
         path: "*",
-        element: <div>Notfound</div>,
+        element: (
+          <div className="text-[20px] mx-auto  my-10">
+            <strong>به پنل ادمین خوش آمدید.</strong>
+            <p>از نوار سمت راست برای دسترسی به امکانات استفاده کنید.</p>
+          </div>
+        ),
       },
     ],
   },
   {
     path: "/register",
     element: <Register></Register>,
-    index: true
+    index: true,
   },
   {
     path: "/login",
     element: <Login></Login>,
-    index: true
+    index: true,
   },
   {
     path: "/subscription",
     element: <Subscription></Subscription>,
-    index: true
+    index: true,
   },
   {
     path: "/redirect",
     element: <Redirect></Redirect>,
-    index: true
-  }
+    index: true,
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-
-  <RouterProvider router={router}></RouterProvider>
-
-);
+root.render(<RouterProvider router={router}></RouterProvider>);
