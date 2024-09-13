@@ -132,13 +132,12 @@ function ActorManagement() {
 
 function AddObject(props) {
   const [actorName, setActorName] = useState("");
-  const [actorBirthDay, setActorBirthDay] = useState("");
-  const [actorProfession, setActorProfession] = useState("");
-  const [actorBio, setActorBio] = useState("");
+  // const [actorBirthDay, setActorBirthDay] = useState("");
+  // const [actorProfession, setActorProfession] = useState("");
+  // const [actorBio, setActorBio] = useState("");
   const [actorPicture, setActorPicture] = useState("");
   const [imageURL, setImageURL] = useState("");
   const { id } = useParams();
-  const [file, setFile] = useState("");
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -195,9 +194,9 @@ function AddObject(props) {
     event.preventDefault();
     const formData = new FormData();
     formData.append("ActorName", actorName);
-    formData.append("ActorBirthDay", actorBirthDay);
-    formData.append("ActorProfession", actorProfession);
-    formData.append("ActorBio", actorBio);
+    // formData.append("ActorBirthDay", actorBirthDay);
+    // formData.append("ActorProfession", actorProfession);
+    // formData.append("ActorBio", actorBio);
     formData.append("ActorPicture", actorPicture);
     event.preventDefault();
     try {
@@ -231,7 +230,7 @@ function AddObject(props) {
           placeholder="نام بازیگر..."
           value={actorName}
           onChange={(e) => setActorName(e.target.value)}></input>
-        <input
+        {/* <input
           type="date"
           required
           className="form-control "
@@ -251,7 +250,7 @@ function AddObject(props) {
           className="form-control  "
           placeholder="درباره..."
           value={actorBio}
-          onChange={(e) => setActorBio(e.target.value)}></textarea>
+          onChange={(e) => setActorBio(e.target.value)}></textarea> */}
         <span className="ml-auto my-3">عکس بازیگر:</span>
         <input
           type="file"
