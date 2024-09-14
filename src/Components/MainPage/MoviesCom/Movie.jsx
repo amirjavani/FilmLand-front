@@ -1008,7 +1008,7 @@ function Movie() {
           {Comments.map((comment, index) => (
             (comment.replyTo == "00000000-0000-0000-0000-000000000000" && (
               <div className="comments-bottom">
-                <div className={`comment-container ${comment.feeling === '0' ? 'bg-red-300' : comment.feeling === '1' ? '' : 'bg-green-200'} bg-opacity-40`}>
+                <div style={{backgroundColor:comment.feeling === '0' ? 'rgb(155 4 4 / 44%)' : comment.feeling === '1' ? 'rgb(99 99 120 / 37%)' : 'rgb(6 90 4 / 52%)'}} className={`comment-container  bg-opacity-40`}>
                   <div className="header-comment">
                     <div className="comment-name">
                       <h2>{comment.commentWriter}</h2>
@@ -1053,7 +1053,7 @@ function Movie() {
                 </div>
                 {Comments.map((comment2, index) => (
                   (comment2.replyTo === comment.commentId && (
-                    <div className={`reply-container  ${comment2.feeling === '0' ? 'bg-red-300' : comment2.feeling === '1' ? '' : 'bg-green-200'} bg-opacity-40`}>
+                    <div style={{backgroundColor:comment.feeling === '0' ? 'rgb(155 4 4 / 44%)' : comment.feeling === '1' ? 'rgb(99 99 120 / 37%)' : 'rgb(6 90 4 / 52%)'}} className={`reply-container   bg-opacity-40`}>
                       <div className="header-comment">
                         <div className="comment-name">
                           <h2>{comment2.commentWriter}</h2>
