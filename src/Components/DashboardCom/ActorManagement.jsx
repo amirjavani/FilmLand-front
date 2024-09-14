@@ -7,10 +7,7 @@ import {
   useParams,
   Link,
 } from "react-router-dom";
-import {
-  AddActor,
-  FetchActorsList
-} from "../../Utility/ActorApi";
+import { AddActor, FetchActorsList } from "../../Utility/ActorApi";
 import { Url } from "../../Utility/URL";
 
 function ActorManagement() {
@@ -26,8 +23,6 @@ function ActorManagement() {
       console.error("Error fetching data:", error);
     }
   };
-
-
 
   useEffect(() => {
     fetchData();
@@ -66,7 +61,6 @@ function ActorManagement() {
                   <tr className="sticky top-0 bg-slate-400 border-b ">
                     <th
                       scope="col"
-
                       className="col-2 px-6 py-3 border-l border-neutral-500">
                       ردیف
                     </th>
@@ -103,11 +97,8 @@ function ActorManagement() {
                             <td className="px-6 py-4 border-l border-neutral-500">
                               {obj.actorName}
                             </td>
-                            
-                            
-                            
+
                             <td className="flex flex-col p-1 w-20">
-                              
                               <Link
                                 to={`/dashboard/actorManagement/${obj.actorId}`}
                                 className="bi bi-pencil-square btn btn-secondary py-1 my-1"></Link>
@@ -132,15 +123,14 @@ function ActorManagement() {
 
 function AddObject(props) {
   const [actorName, setActorName] = useState("");
-  // const [actorBirthDay, setActorBirthDay] = useState("");
-  // const [actorProfession, setActorProfession] = useState("");
-  // const [actorBio, setActorBio] = useState("");
+  const [actorBirthDay, setActorBirthDay] = useState(null);
+  const [actorProfession, setActorProfession] = useState(null);
+  const [actorBio, setActorBio] = useState(null);
   const [actorPicture, setActorPicture] = useState("");
   const [imageURL, setImageURL] = useState("");
   const { id } = useParams();
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     if (id) {
@@ -162,7 +152,7 @@ function AddObject(props) {
     try {
       const response = await fetch(
         Url + res.data.filePath + res.data.fileName + res.data.fileExtension,
-        { method: "GET"}
+        { method: "GET" }
       );
 
       const blob = response.blob();
@@ -172,7 +162,7 @@ function AddObject(props) {
         res.data.fileName + res.data.fileExtension,
         { type: getMimeType(res.data.fileExtension) }
       );
-      
+
       setImageURL(URL.createObjectURL(imagefile));
       console.log(imagefile);
     } catch (error) {}
@@ -190,13 +180,12 @@ function AddObject(props) {
   };
 
   const Submit = async (event) => {
-    
     event.preventDefault();
     const formData = new FormData();
     formData.append("ActorName", actorName);
-    // formData.append("ActorBirthDay", actorBirthDay);
-    // formData.append("ActorProfession", actorProfession);
-    // formData.append("ActorBio", actorBio);
+    formData.append("ActorBirthDay", actorBirthDay);
+    formData.append("ActorProfession", actorProfession);
+    formData.append("ActorBio", actorBio);
     formData.append("ActorPicture", actorPicture);
     event.preventDefault();
     try {
@@ -206,16 +195,16 @@ function AddObject(props) {
         //   formData: formData,
         // });
       } else {
-         await AddActor({ formData: formData });
-         //window.location.reload()
-         //navigate("/dashboard/actorManagement");
+        await AddActor({ formData: formData });
+        
       }
     } catch (error) {
       console.error("Error adding menu item:", error);
+      return;
     }
+    navigate("/dashboard/actorManagement");
+    window.location.reload();
   };
-
-  
 
   return (
     <div className="flex justify-center m-12">
@@ -255,11 +244,14 @@ function AddObject(props) {
         <input
           type="file"
           required
-          onChange={(event)=>{setActorPicture(event.target.files[0])}}
+          onChange={(event) => {
+            setActorPicture(event.target.files[0]);
+          }}
           ref={fileInputRef}
         />
         {actorPicture ? (
-          <img className="rounded-full h-[100px]"
+          <img
+            className="rounded-full h-[100px]"
             alt={URL.createObjectURL(actorPicture)}
             src={URL.createObjectURL(actorPicture)}></img>
         ) : (
