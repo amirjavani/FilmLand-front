@@ -23,7 +23,19 @@ const LoginPost = async (props) => {
     return response;
 };
 
+const LoginAdminPost = async (props) => {
+    const response = await axios.post(
+        `${Url}/User/LoginAdmin`,
+        props.formData,
+        {
+            headers: {},
+        }
+    );
+    return response;
+};
+
 export {
     RegisterPost,
-    LoginPost
+    LoginPost,
+    LoginAdminPost
 };
