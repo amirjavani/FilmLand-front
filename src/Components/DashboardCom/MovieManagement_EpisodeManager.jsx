@@ -369,6 +369,11 @@ const EpisodeManager = ({ movieName }) => {
                 value="original">
                 زبان اصلی
               </option>
+              <option
+                className="text-sm  col-2 outline-none bg-slate-200 text-center"
+                value="hard subtitle">
+                زیرنویس چسبیده 
+              </option>
             </select>
           </div>
 
