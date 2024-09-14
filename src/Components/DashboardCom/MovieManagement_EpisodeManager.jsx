@@ -194,7 +194,7 @@ const EpisodeManager = ({ movieName }) => {
           <thead class="font-IYbold ">
             <tr>
               <th className="col-1"> قسمت</th>
-              <th>آدرس زیرنویس</th>
+              <th className="col-7">آدرس زیرنویس</th>
               <th className="col-1">دوبله</th>
               <th className="col-1"> سانسور</th>
               <th className="col-2"></th>
@@ -208,9 +208,9 @@ const EpisodeManager = ({ movieName }) => {
                 if (parseInt(episode.movieFileChapter) === activSeason)
                   return (
                     <React.Fragment key={index}>
-                      <tr>
+                      <tr className="text-nowrap ">
                         <td>{episode.movieFileEpisode}</td>
-                        <td>{episode.movieFileSubtitleURL}</td>
+                        <td className="text-wrap ">{episode.movieFileSubtitleURL}</td>
                         <td>{episode.movieFileDubbing}</td>
                         <td>
                           <i
