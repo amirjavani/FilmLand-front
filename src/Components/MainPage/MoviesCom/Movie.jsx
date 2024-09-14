@@ -834,7 +834,7 @@ function Movie() {
               <div className="filter-nav-filters2">
                 <div ref={tabMenuRef} className="filter-nav-buttons-container2">
 
-                  <i id="left" onClick={scrollLeft} className="uil uil-angle-left left-btn2"></i>
+                  {/* <i id="left" onClick={scrollLeft} className="uil uil-angle-left left-btn2"></i> */}
                   <div className="filter-nav-buttons2">
                     {seasons.map((season, index) => (
                       <button
@@ -846,7 +846,7 @@ function Movie() {
                       </button>
                     ))}
                   </div>
-                  <i id="right" onClick={scrollRight} className="uil uil-angle-right right-btn2"></i>
+                  {/* <i id="right" onClick={scrollRight} className="uil uil-angle-right right-btn2"></i> */}
                 </div>
                 <div className="filter-nav-option2">
                   <div ref={dropdownRef} className="filter-nav-dropdown2">
@@ -914,10 +914,10 @@ function Movie() {
                   </div>
                   <div className="download-div">
                     {file.movieFileSubtitleURL && (
-                      <div className="subtitle">
+                      <a href={file.movieFileSubtitleURL} className="subtitle">
                         <i className="fa fa-download" aria-hidden="true"></i>
-                        <p className="text-sm mr-1">{file.movieFileSubtitleURL}</p>
-                      </div>
+                        <p className="text-sm mr-1">زیرنویس</p>
+                      </a>
                     )}
                     {file.movieFile_MovieURL
                       .map((movieURL, index) => ({
@@ -951,10 +951,10 @@ function Movie() {
                     </div>
                     <div className="download-div">
                       {file.movieFileSubtitleURL && (
-                        <div className="subtitle">
-                          <i className="fa fa-download" aria-hidden="true"></i>
-                          <p className="text-sm mr-1">{file.movieFileSubtitleURL}</p>
-                        </div>
+                        <a href={file.movieFileSubtitleURL} className="subtitle">
+                        <i className="fa fa-download" aria-hidden="true"></i>
+                        <p className="text-sm mr-1">زیرنویس</p>
+                      </a>
                       )}
                       {file.movieFile_MovieURL
                         .map((movieURL, index) => ({

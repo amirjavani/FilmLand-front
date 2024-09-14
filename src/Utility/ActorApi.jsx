@@ -26,9 +26,9 @@ const AddActor = async (props) => {
   return response;
 };
 
-const RemoveSlide = async (props) => {
+const RemoveActor = async (props) => {
   console.log(props.id);
-  const response = await axios.delete(`${Url}/Slider/${props.id}`, {
+  const response = await axios.delete(`${Url}/Actor/DeleteActor/${props.id}`, {
     headers: {},
   });
   return response;
@@ -56,5 +56,5 @@ export {
     FetchActorsList,
     AddActor,
     GetActorById,
-
+    RemoveActor
 };

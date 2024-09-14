@@ -7,7 +7,7 @@ import {
   useParams,
   Link,
 } from "react-router-dom";
-import { AddActor, FetchActorsList } from "../../Utility/ActorApi";
+import { AddActor, FetchActorsList, RemoveActor } from "../../Utility/ActorApi";
 import { Url } from "../../Utility/URL";
 
 function ActorManagement() {
@@ -34,12 +34,12 @@ function ActorManagement() {
   };
 
   const deleting = async (objID) => {
-    // try {
-    //   await RemoveSlide({ id: objID });
-    //   Refresh();
-    // } catch (error) {
-    //   console.error("Error deleting item:", error);
-    // }
+    try {
+      await RemoveActor({ id: objID });
+      window.location.reload()
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    }
   };
 
   return (

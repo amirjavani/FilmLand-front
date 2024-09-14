@@ -40,7 +40,7 @@ const AddingMovie = async ({ formData }) => {
 
 const RemoveMovie = async (props) => {
   console.log(props.id);
-  const response = await axios.delete(`${Url}/MovieManagement/${props.id}`, {
+  const response = await axios.delete(`${Url}/MovieManagement/DeleteMovie/${props.id}`, {
     headers: {},
   });
   return response;
