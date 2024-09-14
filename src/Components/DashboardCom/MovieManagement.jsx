@@ -42,7 +42,7 @@ function MovieManagement() {
   const deleting = async (objID) => {
     try {
       await RemoveMovie({ id: objID });
-      Refresh();
+      window.location.reload()
     } catch (error) {
       console.error("Error deleting item:", error);
     }
