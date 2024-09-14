@@ -834,7 +834,7 @@ function Movie() {
               <div className="filter-nav-filters2">
                 <div ref={tabMenuRef} className="filter-nav-buttons-container2">
 
-                  <i id="left" onClick={scrollLeft} className="uil uil-angle-left left-btn2"></i>
+                  {/* <i id="left" onClick={scrollLeft} className="uil uil-angle-left left-btn2"></i> */}
                   <div className="filter-nav-buttons2">
                     {seasons.map((season, index) => (
                       <button
@@ -846,7 +846,7 @@ function Movie() {
                       </button>
                     ))}
                   </div>
-                  <i id="right" onClick={scrollRight} className="uil uil-angle-right right-btn2"></i>
+                  {/* <i id="right" onClick={scrollRight} className="uil uil-angle-right right-btn2"></i> */}
                 </div>
                 <div className="filter-nav-option2">
                   <div ref={dropdownRef} className="filter-nav-dropdown2">
