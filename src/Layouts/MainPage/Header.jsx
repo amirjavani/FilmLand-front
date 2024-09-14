@@ -8,6 +8,8 @@ import { addMonths, differenceInDays } from 'date-fns';
 import logo from "../../Assets/Header/logo.png";
 import logout from "../../Assets/arrow-right-from-bracket-solid.svg";
 import Cookies from 'js-cookie';
+import { CheckSubscription } from "../../Utility/SubscriptionAPI";
+
 
 function Header() {
   const [MenuList, setMenuList] = useState([]);
@@ -58,8 +60,18 @@ function Header() {
   };
 
 
-  const aaa = async () => {
-    console.log(MenuList)
+  const checkSub = async (e) => {
+    try {
+      const response = await CheckSubscription(id);
+      if (response.data == true) {
+        e.preventDefault(); 
+      }
+      else{
+        subscription();
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   }
 
   useEffect(() => {
@@ -100,7 +112,7 @@ function Header() {
           if (id == null) {
             subscription();
           } else {
-            e.preventDefault(); // جلوگیری از کلیک در صورت نال نبودن id
+            checkSub(e);
           }
         }}>
           <h4>{subscriptiontitle}</h4>
