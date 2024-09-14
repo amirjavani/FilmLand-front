@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./login.css";
 import { json, useNavigate } from "react-router-dom";
-import { LoginPost } from "../../Utility/UserAPI";
+import { LoginPost, LoginAdminPost } from "../../Utility/UserAPI";
 import Cookies from 'js-cookie';
 import { useLocation } from 'react-router-dom';
 
@@ -51,45 +51,37 @@ const Login = () => {
     }
     event.preventDefault();
     if (isAdmin) {
-      // try {
-      //   const response = await LoginPost({ formData: jsonData });
-      //   console.log(response.status);
-      //   if (response.status === 200) {
-      //     const expirationMinutes = 10;
-      //     const expirationTimeInDays = expirationMinutes / (24 * 60);
-      //     Cookies.set('id', response.data, { expires: expirationTimeInDays, sameSite: 'strict' });
-      //     // const isLoginSubscription = Cookies.get('IsLoginSubscription');
+      jsonData = {
+        "Adminname": username,
+        "AdminPassword": userPassword
+      }
+      try {
+        const response = await LoginAdminPost({ formData: jsonData });
+        console.log(response.status);
+        if (response.status === 200) {
+          const expirationMinutes = 10;
+          const expirationTimeInDays = expirationMinutes / (24 * 60);
+          Cookies.set('idAdmin', response.data, { expires: expirationTimeInDays, sameSite: 'strict' });
+          navigate("/dashboard");
+        } else if (response.status === 204) {
+          const loginUsernameLabel = document.querySelector('.login-username-label');
+          const loginPasswordLabel = document.querySelector('.login-password-label');
+          const loginUsernameIcon = document.querySelector('.login-username-icon');
+          const loginPasswordIcon = document.querySelector('.login-password-icon');
+          const loginError = document.querySelector('.login-error');
   
-      //     // Extract the query parameter
-      //     const queryParams = new URLSearchParams(location.search);
-      //     const message = queryParams.get('msg');
+          loginError.style.display = "block";
+          loginUsernameLabel.style.bottom = '292px';
+          loginPasswordLabel.style.bottom = '218px';
+          loginUsernameIcon.style.top = '25px';
+          loginPasswordIcon.style.top = '100px';
   
-      //     if (message === "fromSubscription") {
-      //       // Cookies.remove('IsLoginSubscription');
-      //       navigate("/subscription");
-      //     }
-      //     else {
-      //       navigate("/");
-      //     }
-      //   } else if (response.status === 204) {
-      //     const loginUsernameLabel = document.querySelector('.login-username-label');
-      //     const loginPasswordLabel = document.querySelector('.login-password-label');
-      //     const loginUsernameIcon = document.querySelector('.login-username-icon');
-      //     const loginPasswordIcon = document.querySelector('.login-password-icon');
-      //     const loginError = document.querySelector('.login-error');
-  
-      //     loginError.style.display = "block";
-      //     loginUsernameLabel.style.bottom = '292px';
-      //     loginPasswordLabel.style.bottom = '218px';
-      //     loginUsernameIcon.style.top = '25px';
-      //     loginPasswordIcon.style.top = '100px';
-  
-      //   } else {
-      //     console.error("Registration failed:", response.statusText);
-      //   }
-      // } catch (error) {
-      //   console.error("Error during registration:", error);
-      // }
+        } else {
+          console.error("Registration failed:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error during registration:", error);
+      }
     }
     else {
       try {
