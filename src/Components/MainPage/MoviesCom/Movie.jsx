@@ -914,10 +914,10 @@ function Movie() {
                   </div>
                   <div className="download-div">
                     {file.movieFileSubtitleURL && (
-                      <div className="subtitle">
+                      <a href={file.movieFileSubtitleURL} className="subtitle">
                         <i className="fa fa-download" aria-hidden="true"></i>
-                        <p className="text-sm mr-1">{file.movieFileSubtitleURL}</p>
-                      </div>
+                        <p className="text-sm mr-1">زیرنویس</p>
+                      </a>
                     )}
                     {file.movieFile_MovieURL
                       .map((movieURL, index) => ({
@@ -951,10 +951,10 @@ function Movie() {
                     </div>
                     <div className="download-div">
                       {file.movieFileSubtitleURL && (
-                        <div className="subtitle">
-                          <i className="fa fa-download" aria-hidden="true"></i>
-                          <p className="text-sm mr-1">{file.movieFileSubtitleURL}</p>
-                        </div>
+                        <a href={file.movieFileSubtitleURL} className="subtitle">
+                        <i className="fa fa-download" aria-hidden="true"></i>
+                        <p className="text-sm mr-1">زیرنویس</p>
+                      </a>
                       )}
                       {file.movieFile_MovieURL
                         .map((movieURL, index) => ({
