@@ -1,70 +1,59 @@
-# Getting Started with Create React App
+# Film and Series Website Documentation
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## English Version
 
-## Available Scripts
+### Project Overview
 
-In the project directory, you can run:
+This project entails the development of a website dedicated to films and series, which includes two panels: a **User Panel** and an **Admin Panel**. Additionally, it integrates a sentiment analysis model that evaluates user comments to classify them as negative, positive, or neutral.
 
-### `npm start`
+### User Panel
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Login and Registration**: Users can log in or sign up to access the platform.
+- **Subscription Purchase**: Users can buy subscriptions to access download links for films and series.
+- **Search and Filter**: Users can search for and filter content to find their desired films or series.
+- **Commenting**: Users can post comments, which undergo:
+  - **Review by Model**: The model evaluates the sentiment (negative, positive, or neutral).
+  - **Offensive Language Detection**: Comments containing inappropriate language are not displayed.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Admin Panel
 
-### `npm test`
+- **Site Management**:
+  - Modify all aspects of the site.
+- **Content Management**:
+  - Add, edit, or delete films and series.
+- **Homepage Customization**:
+  - Update banners, mini banners, and Group cards displayed on the homepage.
+- **Actor Management**:
+  - Add actors and link them to one or multiple films/series.
+- **Download Links**:
+  - Add multiple download links to films and series.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Deutsche Version
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Projekt Übersicht
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Dieses Projekt umfasst die Entwicklung einer Website für Filme und Serien mit zwei Bereichen: einem **Benutzerbereich** und einem **Admin-Bereich**. Zudem wird ein Modell integriert, das Kommentare analysiert und deren Sentiment (negativ, positiv oder neutral) bestimmt.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Benutzerbereich
 
-### `npm run eject`
+- **Anmeldung und Registrierung**: Benutzer können sich anmelden oder registrieren, um Zugang zur Plattform zu erhalten.
+- **Abonnement kaufen**: Benutzer können ein Abonnement erwerben, um Zugriff auf die Download-Links für Filme und Serien zu erhalten.
+- **Suche und Filter**: Benutzer können Inhalte durchsuchen und filtern, um die gewünschten Filme oder Serien zu finden.
+- **Kommentarfunktion**: Benutzer können Kommentare hinterlassen, die:
+  - **Vom Modell analysiert** werden: Das Modell bewertet das Sentiment (negativ, positiv oder neutral).
+  - **Auf beleidigende Sprache überprüft** werden: Kommentare mit unangemessener Sprache werden nicht angezeigt.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Admin-Bereich
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **Website-Management**:
+  - Änderungen an allen Bereichen der Website vornehmen.
+- **Inhaltsverwaltung**:
+  - Filme und Serien hinzufügen, bearbeiten oder löschen.
+- **Anpassung der Startseite**:
+  - Banner, Mini-Banner und Kategorienkarten auf der Startseite aktualisieren.
+- **Schauspielerverwaltung**:
+  - Schauspieler hinzufügen und mit einem oder mehreren Filmen/Serien verknüpfen.
+- **Download-Links**:
+  - Mehrere Download-Links zu Filmen und Serien hinzufügen.
