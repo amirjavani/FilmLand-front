@@ -1,10 +1,60 @@
-# Film and Series Website Documentation
+# Filmland Website Documentation
 
 ## English Version
 
 ### Project Overview
 
-This project entails the development of a website dedicated to films and series, which includes two panels: a **User Panel** and an **Admin Panel**. Additionally, it integrates a sentiment analysis model that evaluates user comments to classify them as negative, positive, or neutral.
+The model is seamlessly integrated into the commenting system, ensuring inappropriate language or sentiments are flagged or omitted before publication. This enhances user experience by maintaining a positive and respectful environment.
+
+### Technology Stack
+- **Backend**: ASP.NET, FastAPI (Python), SQL Server
+- **Frontend**: React, HTML, CSS, JavaScript
+- **Machine Learning**: BERT, PyTorch Lightning, Transformers, Hazm, Scikit-learn, Pandas
+- **Deployment**: Uvicorn, Colab (Google)
+
+### Tools and Libraries
+- **Logging**: Serilog
+- **API Development**: REST API, Swagger
+- **Version Control**: GitHub
+- **Database Interaction**: Dapper (Micro ORM)
+- **HTTP Requests**: Axios
+- **UI Design**: Swiper, Bootstrap, Tailwind
+- **Middleware**: CORS Middleware
+- **Tokenization**: Hugging Face Tokenizers
+- **Optimization**: AdamW Algorithm
+- **Model Saving**: joblib
+- **Async Handling**: nest_asyncio
+
+### System Architecture
+
+<img src="https://github.com/user-attachments/assets/bfdb23e9-b154-4dbe-b767-4a2fc3809548" width="400"/>
+
+
+### Screenshots
+
+To provide a more detailed view of the project, this section showcases screenshots of various features:
+
+
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+  <h3>User Panel</h3>
+  <img src="https://github.com/user-attachments/assets/a4484f57-1aa0-4ff0-8057-cc1e0f19b6b7" width="49%"/>
+  <img src="https://github.com/user-attachments/assets/b2832989-8164-42d6-aa5a-bdcf879e2468" width="49%"/>
+  <img src="https://github.com/user-attachments/assets/fa0e1b46-c662-4788-b003-df678f6b2135" width="49%"/>
+  <img src="https://github.com/user-attachments/assets/9ba0adfd-55bd-4013-9737-ecd6cface862" width="49%"/>
+  <img src="https://github.com/user-attachments/assets/f814ef32-c200-4bd7-92ab-242e660befd1" width="49%"/>
+  <img src="https://github.com/user-attachments/assets/e674b280-e98c-45b3-9768-1113ba108f3c" width="49%"/>
+  <img src="https://github.com/user-attachments/assets/9dadca40-0459-48c8-a672-7ea0822b9f2e" width="49%"/>
+
+  <h3>Admin Panel</h3>
+  <img src="https://github.com/user-attachments/assets/17779a0b-7698-4603-8990-39f8a296d7d7" width="49%"/>
+  <img src="https://github.com/user-attachments/assets/17779a0b-7698-4603-8990-39f8a296d7d7" width="49%"/>
+  <img src="https://github.com/user-attachments/assets/83f89631-c7a3-40da-83b7-029e8d375fd7" width="49%"/>
+</div>
+
+
+
+
+
 
 ### User Panel
 
@@ -36,6 +86,29 @@ This project entails the development of a website dedicated to films and series,
 
 Dieses Projekt umfasst die Entwicklung einer Website für Filme und Serien mit zwei Bereichen: einem **Benutzerbereich** und einem **Admin-Bereich**. Zudem wird ein Modell integriert, das Kommentare analysiert und deren Sentiment (negativ, positiv oder neutral) bestimmt.
 
+### Technologiestack
+- **Backend**: ASP.NET, FastAPI (Python), SQL Server
+- **Frontend**: React, HTML, CSS, JavaScript
+- **Machine Learning**: BERT, PyTorch Lightning, Transformers, Hazm, Scikit-learn, Pandas
+- **Deployment**: Uvicorn, Colab (Google)
+
+### Werkzeuge und Bibliotheken
+- **Logging**: Serilog
+- **API-Entwicklung**: REST API, Swagger
+- **Versionskontrolle**: GitHub
+- **Datenbank-Interaktion**: Dapper (Micro ORM)
+- **HTTP-Anfragen**: Axios
+- **UI-Design**: Swiper, Bootstrap, Tailwind
+- **Middleware**: CORS Middleware
+- **Tokenisierung**: Hugging Face Tokenizers
+- **Optimierung**: AdamW-Algorithmus
+- **Modell-Speicherung**: joblib
+- **Async-Handling**: nest_asyncio
+
+### Systemarchitektur
+<img src="https://github.com/user-attachments/assets/bfdb23e9-b154-4dbe-b767-4a2fc3809548" width="400" />
+
+
 ### Benutzerbereich
 
 - **Anmeldung und Registrierung**: Benutzer können sich anmelden oder registrieren, um Zugang zur Plattform zu erhalten.
@@ -57,3 +130,4 @@ Dieses Projekt umfasst die Entwicklung einer Website für Filme und Serien mit z
   - Schauspieler hinzufügen und mit einem oder mehreren Filmen/Serien verknüpfen.
 - **Download-Links**:
   - Mehrere Download-Links zu Filmen und Serien hinzufügen.
+
