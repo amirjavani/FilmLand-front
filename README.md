@@ -4,7 +4,7 @@
 
 ### Project Overview
 
-The model is seamlessly integrated into the commenting system, ensuring inappropriate language or sentiments are flagged or omitted before publication. This enhances user experience by maintaining a positive and respectful environment.
+This project involves the development of a website for movies and series with two sections: a user section and an admin section. Additionally, a model is integrated to analyze comments and determine their sentiment (negative, positive, or neutral).
 
 ### Technology Stack
 - **Backend**: ASP.NET, FastAPI (Python), SQL Server
